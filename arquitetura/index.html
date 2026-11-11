@@ -1,0 +1,1809 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Sistema de análise de dados e dashboard interativo com dados abertos do Banco Central do Brasil">
+      
+      
+      
+        <link rel="canonical" href="https://augustolamounier.github.io/painel-macroeconomico-bcb/arquitetura/">
+      
+      
+        <link rel="prev" href="../dados/">
+      
+      
+        <link rel="next" href="../indicadores/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>3. Arquitetura orientada a objetos - Inflação, juros e câmbio no Brasil</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#3-arquitetura-orientada-a-objetos" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href=".." title="Inflação, juros e câmbio no Brasil" class="md-header__button md-logo" aria-label="Inflação, juros e câmbio no Brasil" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Inflação, juros e câmbio no Brasil
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              3. Arquitetura orientada a objetos
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Usar tema escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Usar tema escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Usar tema claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Usar tema claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/augustolamounier/painel-macroeconomico-bcb" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    painel-macroeconomico-bcb
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Inflação, juros e câmbio no Brasil" class="md-nav__button md-logo" aria-label="Inflação, juros e câmbio no Brasil" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Inflação, juros e câmbio no Brasil
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/augustolamounier/painel-macroeconomico-bcb" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    painel-macroeconomico-bcb
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tema/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Tema e problema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dados/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Dados e tratamento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Arquitetura orientada a objetos
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Arquitetura orientada a objetos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#visao-geral" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visão geral
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diagrama-de-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diagrama de classes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#classes-implementadas-e-suas-responsabilidades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classes implementadas e suas responsabilidades
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Classes implementadas e suas responsabilidades">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#origem-dos-dados-fontespy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Origem dos dados — fontes.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tratamento-tratamentopy-e-pipelinepy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tratamento — tratamento.py e pipeline.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analise-analisadorpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Análise — analisador.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#indicadores-indicadorespy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Indicadores — indicadores.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#visualizacao-visualizadorespy-e-galeriapy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visualização — visualizadores.py e galeria.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interpretacao-e-apresentacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interpretação e apresentação
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#requisitos-de-poo-do-enunciado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requisitos de POO do enunciado
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Requisitos de POO do enunciado">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#demonstracao-de-criacao-e-uso-de-objetos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Demonstração de criação e uso de objetos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#encapsulamento-em-detalhe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Encapsulamento em detalhe
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#polimorfismo-em-detalhe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Polimorfismo em detalhe
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#principios-solid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Princípios SOLID
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Princípios SOLID">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#s-responsabilidade-unica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        S — Responsabilidade única
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#o-abertofechado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        O — Aberto/fechado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#l-substituicao-de-liskov" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        L — Substituição de Liskov
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#i-segregacao-de-interfaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        I — Segregação de interfaces
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d-inversao-de-dependencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D — Inversão de dependência
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#padroes-de-projeto-utilizados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Padrões de projeto utilizados
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estrutura-do-repositorio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estrutura do repositório
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../indicadores/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Indicadores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graficos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Gráficos e interpretação
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dashboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Testes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../conclusoes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Conclusões e limitações
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../referencias/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Referências
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apresentacao/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apresentação (slides)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#visao-geral" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visão geral
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diagrama-de-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diagrama de classes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#classes-implementadas-e-suas-responsabilidades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classes implementadas e suas responsabilidades
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Classes implementadas e suas responsabilidades">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#origem-dos-dados-fontespy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Origem dos dados — fontes.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tratamento-tratamentopy-e-pipelinepy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tratamento — tratamento.py e pipeline.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analise-analisadorpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Análise — analisador.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#indicadores-indicadorespy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Indicadores — indicadores.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#visualizacao-visualizadorespy-e-galeriapy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visualização — visualizadores.py e galeria.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interpretacao-e-apresentacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interpretação e apresentação
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#requisitos-de-poo-do-enunciado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requisitos de POO do enunciado
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Requisitos de POO do enunciado">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#demonstracao-de-criacao-e-uso-de-objetos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Demonstração de criação e uso de objetos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#encapsulamento-em-detalhe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Encapsulamento em detalhe
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#polimorfismo-em-detalhe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Polimorfismo em detalhe
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#principios-solid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Princípios SOLID
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Princípios SOLID">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#s-responsabilidade-unica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        S — Responsabilidade única
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#o-abertofechado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        O — Aberto/fechado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#l-substituicao-de-liskov" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        L — Substituição de Liskov
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#i-segregacao-de-interfaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        I — Segregação de interfaces
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d-inversao-de-dependencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D — Inversão de dependência
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#padroes-de-projeto-utilizados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Padrões de projeto utilizados
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estrutura-do-repositorio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estrutura do repositório
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="3-arquitetura-orientada-a-objetos">3. Arquitetura orientada a objetos<a class="headerlink" href="#3-arquitetura-orientada-a-objetos" title="Permanent link">&para;</a></h1>
+<h2 id="visao-geral">Visão geral<a class="headerlink" href="#visao-geral" title="Permanent link">&para;</a></h2>
+<p>O sistema é um pacote Python (<code>painel_macro</code>) em que cada módulo tem uma única
+responsabilidade. Os dados percorrem um caminho de mão única:</p>
+<pre class="mermaid"><code>flowchart LR
+    API[(API SGS&lt;br/&gt;Banco Central)] --&gt; F[FonteDados]
+    CSV[(CSV locais)] --&gt; F
+    F --&gt; P[PipelineDados]
+    P --&gt; T[TratadorDados]
+    T --&gt; A[AnalisadorDados]
+    A --&gt; I[PainelIndicadores]
+    A --&gt; G[GaleriaGraficos]
+    A --&gt; X[GeradorInterpretacao]
+    G --&gt; V[Visualizador]
+    I --&gt; D[Dashboard]
+    V --&gt; D
+    X --&gt; D
+    D --&gt; U((Usuário))</code></pre>
+<table>
+<thead>
+<tr>
+<th>Camada</th>
+<th>Módulo</th>
+<th>Pergunta que responde</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Configuração</td>
+<td><code>config.py</code></td>
+<td><em>Quais</em> séries o projeto usa?</td>
+</tr>
+<tr>
+<td>Origem</td>
+<td><code>fontes.py</code></td>
+<td><em>De onde</em> vêm os dados?</td>
+</tr>
+<tr>
+<td>Tratamento</td>
+<td><code>tratamento.py</code>, <code>pipeline.py</code></td>
+<td>Como os dados brutos viram uma base confiável?</td>
+</tr>
+<tr>
+<td>Análise</td>
+<td><code>analisador.py</code></td>
+<td>Que consultas e cálculos a base permite?</td>
+</tr>
+<tr>
+<td>Indicadores</td>
+<td><code>indicadores.py</code></td>
+<td>Que números-resumo interessam ao problema?</td>
+</tr>
+<tr>
+<td>Visualização</td>
+<td><code>visualizadores.py</code>, <code>galeria.py</code></td>
+<td>Como cada resultado é desenhado?</td>
+</tr>
+<tr>
+<td>Interpretação</td>
+<td><code>interpretacao.py</code></td>
+<td>O que os números significam, em palavras?</td>
+</tr>
+<tr>
+<td>Apresentação</td>
+<td><code>dashboard.py</code>, <code>app.py</code></td>
+<td>Como tudo é organizado na tela?</td>
+</tr>
+</tbody>
+</table>
+<h2 id="diagrama-de-classes">Diagrama de classes<a class="headerlink" href="#diagrama-de-classes" title="Permanent link">&para;</a></h2>
+<pre class="mermaid"><code>classDiagram
+    direction TB
+
+    class FonteDados {
+        &lt;&lt;abstract&gt;&gt;
+        -_nome: str
+        +nome: str
+        +carregar(serie, inicio, fim)* DataFrame
+        +carregar_varias(series, inicio, fim) DataFrame
+    }
+    class FonteDadosSGS {
+        -_cliente: ClienteHTTP
+        -_janela_anos: int
+        +carregar(serie, inicio, fim) DataFrame
+        -_janelas(serie, inicio, fim) list
+    }
+    class FonteDadosCSV {
+        -_diretorio: Path
+        +carregar(serie, inicio, fim) DataFrame
+        +salvar(serie, dados) Path
+        +possui(serie) bool
+    }
+    class FonteDadosComCache {
+        -_principal: FonteDados
+        -_reserva: FonteDadosCSV
+        +usou_reserva: bool
+        +carregar(serie, inicio, fim) DataFrame
+    }
+    class ClienteHTTP {
+        &lt;&lt;interface&gt;&gt;
+        +obter_json(url, parametros) list
+    }
+    class ClienteRequests {
+        -_sessao: Session
+        -_tentativas: int
+        +obter_json(url, parametros) list
+    }
+
+    FonteDados &lt;|-- FonteDadosSGS
+    FonteDados &lt;|-- FonteDadosCSV
+    FonteDados &lt;|-- FonteDadosComCache
+    FonteDadosComCache o-- FonteDados : principal
+    FonteDadosComCache o-- FonteDadosCSV : reserva
+    FonteDadosSGS o-- ClienteHTTP
+    ClienteHTTP &lt;|.. ClienteRequests
+
+    class PipelineDados {
+        -_fonte: FonteDados
+        -_tratador: TratadorDados
+        +executar(inicio, fim) DataFrame
+        +relatorio: RelatorioQualidade
+    }
+    class TratadorDados {
+        -_relatorio: RelatorioQualidade
+        +tratar(bruto) DataFrame
+        +relatorio: RelatorioQualidade
+    }
+    class AnalisadorDados {
+        -_dados: DataFrame
+        -_tolerancia_meta: float
+        +dados: DataFrame
+        +filtrar_periodo(inicio, fim) AnalisadorDados
+        +inflacao_por_ano() DataFrame
+        +inflacao_por_grupo(grupos) DataFrame
+        +estatisticas_descritivas(colunas) DataFrame
+        +tendencia_linear(x, y) dict
+    }
+    PipelineDados o-- FonteDados
+    PipelineDados o-- TratadorDados
+
+    class Indicador {
+        &lt;&lt;abstract&gt;&gt;
+        -_nome: str
+        -_descricao: str
+        -_unidade: str
+        +calcular(analisador)* ResultadoIndicador
+    }
+    class IndicadorUltimoValor
+    class IndicadorInflacaoAcumulada
+    class IndicadorPoderDeCompra
+    class IndicadorDesvioMeta
+    class IndicadorMesesAcimaDoTeto
+    class IndicadorVariacaoNoPeriodo
+    class IndicadorGrupoMaiorInflacao
+    class PainelIndicadores {
+        -_indicadores: list~Indicador~
+        +adicionar(indicador)
+        +calcular_todos(analisador) list
+    }
+    Indicador &lt;|-- IndicadorUltimoValor
+    Indicador &lt;|-- IndicadorInflacaoAcumulada
+    Indicador &lt;|-- IndicadorPoderDeCompra
+    Indicador &lt;|-- IndicadorDesvioMeta
+    Indicador &lt;|-- IndicadorMesesAcimaDoTeto
+    Indicador &lt;|-- IndicadorVariacaoNoPeriodo
+    Indicador &lt;|-- IndicadorGrupoMaiorInflacao
+    PainelIndicadores o-- Indicador
+    Indicador ..&gt; AnalisadorDados : usa
+
+    class Visualizador {
+        &lt;&lt;abstract&gt;&gt;
+        -_titulo: str
+        -_tema: TemaGrafico
+        +gerar(dados) Figure
+        #_construir(dados)* Figure
+    }
+    class GraficoLinhas
+    class GraficoBarras
+    class GraficoSetores
+    class GraficoDispersao
+    class GraficoBoxplot
+    class GraficoMapaCalor
+    class GaleriaGraficos {
+        -_analisador: AnalisadorDados
+        +gerar(nome) Figure
+        +gerar_todos() dict
+    }
+    Visualizador &lt;|-- GraficoLinhas
+    Visualizador &lt;|-- GraficoBarras
+    Visualizador &lt;|-- GraficoSetores
+    Visualizador &lt;|-- GraficoDispersao
+    Visualizador &lt;|-- GraficoBoxplot
+    Visualizador &lt;|-- GraficoMapaCalor
+    GaleriaGraficos ..&gt; Visualizador : cria
+    GaleriaGraficos o-- AnalisadorDados
+
+    class Dashboard {
+        -_analisador: AnalisadorDados
+        -_painel_indicadores: PainelIndicadores
+        -_informacoes: InformacoesCarga
+        +renderizar()
+    }
+    Dashboard o-- AnalisadorDados
+    Dashboard o-- PainelIndicadores
+    Dashboard ..&gt; GaleriaGraficos : cria
+    Dashboard ..&gt; GeradorInterpretacao : cria</code></pre>
+<h2 id="classes-implementadas-e-suas-responsabilidades">Classes implementadas e suas responsabilidades<a class="headerlink" href="#classes-implementadas-e-suas-responsabilidades" title="Permanent link">&para;</a></h2>
+<h3 id="origem-dos-dados-fontespy">Origem dos dados — <code>fontes.py</code><a class="headerlink" href="#origem-dos-dados-fontespy" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Classe</th>
+<th>Responsabilidade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FonteDados</code> <em>(abstrata)</em></td>
+<td>Define o contrato de qualquer origem: <code>carregar(serie, inicio, fim)</code>. Implementa <code>carregar_varias</code>, que funciona para todas as subclasses.</td>
+</tr>
+<tr>
+<td><code>FonteDadosSGS</code></td>
+<td>Consulta a API do Banco Central; divide consultas de séries diárias em janelas de dez anos.</td>
+</tr>
+<tr>
+<td><code>FonteDadosCSV</code></td>
+<td>Lê e grava as séries em arquivos CSV locais.</td>
+</tr>
+<tr>
+<td><code>FonteDadosComCache</code></td>
+<td>Envolve duas fontes: tenta a principal e, se ela falhar, usa a reserva (padrão <em>Decorator</em>).</td>
+</tr>
+<tr>
+<td><code>ClienteHTTP</code> <em>(protocolo)</em></td>
+<td>Interface mínima de acesso à rede: um único método, <code>obter_json</code>.</td>
+</tr>
+<tr>
+<td><code>ClienteRequests</code></td>
+<td>Implementa <code>ClienteHTTP</code> com a biblioteca <code>requests</code>, com novas tentativas em caso de erro passageiro.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tratamento-tratamentopy-e-pipelinepy">Tratamento — <code>tratamento.py</code> e <code>pipeline.py</code><a class="headerlink" href="#tratamento-tratamentopy-e-pipelinepy" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Classe</th>
+<th>Responsabilidade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TratadorDados</code></td>
+<td>Converte tipos, remove duplicidades e datas futuras, monta a base mensal e trata ausentes.</td>
+</tr>
+<tr>
+<td><code>RelatorioQualidade</code></td>
+<td>Guarda a contagem do que foi verificado e corrigido.</td>
+</tr>
+<tr>
+<td><code>PipelineDados</code></td>
+<td>Liga uma fonte a um tratador e devolve a base pronta.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="analise-analisadorpy">Análise — <code>analisador.py</code><a class="headerlink" href="#analise-analisadorpy" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Classe</th>
+<th>Responsabilidade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AnalisadorDados</code></td>
+<td>Encapsula a base mensal e oferece filtros, agrupamentos, ordenações e estatísticas. Não desenha nem exibe nada.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="indicadores-indicadorespy">Indicadores — <code>indicadores.py</code><a class="headerlink" href="#indicadores-indicadorespy" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Classe</th>
+<th>Responsabilidade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Indicador</code> <em>(abstrata)</em></td>
+<td>Contrato comum: <code>calcular(analisador)</code> devolve um <code>ResultadoIndicador</code>.</td>
+</tr>
+<tr>
+<td><code>IndicadorUltimoValor</code></td>
+<td>Último valor de uma variável e variação em 12 meses (usado para IPCA, Selic, juro real e desocupação).</td>
+</tr>
+<tr>
+<td><code>IndicadorInflacaoAcumulada</code></td>
+<td>Inflação composta do período.</td>
+</tr>
+<tr>
+<td><code>IndicadorPoderDeCompra</code></td>
+<td>Valor real de R$ 100 ao final do período.</td>
+</tr>
+<tr>
+<td><code>IndicadorDesvioMeta</code></td>
+<td>Distância entre a inflação e o centro da meta.</td>
+</tr>
+<tr>
+<td><code>IndicadorMesesAcimaDoTeto</code></td>
+<td>Percentual de meses acima do teto da meta.</td>
+</tr>
+<tr>
+<td><code>IndicadorVariacaoNoPeriodo</code></td>
+<td>Variação percentual de uma variável entre o início e o fim (usado para o dólar).</td>
+</tr>
+<tr>
+<td><code>IndicadorGrupoMaiorInflacao</code></td>
+<td>Grupo do IPCA que mais encareceu.</td>
+</tr>
+<tr>
+<td><code>ResultadoIndicador</code></td>
+<td>Objeto de valor imutável com o número calculado e sua formatação.</td>
+</tr>
+<tr>
+<td><code>PainelIndicadores</code></td>
+<td>Coleção de indicadores; calcula todos de uma vez.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="visualizacao-visualizadorespy-e-galeriapy">Visualização — <code>visualizadores.py</code> e <code>galeria.py</code><a class="headerlink" href="#visualizacao-visualizadorespy-e-galeriapy" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Classe</th>
+<th>Responsabilidade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Visualizador</code> <em>(abstrata)</em></td>
+<td>Define <code>gerar(dados)</code>: valida, delega o desenho a <code>_construir</code> e aplica o tema.</td>
+</tr>
+<tr>
+<td><code>GraficoLinhas</code>, <code>GraficoBarras</code>, <code>GraficoSetores</code>, <code>GraficoDispersao</code>, <code>GraficoBoxplot</code>, <code>GraficoMapaCalor</code></td>
+<td>Cada uma desenha um tipo de gráfico, implementando apenas <code>_construir</code>.</td>
+</tr>
+<tr>
+<td><code>TemaGrafico</code></td>
+<td>Cores, fontes e margens comuns a todos os gráficos.</td>
+</tr>
+<tr>
+<td><code>GaleriaGraficos</code></td>
+<td>Decide quais gráficos o painel tem e com que dados do analisador cada um é alimentado.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="interpretacao-e-apresentacao">Interpretação e apresentação<a class="headerlink" href="#interpretacao-e-apresentacao" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Classe</th>
+<th>Responsabilidade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GeradorInterpretacao</code></td>
+<td>Transforma os números do período filtrado em frases (análise interpretativa).</td>
+</tr>
+<tr>
+<td><code>Dashboard</code></td>
+<td>Organiza cabeçalho, filtros, KPIs, gráficos, tabela e textos na página Streamlit.</td>
+</tr>
+<tr>
+<td><code>Filtros</code>, <code>InformacoesCarga</code></td>
+<td>Objetos de valor com as escolhas do usuário e os dados da carga.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="requisitos-de-poo-do-enunciado">Requisitos de POO do enunciado<a class="headerlink" href="#requisitos-de-poo-do-enunciado" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Requisito</th>
+<th>Como foi atendido</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pelo menos quatro classes</td>
+<td>Mais de 25 classes, sendo três hierarquias com classe base abstrata.</td>
+</tr>
+<tr>
+<td>Construtores <code>__init__</code></td>
+<td>Todas as classes de comportamento têm construtor explícito; as de dados usam <code>@dataclass</code>, que gera o <code>__init__</code>.</td>
+</tr>
+<tr>
+<td>Atributos e métodos</td>
+<td>Ex.: <code>AnalisadorDados</code> tem os atributos <code>_dados</code> e <code>_tolerancia_meta</code> e mais de quinze métodos públicos.</td>
+</tr>
+<tr>
+<td>Criação e uso de objetos</td>
+<td><code>app.py</code> instancia a fonte, o pipeline, o analisador, o painel de indicadores e o dashboard.</td>
+</tr>
+<tr>
+<td>Encapsulamento</td>
+<td>Atributos internos com prefixo <code>_</code> e acesso por <code>@property</code> somente leitura; <code>AnalisadorDados.dados</code> devolve uma <strong>cópia</strong>, de modo que ninguém altera a base por fora.</td>
+</tr>
+<tr>
+<td>Herança</td>
+<td><code>FonteDados</code> → 3 subclasses; <code>Indicador</code> → 7 subclasses; <code>Visualizador</code> → 6 subclasses.</td>
+</tr>
+<tr>
+<td>Polimorfismo</td>
+<td><code>PainelIndicadores.calcular_todos</code> chama <code>calcular</code> em objetos de classes diferentes; <code>Visualizador.gerar</code> chama o <code>_construir</code> da subclasse; <code>PipelineDados</code> aceita qualquer <code>FonteDados</code>.</td>
+</tr>
+<tr>
+<td>Abstração</td>
+<td>Classes base declaradas com <code>ABC</code> e <code>@abstractmethod</code>; não podem ser instanciadas.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="demonstracao-de-criacao-e-uso-de-objetos">Demonstração de criação e uso de objetos<a class="headerlink" href="#demonstracao-de-criacao-e-uso-de-objetos" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">painel_macro.fontes</span><span class="w"> </span><span class="kn">import</span> <span class="n">FonteDadosSGS</span><span class="p">,</span> <span class="n">FonteDadosCSV</span><span class="p">,</span> <span class="n">FonteDadosComCache</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">painel_macro.pipeline</span><span class="w"> </span><span class="kn">import</span> <span class="n">PipelineDados</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">painel_macro.analisador</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnalisadorDados</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">painel_macro.indicadores</span><span class="w"> </span><span class="kn">import</span> <span class="n">PainelIndicadores</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="kn">from</span><span class="w"> </span><span class="nn">painel_macro.galeria</span><span class="w"> </span><span class="kn">import</span> <span class="n">GaleriaGraficos</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># 1. objetos de origem: a API, com a cópia local como reserva</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="n">fonte</span> <span class="o">=</span> <span class="n">FonteDadosComCache</span><span class="p">(</span><span class="n">FonteDadosSGS</span><span class="p">(),</span> <span class="n">FonteDadosCSV</span><span class="p">(</span><span class="s2">"data/raw"</span><span class="p">))</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="c1"># 2. carga e tratamento</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="n">base</span> <span class="o">=</span> <span class="n">PipelineDados</span><span class="p">(</span><span class="n">fonte</span><span class="p">)</span><span class="o">.</span><span class="n">executar</span><span class="p">()</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="c1"># 3. análise de um período</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="n">analisador</span> <span class="o">=</span> <span class="n">AnalisadorDados</span><span class="p">(</span><span class="n">base</span><span class="p">)</span><span class="o">.</span><span class="n">filtrar_periodo</span><span class="p">(</span><span class="s2">"2015-01-01"</span><span class="p">,</span> <span class="s2">"2024-12-01"</span><span class="p">)</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="c1"># 4. indicadores — polimorfismo: cada objeto calcula do seu jeito</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="k">for</span> <span class="n">resultado</span> <span class="ow">in</span> <span class="n">PainelIndicadores</span><span class="o">.</span><span class="n">padrao</span><span class="p">()</span><span class="o">.</span><span class="n">calcular_todos</span><span class="p">(</span><span class="n">analisador</span><span class="p">):</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">resultado</span><span class="o">.</span><span class="n">nome</span><span class="p">,</span> <span class="n">resultado</span><span class="o">.</span><span class="n">valor_formatado</span><span class="p">)</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="c1"># 5. um gráfico</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="n">GaleriaGraficos</span><span class="p">(</span><span class="n">analisador</span><span class="p">)</span><span class="o">.</span><span class="n">inflacao_e_meta</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="encapsulamento-em-detalhe">Encapsulamento em detalhe<a class="headerlink" href="#encapsulamento-em-detalhe" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">AnalisadorDados</span><span class="p">:</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">tolerancia_meta</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_tolerancia_meta</span> <span class="o">=</span> <span class="n">tolerancia_meta</span>      <span class="c1"># atributo interno</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_dados</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_enriquecer</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>         <span class="c1"># estado protegido</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="nd">@property</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">dados</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">        </span><span class="sd">"""Cópia da base analisada — o estado interno não é exposto."""</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dados</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</code></pre></div>
+<p>O teste <code>test_encapsulamento_dados_devolve_copia</code> comprova o comportamento: alterar o
+<code>DataFrame</code> devolvido por <code>analisador.dados</code> não muda o que o analisador guarda.</p>
+<h3 id="polimorfismo-em-detalhe">Polimorfismo em detalhe<a class="headerlink" href="#polimorfismo-em-detalhe" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">PainelIndicadores</span><span class="p">:</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">calcular_todos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">analisador</span><span class="p">):</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>        <span class="k">return</span> <span class="p">[</span><span class="n">indicador</span><span class="o">.</span><span class="n">calcular</span><span class="p">(</span><span class="n">analisador</span><span class="p">)</span> <span class="k">for</span> <span class="n">indicador</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_indicadores</span><span class="p">]</span>
+</code></pre></div>
+<p>O painel não tem nenhum <code>if</code> sobre o tipo do indicador: a chamada <code>indicador.calcular(...)</code>
+executa o método da classe concreta de cada objeto.</p>
+<h2 id="principios-solid">Princípios SOLID<a class="headerlink" href="#principios-solid" title="Permanent link">&para;</a></h2>
+<h3 id="s-responsabilidade-unica">S — Responsabilidade única<a class="headerlink" href="#s-responsabilidade-unica" title="Permanent link">&para;</a></h3>
+<p>Cada classe tem um só motivo para mudar. <code>FonteDadosSGS</code> só muda se a API mudar;
+<code>TratadorDados</code>, se as regras de limpeza mudarem; <code>Visualizador</code>, se a aparência mudar. O
+<code>AnalisadorDados</code> não conhece o Plotly nem o Streamlit, e os visualizadores não fazem cálculo —
+recebem tabelas prontas.</p>
+<h3 id="o-abertofechado">O — Aberto/fechado<a class="headerlink" href="#o-abertofechado" title="Permanent link">&para;</a></h3>
+<p>O sistema é estendido <strong>acrescentando</strong> classes, sem modificar as existentes:</p>
+<ul>
+<li>novo indicador → nova subclasse de <code>Indicador</code>, incluída com <code>painel.adicionar(...)</code>;</li>
+<li>novo tipo de gráfico → nova subclasse de <code>Visualizador</code>;</li>
+<li>nova origem de dados → nova subclasse de <code>FonteDados</code>;</li>
+<li>nova série do Banco Central → um item a mais no catálogo de <code>config.py</code>.</li>
+</ul>
+<p>O teste <code>test_painel_aceita_novos_indicadores_sem_modificacao</code> cria um indicador novo dentro
+do próprio teste e mostra que o painel o aceita sem nenhuma alteração.</p>
+<h3 id="l-substituicao-de-liskov">L — Substituição de Liskov<a class="headerlink" href="#l-substituicao-de-liskov" title="Permanent link">&para;</a></h3>
+<p>Qualquer subclasse pode ocupar o lugar da classe base. <code>PipelineDados</code> funciona igualmente com
+<code>FonteDadosSGS</code>, <code>FonteDadosCSV</code>, <code>FonteDadosComCache</code> ou com a <code>FonteFalsa</code> dos testes, porque
+todas devolvem um <code>DataFrame</code> com as mesmas colunas e levantam o mesmo tipo de erro
+(<code>ErroFonteDados</code>). O teste parametrizado <code>test_todo_visualizador_lida_com_dados_vazios</code>
+verifica que as seis subclasses de <code>Visualizador</code> respondem da mesma forma a dados vazios.</p>
+<h3 id="i-segregacao-de-interfaces">I — Segregação de interfaces<a class="headerlink" href="#i-segregacao-de-interfaces" title="Permanent link">&para;</a></h3>
+<p>As interfaces são pequenas. <code>ClienteHTTP</code> tem um único método (<code>obter_json</code>), que é tudo de
+que <code>FonteDadosSGS</code> precisa — a fonte não depende da interface inteira da biblioteca
+<code>requests</code>. <code>Indicador</code> exige apenas <code>calcular</code>; <code>Visualizador</code>, apenas <code>_construir</code>.</p>
+<h3 id="d-inversao-de-dependencia">D — Inversão de dependência<a class="headerlink" href="#d-inversao-de-dependencia" title="Permanent link">&para;</a></h3>
+<p>As classes de alto nível dependem de abstrações, recebidas pelo construtor (injeção de
+dependência):</p>
+<ul>
+<li><code>PipelineDados</code> recebe uma <code>FonteDados</code> — não sabe se é API ou arquivo;</li>
+<li><code>FonteDadosSGS</code> recebe um <code>ClienteHTTP</code> — nos testes, um cliente falso substitui a rede;</li>
+<li><code>Dashboard</code> recebe o <code>AnalisadorDados</code> e o <code>PainelIndicadores</code> já prontos.</li>
+</ul>
+<p>As classes concretas são escolhidas em um único lugar, o <code>app.py</code> (a "raiz de composição").</p>
+<h2 id="padroes-de-projeto-utilizados">Padrões de projeto utilizados<a class="headerlink" href="#padroes-de-projeto-utilizados" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Padrão</th>
+<th>Onde</th>
+<th>Para quê</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>Template Method</em></td>
+<td><code>Visualizador.gerar</code> → <code>_construir</code></td>
+<td>Fixar a sequência validar → desenhar → aplicar tema, variando só o desenho.</td>
+</tr>
+<tr>
+<td><em>Strategy</em></td>
+<td>Subclasses de <code>Indicador</code></td>
+<td>Trocar a regra de cálculo sem alterar quem a usa.</td>
+</tr>
+<tr>
+<td><em>Decorator</em></td>
+<td><code>FonteDadosComCache</code></td>
+<td>Acrescentar a cópia de segurança a qualquer fonte, sem alterá-la.</td>
+</tr>
+<tr>
+<td>Injeção de dependência</td>
+<td>Construtores</td>
+<td>Permitir testes sem rede e a troca de implementações.</td>
+</tr>
+<tr>
+<td>Objeto de valor</td>
+<td><code>SerieConfig</code>, <code>ResultadoIndicador</code>, <code>Filtros</code></td>
+<td>Dados imutáveis (<code>@dataclass(frozen=True)</code>).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="estrutura-do-repositorio">Estrutura do repositório<a class="headerlink" href="#estrutura-do-repositorio" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>painel-macroeconomico-bcb/
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>├── app.py                     # ponto de entrada do dashboard
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>├── painel_macro/              # pacote com as classes do sistema
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>│   ├── config.py              # catálogo de séries
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>│   ├── fontes.py              # FonteDados e subclasses
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>│   ├── tratamento.py          # TratadorDados
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>│   ├── pipeline.py            # PipelineDados
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>│   ├── analisador.py          # AnalisadorDados
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>│   ├── indicadores.py         # Indicador e subclasses
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>│   ├── visualizadores.py      # Visualizador e subclasses
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>│   ├── galeria.py             # GaleriaGraficos
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>│   ├── interpretacao.py       # GeradorInterpretacao
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>│   └── dashboard.py           # Dashboard
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>├── scripts/                   # atualização dos dados, notebook e gráficos da documentação
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>├── notebooks/                 # análise exploratória (Etapa 2)
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>├── data/raw/                  # cópia dos dados brutos (um CSV por série)
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>├── data/processed/            # base mensal tratada
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>├── tests/                     # testes automatizados
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>├── docs/                      # fonte desta documentação (MkDocs)
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>└── requirements.txt
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar para o topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Rodapé" >
+        
+          
+          <a href="../dados/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: 2. Dados e tratamento">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                2. Dados e tratamento
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../indicadores/" class="md-footer__link md-footer__link--next" aria-label="Próximo: 4. Indicadores">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Próximo
+              </span>
+              <div class="md-ellipsis">
+                4. Indicadores
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>
