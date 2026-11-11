@@ -1,0 +1,63 @@
+site_name: Inflação, juros e câmbio no Brasil
+site_description: Sistema de análise de dados e dashboard interativo com dados abertos do Banco Central do Brasil
+site_url: https://augustolamounier.github.io/painel-macroeconomico-bcb/
+repo_url: https://github.com/augustolamounier/painel-macroeconomico-bcb
+repo_name: painel-macroeconomico-bcb
+docs_dir: docs
+use_directory_urls: true
+
+theme:
+  name: material
+  language: pt-BR
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Usar tema escuro
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Usar tema claro
+  features:
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - toc.follow
+    - content.code.copy
+
+nav:
+  - Início: index.md
+  - 1. Tema e problema: tema.md
+  - 2. Dados e tratamento: dados.md
+  - 3. Arquitetura orientada a objetos: arquitetura.md
+  - 4. Indicadores: indicadores.md
+  - 5. Gráficos e interpretação: graficos.md
+  - 6. Dashboard: dashboard.md
+  - 7. Testes: testes.md
+  - 8. Conclusões e limitações: conclusoes.md
+  - Referências: referencias.md
+  - Apresentação (slides): apresentacao/index.html
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+extra_css:
+  - css/extra.css

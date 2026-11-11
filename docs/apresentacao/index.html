@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Apresentação — Inflação, juros e câmbio no Brasil</title>
+<style>
+  :root {
+    --fundo: #f6f5f1; --cartao: #ffffff; --texto: #1f1f1e; --suave: #5f5e5a;
+    --linha: #e4e3df; --azul: #2a78d6; --vermelho: #d03b3b; --cinza: #8f8e88;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+  body { margin: 0; background: var(--fundo); color: var(--texto);
+         font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif; line-height: 1.45; }
+  section { min-height: 100vh; scroll-snap-align: start; display: flex; flex-direction: column;
+            justify-content: center; padding: 6vh 8vw; border-bottom: 1px solid var(--linha); }
+  h1 { font-size: clamp(2rem, 5vw, 3.6rem); margin: 0 0 .4em; line-height: 1.1; letter-spacing: -.02em; }
+  h2 { font-size: clamp(1.5rem, 3.2vw, 2.4rem); margin: 0 0 .7em; letter-spacing: -.01em; }
+  p, li { font-size: clamp(1rem, 1.7vw, 1.35rem); }
+  ul { padding-left: 1.2em; margin: 0; } li { margin: .45em 0; }
+  .rotulo { color: var(--azul); font-weight: 600; text-transform: uppercase; letter-spacing: .08em;
+            font-size: .85rem; margin-bottom: 1.2em; }
+  .suave { color: var(--suave); }
+  .grade { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; }
+  .cartao { background: var(--cartao); border: 1px solid var(--linha); border-radius: 10px; padding: 18px 20px; }
+  .cartao b { display: block; font-size: clamp(1.6rem, 3vw, 2.3rem); line-height: 1.1; margin-bottom: 6px; }
+  .cartao span { color: var(--suave); font-size: .95rem; }
+  .duas { display: grid; grid-template-columns: 1fr 1.25fr; gap: 4vw; align-items: center; }
+  iframe { width: 100%; height: 58vh; min-height: 380px; border: 1px solid var(--linha);
+           border-radius: 10px; background: #fff; }
+  code, pre { font-family: Consolas, "SFMono-Regular", Menlo, monospace; }
+  pre { background: #1f1f1e; color: #f0efec; padding: 18px 20px; border-radius: 10px; overflow-x: auto;
+        font-size: clamp(.8rem, 1.2vw, 1rem); margin: 0; }
+  code { background: #ebeae6; padding: .1em .35em; border-radius: 4px; font-size: .9em; }
+  pre code { background: none; padding: 0; }
+  table { border-collapse: collapse; width: 100%; font-size: clamp(.9rem, 1.4vw, 1.15rem); }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--linha); vertical-align: top; }
+  th { color: var(--suave); font-weight: 600; }
+  .vermelho { color: var(--vermelho); } .azul { color: var(--azul); }
+  nav { position: fixed; right: 18px; bottom: 14px; color: var(--suave); font-size: .85rem;
+        background: rgba(255,255,255,.85); padding: 4px 10px; border-radius: 999px; border: 1px solid var(--linha); }
+  a { color: var(--azul); }
+  @media (max-width: 820px) { .duas { grid-template-columns: 1fr; } section { padding: 5vh 6vw; } }
+  @media print { html { scroll-snap-type: none; } section { page-break-after: always; min-height: auto; } nav { display: none; } }
+</style>
+</head>
+<body>
+
+<section>
+  <div class="rotulo">Programação Orientada a Objetos · Projeto final</div>
+  <h1>Inflação, juros e câmbio no Brasil</h1>
+  <p class="suave">Sistema de análise de dados e dashboard interativo com dados abertos do Banco Central do Brasil</p>
+  <p>Augusto Lamounier · Ciência de Dados e Inteligência Artificial</p>
+  <p class="suave">Use ↓ / ↑ ou a barra de espaço para navegar.</p>
+</section>
+
+<section>
+  <div class="rotulo">1 · Tema e problema</div>
+  <h2>A inflação brasileira está sob controle?</h2>
+  <ul>
+    <li>Desde 1999 o Brasil tem uma <b>meta de inflação</b>, com intervalo de tolerância.</li>
+    <li>O Banco Central usa a <b>taxa Selic</b> para manter o IPCA dentro desse intervalo.</li>
+    <li>Inflação, juros e câmbio entram em decisões reais: reajustar contratos, tomar crédito, investir.</li>
+    <li><b>Problema:</b> a meta tem sido cumprida? O que escapou, como os juros reagiram e quanto isso custou em poder de compra?</li>
+  </ul>
+</section>
+
+<section>
+  <div class="rotulo">1 · Perguntas da análise</div>
+  <h2>Seis perguntas</h2>
+  <table>
+    <tr><td>1</td><td>A inflação tem ficado dentro da meta?</td></tr>
+    <tr><td>2</td><td>Quais grupos de consumo mais encareceram?</td></tr>
+    <tr><td>3</td><td>Como a Selic reagiu à inflação? O juro real foi positivo?</td></tr>
+    <tr><td>4</td><td>A alta do dólar anda junto com a inflação?</td></tr>
+    <tr><td>5</td><td>Quanto poder de compra o real perdeu desde 2000?</td></tr>
+    <tr><td>6</td><td>Existe padrão sazonal na inflação?</td></tr>
+  </table>
+</section>
+
+<section>
+  <div class="rotulo">2 · Dados</div>
+  <h2>Fonte: API pública do Banco Central (SGS)</h2>
+  <div class="grade">
+    <div class="cartao"><b>16</b><span>séries temporais</span></div>
+    <div class="cartao"><b>4.662</b><span>registros brutos</span></div>
+    <div class="cartao"><b>323</b><span>meses na base (01/2000 a 11/2026)</span></div>
+    <div class="cartao"><b>0</b><span>duplicidades e valores inválidos</span></div>
+  </div>
+  <p style="margin-top:1.4em">IPCA e seus nove grupos, Selic, dólar, desocupação, IBC-Br e meta de inflação.
+     Sem cadastro nem chave: <code>api.bcb.gov.br/dados/serie/bcdata.sgs.{código}/dados</code></p>
+  <p class="suave">Cuidado principal: valores ausentes estruturais (séries que começam depois de 2000 e meses ainda não divulgados) — mantidos como ausentes, nunca inventados.</p>
+</section>
+
+<section>
+  <div class="rotulo">3 · Arquitetura orientada a objetos</div>
+  <h2>Cada classe, uma responsabilidade</h2>
+  <table>
+    <tr><th>Classe</th><th>Responsabilidade</th></tr>
+    <tr><td><code>FonteDados</code> <span class="suave">(abstrata)</span></td><td>Origem dos dados: API, CSV ou API com cópia local</td></tr>
+    <tr><td><code>TratadorDados</code></td><td>Tipos, duplicidades, datas futuras, ausentes</td></tr>
+    <tr><td><code>AnalisadorDados</code></td><td>Filtros, agrupamentos, ordenação, estatísticas</td></tr>
+    <tr><td><code>Indicador</code> <span class="suave">(abstrata)</span></td><td>Sete subclasses, dez indicadores</td></tr>
+    <tr><td><code>Visualizador</code> <span class="suave">(abstrata)</span></td><td>Seis tipos de gráfico Plotly</td></tr>
+    <tr><td><code>Dashboard</code></td><td>Organiza a página Streamlit</td></tr>
+  </table>
+  <p class="suave" style="margin-top:1em">Fluxo: Fonte → Tratador → Analisador → Indicadores e Gráficos → Dashboard</p>
+</section>
+
+<section>
+  <div class="rotulo">3 · Herança e polimorfismo</div>
+  <h2>O painel não sabe como cada indicador é calculado</h2>
+  <div class="duas">
+    <ul>
+      <li><b>Herança:</b> 3 hierarquias com classe base abstrata.</li>
+      <li><b>Polimorfismo:</b> a mesma chamada, <code>calcular()</code>, executa regras diferentes.</li>
+      <li><b>Encapsulamento:</b> atributos <code>_privados</code> e <code>@property</code>; <code>dados</code> devolve uma cópia.</li>
+      <li><b>Aberto/fechado:</b> indicador novo = classe nova, sem mexer nas existentes.</li>
+    </ul>
+<pre><code>class Indicador(ABC):
+    @abstractmethod
+    def calcular(self, analisador): ...
+
+class IndicadorPoderDeCompra(Indicador):
+    def calcular(self, analisador):
+        acumulado = analisador.acumulado("ipca")
+        return self._resultado(100 / (1 + acumulado / 100))
+
+class PainelIndicadores:
+    def calcular_todos(self, analisador):
+        return [i.calcular(analisador)
+                for i in self._indicadores]</code></pre>
+  </div>
+</section>
+
+<section>
+  <div class="rotulo">3 · Princípios SOLID</div>
+  <h2>SOLID aplicado</h2>
+  <table>
+    <tr><td><b>S</b></td><td>O analisador não conhece Plotly nem Streamlit; os gráficos não fazem cálculo.</td></tr>
+    <tr><td><b>O</b></td><td>Novas fontes, indicadores e gráficos entram como subclasses.</td></tr>
+    <tr><td><b>L</b></td><td>Qualquer <code>FonteDados</code> serve ao pipeline — inclusive a fonte falsa dos testes.</td></tr>
+    <tr><td><b>I</b></td><td><code>ClienteHTTP</code> tem um único método: <code>obter_json</code>.</td></tr>
+    <tr><td><b>D</b></td><td>Dependências entram pelo construtor; as classes concretas são escolhidas só no <code>app.py</code>.</td></tr>
+  </table>
+</section>
+
+<section>
+  <div class="rotulo">4 · Indicadores (01/2000 a 09/2026)</div>
+  <h2>O que os números dizem</h2>
+  <div class="grade">
+    <div class="cartao"><b class="vermelho">4,58%</b><span>IPCA em 12 meses — acima do teto (4,50%)</span></div>
+    <div class="cartao"><b>13,65%</b><span>Taxa Selic ao ano</span></div>
+    <div class="cartao"><b>8,80%</b><span>Juro real ex-post</span></div>
+    <div class="cartao"><b>384,5%</b><span>Inflação acumulada desde 2000</span></div>
+    <div class="cartao"><b>R$ 20,64</b><span>Valem hoje R$ 100 de janeiro de 2000</span></div>
+    <div class="cartao"><b>38,3%</b><span>Dos meses acima do teto da meta</span></div>
+    <div class="cartao"><b>+184,4%</b><span>Dólar: de R$ 1,80 para R$ 5,13</span></div>
+    <div class="cartao"><b>539,8%</b><span>Alimentação e bebidas, o grupo que mais subiu</span></div>
+  </div>
+</section>
+
+<section>
+  <div class="rotulo">5 · Gráfico de linhas</div>
+  <h2>A inflação escapa quase sempre para cima</h2>
+  <iframe src="../graficos/inflacao_e_meta.html" title="Inflação em 12 meses e a meta" loading="lazy"></iframe>
+  <p class="suave">Acima do teto em 123 de 321 meses; abaixo do piso em 17. Três episódios: 2002–03, 2015–16 e 2021–22.</p>
+</section>
+
+<section>
+  <div class="rotulo">5 · Gráfico de barras</div>
+  <h2>Alimentação subiu 3,5 vezes mais que Comunicação</h2>
+  <iframe src="../graficos/inflacao_por_grupo.html" title="Inflação por grupo" loading="lazy"></iframe>
+  <p class="suave">Cinco grupos ficaram acima do IPCA geral (384,5%).</p>
+</section>
+
+<section>
+  <div class="rotulo">5 · Gráfico de linhas</div>
+  <h2>A Selic reage com atraso; o juro real é alto</h2>
+  <iframe src="../graficos/juros_e_inflacao.html" title="Juros e inflação" loading="lazy"></iframe>
+  <p class="suave">Juro real médio de 5,81% ao ano; negativo em apenas 22 meses, em 2020–2021.</p>
+</section>
+
+<section>
+  <div class="rotulo">6 · Dashboard</div>
+  <h2>Tudo responde aos filtros</h2>
+  <div class="duas">
+    <ul>
+      <li><b>Cabeçalho</b> com fonte e data da atualização</li>
+      <li><b>10 KPIs</b> recalculados a cada filtro</li>
+      <li><b>Filtros:</b> período, grupos do IPCA, variável da dispersão</li>
+      <li><b>9 gráficos</b> em três abas</li>
+      <li><b>Tabela</b> com ordenação e download em CSV</li>
+      <li><b>Análise interpretativa</b> gerada a partir dos números do período</li>
+    </ul>
+    <img src="../img/dashboard.png" alt="Tela do dashboard" style="width:100%;border:1px solid var(--linha);border-radius:10px">
+  </div>
+  <p class="suave">Demonstração ao vivo: <code>streamlit run app.py</code></p>
+</section>
+
+<section>
+  <div class="rotulo">7 · Testes</div>
+  <h2>77 testes, 95% de cobertura</h2>
+  <ul>
+    <li><b>Unitários:</b> cada classe com dados sintéticos de resultado conhecido.</li>
+    <li><b>Sem internet:</b> um cliente HTTP falso substitui a API (inversão de dependência).</li>
+    <li><b>Integração:</b> o <code>AppTest</code> executa o dashboard inteiro e mexe nos filtros.</li>
+    <li><b>Dados conferidos:</b> o IPCA em 12 meses publicado bate com o recalculado (diferença máxima de 0,009 p.p.).</li>
+    <li>Os testes encontraram um erro real de tipo de dado durante a integração.</li>
+  </ul>
+</section>
+
+<section>
+  <div class="rotulo">8 · Conclusões</div>
+  <h2>Conclusões e limitações</h2>
+  <div class="duas">
+    <ul>
+      <li>A meta é cumprida na maioria dos meses, mas com folga pequena.</li>
+      <li>A inflação é muito desigual entre os itens de consumo.</li>
+      <li>O juro real brasileiro é alto: 5,81% ao ano em média.</li>
+      <li>R$ 100 de 2000 valem R$ 20,64 hoje.</li>
+    </ul>
+    <ul class="suave">
+      <li>Análise descritiva: associação não é causalidade.</li>
+      <li>Juro real <i>ex-post</i>, não o esperado.</li>
+      <li>Grupos sem os pesos do IPCA.</li>
+      <li>Séries revisadas e com início em datas diferentes.</li>
+    </ul>
+  </div>
+  <p style="margin-top:1.4em"><a href="../">Documentação completa</a> ·
+     <a href="https://github.com/augustolamounier/painel-macroeconomico-bcb">Repositório no GitHub</a></p>
+</section>
+
+<nav id="contador"></nav>
+<script>
+  const slides = [...document.querySelectorAll('section')];
+  const contador = document.getElementById('contador');
+  const atual = () => slides.reduce((melhor, s, i) =>
+    Math.abs(s.getBoundingClientRect().top) < Math.abs(slides[melhor].getBoundingClientRect().top) ? i : melhor, 0);
+  const ir = i => slides[Math.max(0, Math.min(slides.length - 1, i))].scrollIntoView();
+  const atualizar = () => { contador.textContent = (atual() + 1) + ' / ' + slides.length; };
+  document.addEventListener('keydown', e => {
+    if (['ArrowDown', 'ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); ir(atual() + 1); }
+    if (['ArrowUp', 'ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); ir(atual() - 1); }
+  });
+  document.addEventListener('scroll', atualizar, { passive: true });
+  atualizar();
+</script>
+</body>
+</html>
