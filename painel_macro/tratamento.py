@@ -87,7 +87,7 @@ class TratadorDados:
         dados = bruto.copy()
         dados["data"] = pd.to_datetime(dados["data"], format="%d/%m/%Y", errors="coerce")
         texto = dados["valor"].astype("string").str.strip().str.replace(",", ".", regex=False)
-        dados["valor"] = pd.to_numeric(texto, errors="coerce")
+        dados["valor"] = pd.to_numeric(texto, errors="coerce").astype("float64")
 
         datas_invalidas = dados["data"].isna()
         valores_invalidos = dados["valor"].isna() & ~datas_invalidas

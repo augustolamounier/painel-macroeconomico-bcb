@@ -277,17 +277,24 @@ class Dashboard:
             st.dataframe(ausentes[ausentes["meses_sem_valor"] > 0], hide_index=True)
 
     @staticmethod
-    def _formatar_tabela(tabela: pd.DataFrame):
-        """Aplica o formato brasileiro de números e datas à tabela exibida."""
-        formatos = {}
+    def _formatar_tabela(tabela: pd.DataFrame) -> pd.DataFrame:
+        """Converte a tabela para texto no formato brasileiro de números e datas.
+
+        A ordenação é feita antes, pelo ``AnalisadorDados``; aqui os valores
+        já são apenas apresentação (valores ausentes aparecem como "—").
+        """
+        exibicao = pd.DataFrame(index=tabela.index)
         for coluna in tabela.columns:
-            if pd.api.types.is_datetime64_any_dtype(tabela[coluna]):
-                formatos[coluna] = formatar_mes
+            valores = tabela[coluna]
+            if pd.api.types.is_datetime64_any_dtype(valores):
+                exibicao[coluna] = valores.map(formatar_mes)
             elif coluna == "observacoes":
-                formatos[coluna] = lambda valor: formatar_numero(valor, 0)
-            elif pd.api.types.is_numeric_dtype(tabela[coluna]):
-                formatos[coluna] = formatar_numero
-        return tabela.style.format(formatos, na_rep="—")
+                exibicao[coluna] = valores.map(lambda valor: formatar_numero(valor, 0))
+            elif pd.api.types.is_numeric_dtype(valores):
+                exibicao[coluna] = valores.map(formatar_numero)
+            else:
+                exibicao[coluna] = valores.fillna("—").astype(str)
+        return exibicao
 
     @staticmethod
     def _configurar_colunas(colunas: list[str]) -> dict:

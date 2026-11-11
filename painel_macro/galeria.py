@@ -143,7 +143,7 @@ class GaleriaGraficos:
         grafico = GraficoSetores(
             "Meses dentro e fora da meta",
             rotulos="situacao", valores="meses",
-            subtitulo=f"Situação do IPCA em 12 meses frente ao intervalo · {self._periodo}",
+            subtitulo=f"IPCA em 12 meses frente ao intervalo · {self._periodo}",
             mapa_cores=CORES_SITUACAO,
             tema=self._tema,
         )
