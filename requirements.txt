@@ -1,0 +1,6 @@
+# Dependências do painel (versões com as quais o projeto foi testado)
+pandas>=3.0,<4
+numpy>=2.0,<3
+plotly>=7.0,<8
+streamlit>=1.67,<2
+requests>=2.31,<3

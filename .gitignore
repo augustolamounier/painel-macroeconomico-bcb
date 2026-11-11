@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.ipynb_checkpoints/
+
+# MkDocs (o site gerado vai para o branch gh-pages)
+site/
+
+# Sistema / editores
+.DS_Store
+.vscode/
+.idea/
