@@ -30,6 +30,43 @@ CONFIG_PLOTLY = {"displaylogo": False, "modeBarButtonsToRemove": ["lasso2d", "se
 
 COLUNAS_TABELA_PADRAO = ["ipca", "ipca_12m", "meta_inflacao", "selic", "juro_real", "dolar"]
 
+#: Refinamentos visuais que o tema do Streamlit não cobre: tipografia dos títulos,
+#: profundidade dos cartões de indicadores e uma entrada suave do conteúdo.
+ESTILO = """
+<style>
+h1 { letter-spacing: -0.035em; line-height: 1.05; }
+h2, h3 { letter-spacing: -0.02em; }
+[data-testid="stMetric"] [data-testid="stMetricValue"] {
+  letter-spacing: -0.03em; font-variant-numeric: tabular-nums;
+}
+[data-testid="stVerticalBlockBorderWrapper"]:has([data-testid="stMetric"]) {
+  background: #FFFFFF;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 12px 28px -18px rgba(22, 24, 27, 0.28);
+  transition: transform 220ms cubic-bezier(0.23, 1, 0.32, 1),
+              box-shadow 220ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+@media (hover: hover) {
+  [data-testid="stVerticalBlockBorderWrapper"]:has([data-testid="stMetric"]):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 18px 34px -18px rgba(22, 24, 27, 0.34);
+  }
+}
+.stTabs [data-baseweb="tab-list"] { gap: 6px; }
+.stTabs [data-baseweb="tab"] { font-weight: 600; }
+[data-testid="stMainBlockContainer"] {
+  animation: entrada 520ms cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+@keyframes entrada {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-testid="stMainBlockContainer"] { animation: none; }
+  [data-testid="stVerticalBlockBorderWrapper"]:has([data-testid="stMetric"]) { transition: none; }
+}
+</style>
+"""
+
 
 @dataclass(frozen=True)
 class InformacoesCarga:
@@ -114,6 +151,7 @@ class Dashboard:
     # Componentes
     # ------------------------------------------------------------------
     def _cabecalho(self) -> None:
+        st.markdown(ESTILO, unsafe_allow_html=True)
         st.title(self.TITULO)
         st.markdown(self.SUBTITULO)
         inicio, fim = self._analisador.periodo_da_coluna("ipca")

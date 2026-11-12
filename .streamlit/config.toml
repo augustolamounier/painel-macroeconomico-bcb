@@ -1,6 +1,27 @@
 [theme]
 base = "light"
-primaryColor = "#2a78d6"
+# Paleta "Porcelana": off-white quente, tinta grafite, jade como cor principal.
+primaryColor = "#1F6B57"
+backgroundColor = "#FBFAF7"
+secondaryBackgroundColor = "#F3F1EC"
+textColor = "#16181B"
+linkColor = "#1F6B57"
+borderColor = "#E4E0D8"
+showWidgetBorder = true
+showSidebarBorder = true
+baseRadius = "0.85rem"
+buttonRadius = "full"
+font = "-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Segoe UI', system-ui, sans-serif"
+headingFont = "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Segoe UI', system-ui, sans-serif"
+headingFontWeights = [700, 650, 600]
+codeFont = "ui-monospace, 'SF Mono', Menlo, monospace"
+codeBackgroundColor = "#F3F1EC"
+dataframeHeaderBackgroundColor = "#F3F1EC"
+chartCategoricalColors = ["#1F6B57", "#B8862B", "#6B4C9A"]
+
+[theme.sidebar]
+backgroundColor = "#F3F1EC"
+secondaryBackgroundColor = "#FBFAF7"
 
 [browser]
 gatherUsageStats = false
