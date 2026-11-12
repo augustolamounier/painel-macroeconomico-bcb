@@ -24,7 +24,7 @@
   --vinho: #9B2C3A;
   --cinza: #A8A398;
   --ease: cubic-bezier(0.23, 1, 0.32, 1);
-  --ease-io: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-io: cubic-bezier(0.77, 0, 0.175, 1);
   --fs-display: clamp(2.4rem, min(6vw, 9.5vh), 5.4rem);
   --fs-title: clamp(1.45rem, min(3.1vw, 5.2vh), 2.8rem);
   --fs-lede: clamp(1rem, min(1.45vw, 2.4vh), 1.26rem);
@@ -53,7 +53,7 @@ body.is-dragging { user-select: none; -webkit-user-select: none; }
   width: var(--cw); height: var(--ch); margin-top: calc(var(--ch) / -2);
   padding: clamp(24px, 5vh, 56px) clamp(28px, 5vw, 64px);
   background: var(--bg); border-radius: 28px; overflow: hidden;
-  user-select: none; -webkit-user-select: none; will-change: transform, opacity;
+  user-select: none; -webkit-user-select: none;
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 40px 70px -30px rgba(22, 24, 27, 0.35),
               0 10px 24px -10px rgba(22, 24, 27, 0.14);
 }
@@ -67,18 +67,22 @@ body.is-dragging { user-select: none; -webkit-user-select: none; }
 .dk-hint.is-gone { opacity: 0; }
 .dk-count { font-variant-numeric: tabular-nums; letter-spacing: 0.04em; }
 .dk-ui { position: fixed; right: 28px; bottom: 22px; display: flex; align-items: center; gap: 12px; z-index: 5; }
-.dk-dots { display: flex; gap: 7px; padding: 0 4px; }
-.dk-dot { width: 7px; height: 7px; padding: 0; border: 0; border-radius: 999px; background: rgba(22, 24, 27, 0.2); cursor: pointer;
-          transition: width 260ms var(--ease), background-color 200ms ease-out; }
-.dk-dot:hover { background: rgba(22, 24, 27, 0.4); }
-.dk-dot[aria-current="true"] { width: 24px; background: var(--jade); }
+.dk-dots { position: relative; display: flex; gap: 9px; padding: 0 9px; }
+.dk-dot { position: relative; width: 7px; height: 7px; padding: 0; border: 0; border-radius: 999px; background: rgba(22, 24, 27, 0.2); cursor: pointer;
+          transition: background-color 200ms ease-out; }
+.dk-dot::after { content: ""; position: absolute; inset: -8px -4px; }   /* área de toque maior */
+@media (hover: hover) and (pointer: fine) { .dk-dot:hover { background: rgba(22, 24, 27, 0.4); } }
+/* Indicador que acompanha a posição da mola, inclusive durante o arraste */
+.dk-dots-pill { position: absolute; top: 0; left: 4px; width: 17px; height: 7px; border-radius: 999px; background: var(--jade);
+                pointer-events: none; will-change: transform; }
 .glass {
   background: rgba(255, 255, 255, 0.72);
   -webkit-backdrop-filter: blur(16px) saturate(180%); backdrop-filter: blur(16px) saturate(180%);
   box-shadow: 0 0 0 1px rgba(22, 24, 27, 0.06), 0 6px 16px -6px rgba(22, 24, 27, 0.25);
 }
-.dk-btn { width: 40px; height: 40px; border-radius: 999px; border: 0; cursor: pointer; display: grid; place-items: center; color: var(--ink); }
-.dk-btn:active { transform: scale(0.94); transition: transform 100ms ease-out; }
+.dk-btn { width: 40px; height: 40px; border-radius: 999px; border: 0; cursor: pointer; display: grid; place-items: center; color: var(--ink);
+          transition: transform 160ms ease-out; }
+.dk-btn:active { transform: scale(0.94); }
 .dk-btn:focus-visible, .dk-dot:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--jade); outline-offset: 3px; }
 .dk-left { position: fixed; left: 28px; bottom: 22px; z-index: 5; display: flex; gap: 10px; }
 
@@ -115,9 +119,10 @@ body.is-dragging { user-select: none; -webkit-user-select: none; }
 .quiz { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 26px; }
 .opt { cursor: pointer; border-radius: 14px; padding: 16px 26px; font-size: clamp(1.05rem, 1.6vw, 1.28rem); font-weight: 600;
        font-variant-numeric: tabular-nums; background: #FFFFFF; border: 1px solid #DCD8D0;
-       transition: background-color 160ms ease-out, border-color 160ms ease-out, color 160ms ease-out, opacity 200ms ease-out; }
-.opt:hover:not([disabled]) { border-color: #B9B4AA; }
-.opt:active:not([disabled]) { transform: scale(0.97); transition: transform 100ms ease-out; }
+       transition: background-color 160ms ease-out, border-color 160ms ease-out, color 160ms ease-out, opacity 200ms ease-out,
+                   transform 160ms ease-out; }
+@media (hover: hover) and (pointer: fine) { .opt:hover:not([disabled]) { border-color: #B9B4AA; } }
+.opt:active:not([disabled]) { transform: scale(0.97); }
 .opt[disabled] { cursor: default; }
 .opt.is-correct { background: var(--jade); border-color: var(--jade); color: #FFFFFF; }
 .opt.is-wrong { border-color: var(--vinho); color: var(--vinho); animation: shake 320ms ease-out; }
@@ -141,7 +146,8 @@ body.is-dragging { user-select: none; -webkit-user-select: none; }
 /* ---------- 4 · Perguntas (cartas que viram) ---------- */
 .flips { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; perspective: 1400px; }
 .flip { position: relative; height: clamp(104px, 17vh, 150px); padding: 0; border: 0; background: none; cursor: pointer; text-align: left; }
-.flip-inner { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform 640ms var(--ease); }
+.flip-inner { position: absolute; inset: 0; transform-style: preserve-3d;
+               transition: transform 460ms var(--ease-io), scale 160ms ease-out; }
 .flip[aria-pressed="true"] .flip-inner { transform: rotateY(180deg); }
 .flip:active .flip-inner { scale: 0.98; }
 .face { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 18px 20px; border-radius: 16px;
@@ -192,8 +198,8 @@ body.is-dragging { user-select: none; -webkit-user-select: none; }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; align-content: flex-start; }
 .chip { cursor: pointer; border-radius: 999px; padding: 9px 14px; font: 500 0.84rem/1 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
         background: #FFFFFF; border: 1px solid #DCD8D0; color: var(--muted);
-        transition: background-color 160ms ease-out, color 160ms ease-out, border-color 160ms ease-out; }
-.chip:hover { color: var(--ink); }
+        transition: background-color 160ms ease-out, color 160ms ease-out, border-color 160ms ease-out, transform 160ms ease-out; }
+@media (hover: hover) and (pointer: fine) { .chip:hover { color: var(--ink); } }
 .chip:active { transform: scale(0.97); }
 .chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--bg); }
 .console { border-radius: 18px; padding: 26px; display: flex; flex-direction: column; gap: 20px; min-height: 220px; background: #16181B; color: #ECE9E3; }
@@ -207,7 +213,7 @@ body.is-dragging { user-select: none; -webkit-user-select: none; }
 .seg { position: relative; display: inline-flex; gap: 4px; padding: 5px; border-radius: 999px; background: var(--surface); margin-bottom: 22px; }
 .seg-pill { position: absolute; top: 5px; left: 0; height: calc(100% - 10px); border-radius: 999px; background: var(--ink); will-change: transform;
             box-shadow: 0 8px 18px -10px rgba(22, 24, 27, 0.6); }
-.seg.is-ready .seg-pill { transition: transform 280ms var(--ease), width 280ms var(--ease); }
+.seg.is-ready .seg-pill { transition: transform 280ms var(--ease); }
 .seg button { position: relative; width: clamp(48px, 6vw, 72px); height: clamp(48px, 6vw, 72px); border: 0; border-radius: 999px; background: none; cursor: pointer;
               font-size: clamp(1.3rem, 2.2vw, 1.9rem); font-weight: 700; color: var(--muted); transition: color 180ms ease-out; }
 .seg button[aria-pressed="true"] { color: var(--bg); }
@@ -255,8 +261,8 @@ body.is-dragging { user-select: none; -webkit-user-select: none; }
 .bar-row { display: grid; grid-template-columns: minmax(150px, 0.42fr) 1fr; align-items: center; gap: 16px; }
 .bar-name { font-size: clamp(0.84rem, 1.1vw, 0.96rem); text-align: right; color: var(--ink); }
 .bar-track { position: relative; height: clamp(18px, 3vh, 26px); }
-.bar-fill { position: absolute; inset: 0; border-radius: 7px; transform-origin: left center; transform: scaleX(0);
-            transition: transform 1100ms var(--ease); transition-delay: calc(200ms + var(--i) * 70ms); }
+.bar-fill { position: absolute; inset: 0; clip-path: inset(0 100% 0 0 round 7px);
+            transition: clip-path 1100ms var(--ease); transition-delay: calc(200ms + var(--i) * 70ms); }
 .bar-fill.hi { background: var(--jade); }
 .bar-fill.lo { background: rgba(31, 107, 87, 0.38); }
 .bar-val { position: absolute; top: 50%; transform: translate(8px, -50%); font-size: 0.84rem; font-weight: 600; color: var(--ink);
@@ -271,15 +277,15 @@ body.is-dragging { user-select: none; -webkit-user-select: none; }
 .tm-year { font-size: clamp(3.4rem, min(8vw, 13vh), 6.8rem); font-weight: 750; letter-spacing: -0.05em; line-height: 0.9; font-variant-numeric: tabular-nums; }
 .tm-month { display: block; margin-top: 10px; font-size: 0.86rem; color: var(--muted); }
 .tm-controls { display: flex; align-items: center; gap: 14px; margin-top: 22px; }
-.tm input[type="range"] { flex: 1; accent-color: var(--jade); height: 28px; cursor: pointer; }
+.tm input[type="range"] { flex: 1; accent-color: var(--jade); height: 28px; cursor: pointer; border-radius: 999px; }
 .play { height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--line); background: #FFFFFF; cursor: pointer; font-weight: 600;
-        display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+        display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; transition: transform 160ms ease-out; }
 .play:active { transform: scale(0.97); }
 .tm-bars { display: grid; gap: clamp(12px, 2.4vh, 20px); }
 .tm-row { display: grid; grid-template-columns: 110px 1fr 82px; align-items: center; gap: 14px; }
 .tm-row span:first-child { font-size: 0.92rem; font-weight: 600; }
 .tm-track { position: relative; height: clamp(22px, 3.6vh, 30px); border-radius: 8px; background: var(--surface); overflow: hidden; }
-.tm-fill { position: absolute; top: 0; bottom: 0; left: 0; width: 100%; transform-origin: left center; transform: scaleX(0); border-radius: 8px; will-change: transform; }
+.tm-fill { position: absolute; inset: 0; clip-path: inset(0 100% 0 0 round 8px); }
 .tm-zero { position: absolute; top: 0; bottom: 0; width: 1.5px; background: rgba(22, 24, 27, 0.5); }
 .tm-val { font-size: 1.02rem; font-weight: 680; text-align: right; font-variant-numeric: tabular-nums; }
 .tm-msg { margin: 18px 0 0; min-height: 3em; font-size: 0.98rem; line-height: 1.5; color: var(--muted); }
@@ -293,6 +299,7 @@ body.is-dragging { user-select: none; -webkit-user-select: none; }
                  stroke-dasharray: 20; stroke-dashoffset: 20; transition: stroke-dashoffset 420ms var(--ease); transition-delay: calc(300ms + var(--i) * 110ms); }
 .is-in .comp li i svg { stroke-dashoffset: 0; }
 .shot { position: relative; margin: 0; padding: 0; border: 0; background: none; cursor: zoom-in; border-radius: 14px; overflow: hidden;
+        transition: transform 160ms ease-out;
         box-shadow: 0 0 0 1px rgba(22, 24, 27, 0.08), 0 24px 40px -22px rgba(22, 24, 27, 0.45); }
 .shot img { display: block; width: 100%; max-height: 42vh; object-fit: cover; object-position: top left; }
 .shot:active { transform: scale(0.99); }
@@ -949,7 +956,9 @@ init.grupos = (sec) => {
   requestAnimationFrame(placeRef); addEventListener("resize", placeRef);
   sec.dataset.enter = "grupos";
 };
-enter.grupos = (sec) => sec.querySelectorAll(".bar-fill").forEach((f) => { f.style.transform = `scaleX(${f.dataset.s})`; });
+enter.grupos = (sec) => sec.querySelectorAll(".bar-fill").forEach((f) => {
+  f.style.clipPath = `inset(0 ${((1 - f.dataset.s) * 100).toFixed(2)}% 0 0 round 7px)`;
+});
 
 /* Máquina do tempo: cada barra é uma mola, então o controle deslizante pode ser arrastado à vontade. */
 init.juros = (sec) => {
@@ -972,13 +981,16 @@ init.juros = (sec) => {
   };
   zeros.forEach((z) => { z.style.left = (frac(0) * 100) + "%"; });
   tickers.add((dt) => {
-    if (!sec.classList.contains("is-in")) return;
+    if (!sec.classList.contains("is-in") || springs.every((s) => s.settled && s.drawn)) return;
     springs.forEach((s, i) => {
       s.step(dt);
-      const v = s.value, a = frac(Math.min(0, v)), b = frac(Math.max(0, v)), w = fills[i].parentElement.offsetWidth;
-      fills[i].style.transform = `translateX(${(a * w).toFixed(2)}px) scaleX(${Math.max(0, b - a).toFixed(4)})`;
+      if (s.settled) { s.value = s.target; s.velocity = 0; }
+      // clip-path em porcentagem: não depende de medir a largura da trilha
+      const v = s.value, a = frac(Math.min(0, v)) * 100, b = frac(Math.max(0, v)) * 100;
+      fills[i].style.clipPath = `inset(0 ${(100 - b).toFixed(2)}% 0 ${a.toFixed(2)}% round 8px)`;
       vals[i].textContent = fmt(v, 2) + "%";
       if (i === 2) fills[i].style.background = v < 0 ? "var(--vinho)" : "var(--ameixa)";
+      s.drawn = s.settled;
     });
   });
   range.addEventListener("input", () => { stopPlay(); setYear(+range.value); });
@@ -1021,17 +1033,25 @@ init.dash = (sec) => {
     const big = new Image(); big.src = img.src; big.alt = img.alt; big.className = "zoom-img";
     Object.assign(big.style, { left: to.left + "px", top: to.top + "px", width: to.width + "px", height: to.height + "px" });
     document.body.append(back, big);
-    const fromT = `translate(${from.left - to.left}px, ${from.top - to.top}px) scale(${from.width / to.width}, ${from.height / to.height})`;
+    // A miniatura mostra só o canto superior esquerdo da imagem (object-fit: cover).
+    // Escala única + recorte com clip-path reproduzem exatamente o que ela exibe, sem esticar.
+    const k = Math.max(from.width / to.width, from.height / to.height);
+    const visW = from.width / k, visH = from.height / k;
+    const fromT = `translate(${from.left - to.left}px, ${from.top - to.top}px) scale(${k})`;
+    const fromClip = `inset(0 ${to.width - visW}px ${to.height - visH}px 0 round ${14 / k}px)`;
     const opts = { duration: REDUCED ? 1 : 420, easing: "cubic-bezier(0.23, 1, 0.32, 1)", fill: "both" };
-    big.animate([{ transform: fromT }, { transform: "none" }], opts);
-    back.animate([{ opacity: 0 }, { opacity: 1 }], { duration: REDUCED ? 1 : 260, fill: "both" });
+    const anims = [
+      big.animate([{ transform: fromT, clipPath: fromClip }, { transform: "none", clipPath: "inset(0 0 0 0 round 14px)" }], opts),
+      back.animate([{ opacity: 0 }, { opacity: 1 }], { ...opts, easing: "ease-out" }),
+    ];
+    let closing = false;
     const close = () => {
+      if (closing) return;
+      closing = true;
       removeEventListener("keydown", onKey, true);
-      const now = img.getBoundingClientRect();
-      const t = `translate(${now.left - to.left}px, ${now.top - to.top}px) scale(${now.width / to.width}, ${now.height / to.height})`;
-      back.animate([{ opacity: 1 }, { opacity: 0 }], { duration: REDUCED ? 1 : 240, fill: "both" });
-      big.animate([{ transform: "none" }, { transform: t }], { ...opts, duration: REDUCED ? 1 : 360 })
-        .finished.then(() => { big.remove(); back.remove(); zoomOpen = false; });
+      // reverse() parte do ponto em que a animação está: fechar no meio da abertura não salta.
+      anims.forEach((a) => a.reverse());
+      anims[0].finished.then(() => { big.remove(); back.remove(); zoomOpen = false; });
     };
     const onKey = (e) => { if (e.key === "Escape" || e.key === " " || e.key === "Enter") { e.preventDefault(); e.stopPropagation(); close(); } };
     back.addEventListener("click", close); big.addEventListener("click", close);
@@ -1051,8 +1071,10 @@ enter.fim = () => { if (!celebrated) { celebrated = true; setTimeout(() => confe
 const vp = document.querySelector(".dk-viewport"), track = document.querySelector(".dk-track");
 const cards = [...document.querySelectorAll(".dk-card")], n = cards.length;
 const dotsBox = document.querySelector(".dk-dots"), countEl = document.querySelector(".dk-count"), hint = document.querySelector(".dk-hint");
-dotsBox.innerHTML = cards.map((c, i) => `<button class="dk-dot" data-to-card="${i}" aria-label="${c.getAttribute("aria-label")}"></button>`).join("");
-const dots = [...dotsBox.children];
+dotsBox.innerHTML = cards.map((c, i) => `<button class="dk-dot" data-to-card="${i}" aria-label="${c.getAttribute("aria-label")}"></button>`).join("")
+  + '<span class="dk-dots-pill" aria-hidden="true"></span>';
+const dots = [...dotsBox.querySelectorAll(".dk-dot")], pill = dotsBox.querySelector(".dk-dots-pill");
+const DOT_PITCH = 16;   // 7px do ponto + 9px de espaço
 
 cards.forEach((c) => {
   c.querySelectorAll(".r").forEach((el, i) => el.style.setProperty("--i", i));
@@ -1064,6 +1086,7 @@ const start = clamp((parseInt(location.hash.slice(1), 10) || 1) - 1, 0, n - 1);
 spring.hold(start);
 let target = start, cw = 0, step = 0;
 
+let renderedAt = null;   // valor já desenhado; parado, o laço não toca no DOM
 function layout() {
   cw = Math.min(1180, innerWidth * 0.88);
   const ch = Math.max(360, Math.min(720, innerHeight - 150));
@@ -1071,6 +1094,7 @@ function layout() {
   document.documentElement.style.setProperty("--cw", cw + "px");
   document.documentElement.style.setProperty("--ch", ch + "px");
   cards.forEach((c, i) => { c.style.left = (i * step - cw / 2) + "px"; });
+  renderedAt = null;
 }
 layout();
 addEventListener("resize", layout);
@@ -1086,6 +1110,7 @@ function activate(card) {
 function go(i, opts = { damping: 1, response: 0.45 }) {
   const t = clamp(i, 0, n - 1);
   if (t !== target) hint.classList.add("is-gone");
+  if (REDUCED && t !== target) track.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 200, easing: "ease-out" });
   target = t;
   spring.to(target, opts);
   cards.forEach((c, j) => { c.inert = j !== target; c.setAttribute("aria-hidden", String(j !== target)); });
@@ -1096,14 +1121,21 @@ function go(i, opts = { damping: 1, response: 0.45 }) {
 go(start);
 
 tickers.add((dt) => {
-  if (!drag.active) spring.step(dt);
+  if (!drag.active) {
+    spring.step(dt);
+    if (spring.settled) { spring.value = spring.target; spring.velocity = 0; }
+  }
   const v = spring.value;
+  if (v === renderedAt) return;
+  renderedAt = v;
   track.style.transform = `translate3d(${(-v * step).toFixed(2)}px, 0, 0)`;
+  pill.style.transform = `translateX(${(clamp(v, 0, n - 1) * DOT_PITCH).toFixed(2)}px)`;
   cards.forEach((c, i) => {
     const d = Math.abs(i - v), a = Math.min(1, d);
     c.style.transform = `scale(${(1 - 0.07 * a).toFixed(4)})`;
     c.style.opacity = String(1 - 0.5 * a);
     c.style.visibility = d > 2.2 ? "hidden" : "visible";
+    c.style.willChange = d < 1.5 && (drag.active || !spring.settled) ? "transform, opacity" : "auto";
   });
   if (Math.abs(v - target) < 0.35) activate(cards[target]);
 });
