@@ -45,12 +45,6 @@
     
     
       
-        
-        
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
-        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
-      
     
     
       <link rel="stylesheet" href="../css/extra.css">
@@ -71,7 +65,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -129,7 +123,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Usar tema escuro"  type="radio" name="__palette" id="__palette_0">
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Usar tema escuro"  type="radio" name="__palette" id="__palette_0">
     
       <label class="md-header__button md-icon" title="Usar tema escuro" for="__palette_1" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
@@ -139,7 +133,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Usar tema claro"  type="radio" name="__palette" id="__palette_1">
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Usar tema claro"  type="radio" name="__palette" id="__palette_1">
     
       <label class="md-header__button md-icon" title="Usar tema claro" for="__palette_0" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
@@ -904,7 +898,7 @@ completo da base (01/2000 a 09/2026); no dashboard eles acompanham os filtros.</
 <h2 id="1-inflacao-em-12-meses-e-a-meta-linhas">1. Inflação em 12 meses e a meta — <em>linhas</em><a class="headerlink" href="#1-inflacao-em-12-meses-e-a-meta-linhas" title="Permanent link">&para;</a></h2>
 <iframe class="grafico" src="../graficos/inflacao_e_meta.html" loading="lazy" title="Inflação em 12 meses e a meta"></iframe>
 
-<p><strong>O que mostra.</strong> A linha azul é o IPCA acumulado em 12 meses; a faixa cinza é o intervalo de
+<p><strong>O que mostra.</strong> A linha verde (jade) é o IPCA acumulado em 12 meses; a faixa cinza é o intervalo de
 tolerância da meta e a linha tracejada, o seu centro.</p>
 <p><strong>Interpretação.</strong> A inflação passou boa parte do período fora da faixa: ficou acima do teto em
 <strong>123 dos 321 meses (38,3%)</strong> e abaixo do piso em 17 (5,3%). Há três grandes episódios de
@@ -916,7 +910,7 @@ setembro de 2026 o índice estava em <strong>4,58%</strong>, 1,58 ponto percentu
 <iframe class="grafico" src="../graficos/inflacao_anual.html" loading="lazy" title="Inflação anual frente à meta"></iframe>
 
 <p><strong>O que mostra.</strong> Cada barra é o IPCA acumulado no ano; a cor indica a situação frente ao
-intervalo (cinza = dentro, vermelho = acima do teto, azul = abaixo do piso) e a linha preta é
+intervalo (cinza = dentro, vinho = acima do teto, azul = abaixo do piso) e a linha preta é
 o centro da meta. O asterisco marca o ano com dados parciais.</p>
 <p><strong>Interpretação.</strong> Dos 26 anos completos, <strong>7 terminaram acima do teto</strong> (2001, 2002, 2003,
 2015, 2021, 2022 e 2024) e <strong>1 abaixo do piso</strong> (2017). A maior inflação anual foi a de 2002
@@ -959,7 +953,7 @@ quase sem quedas.</p>
 <h2 id="6-sazonalidade-da-inflacao-mapa-de-calor">6. Sazonalidade da inflação — <em>mapa de calor</em><a class="headerlink" href="#6-sazonalidade-da-inflacao-mapa-de-calor" title="Permanent link">&para;</a></h2>
 <iframe class="grafico grafico--alto" src="../graficos/sazonalidade.html" loading="lazy" title="Sazonalidade da inflação"></iframe>
 
-<p><strong>O que mostra.</strong> O IPCA de cada mês (colunas) em cada ano (linhas). Vermelho indica alta de
+<p><strong>O que mostra.</strong> O IPCA de cada mês (colunas) em cada ano (linhas). Vinho indica alta de
 preços e azul, queda. A escala de cores ignora os 2% de valores mais extremos para que meses
 excepcionais não apaguem os demais.</p>
 <p><strong>Interpretação.</strong> Em média, <strong>dezembro (0,68%)</strong>, fevereiro (0,66%) e janeiro (0,62%) são os
@@ -1003,10 +997,13 @@ dashboard é possível trocar a variável do eixo horizontal (Selic, desocupaç�
 econômica).</p>
 <h2 id="decisoes-de-projeto-visual">Decisões de projeto visual<a class="headerlink" href="#decisoes-de-projeto-visual" title="Permanent link">&para;</a></h2>
 <ul>
+<li><strong>Paleta testada para daltonismo.</strong> As cores das séries (jade, latão e ameixa) e das
+  situações (azul-ardósia, cinza e vinho) foram conferidas por simulação de protanopia,
+  deuteranopia e tritanopia, e todas têm contraste mínimo de 3:1 com o fundo.</li>
 <li><strong>Um eixo por gráfico.</strong> Não há gráficos com dois eixos verticais, que induzem a
   correlações visuais arbitrárias. Selic, inflação e juro real compartilham o eixo porque têm
   a mesma unidade; o dólar tem gráfico próprio.</li>
-<li><strong>Cor com significado.</strong> A cor representa a situação frente à meta (cinza, vermelho, azul)
+<li><strong>Cor com significado.</strong> A cor representa a situação frente à meta (cinza, vinho, azul)
   ou identifica a série; quando há uma única série, todas as barras têm a mesma cor.</li>
 <li><strong>Ordenação.</strong> Barras de categorias sem ordem natural são ordenadas pelo valor.</li>
 <li><strong>Rótulo no último ponto.</strong> Os gráficos de linha destacam o valor mais recente.</li>
