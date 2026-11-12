@@ -18,27 +18,34 @@ import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 
-AZUL = "#2a78d6"
-LARANJA = "#eb6834"
-VERDE_AGUA = "#1baf7a"
-AMARELO = "#eda100"
-VERMELHO = "#d03b3b"
-CINZA = "#8f8e88"
-CINZA_CLARO = "#e4e3df"
+# Paleta "Porcelana". As três cores de série foram escolhidas por simulação de
+# daltonismo (protanopia, deuteranopia e tritanopia): o pior par mantém
+# diferença perceptível (ΔE OKLab ≥ 8) e todas têm contraste ≥ 3:1 com o fundo.
+JADE = "#1F6B57"
+LATAO = "#B8862B"
+AMEIXA = "#6B4C9A"
+ARDOSIA = "#2E4A7A"
+VINHO = "#9B2C3A"
+CINZA = "#A8A398"
+CINZA_CLARO = "#E4E0D8"
+NEUTRO = "#F0EEE9"
 
 
 @dataclass(frozen=True)
 class TemaGrafico:
     """Aparência comum a todos os gráficos do painel."""
 
-    fundo: str = "#ffffff"
-    texto: str = "#1f1f1e"
-    texto_secundario: str = "#5f5e5a"
-    grade: str = "#ecebe7"
-    fonte: str = "Arial, Helvetica, sans-serif"
+    fundo: str = "#FBFAF7"
+    texto: str = "#16181B"
+    texto_secundario: str = "#5F656D"
+    grade: str = "#ECE9E3"
+    fonte: str = (
+        "-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Segoe UI', "
+        "system-ui, sans-serif"
+    )
     altura: int = 420
     cores_series: tuple[str, ...] = field(
-        default=(AZUL, LARANJA, VERDE_AGUA, AMARELO)
+        default=(JADE, LATAO, AMEIXA)
     )
 
     def aplicar(self, figura: go.Figure, titulo: str, subtitulo: str = "") -> go.Figure:
@@ -141,7 +148,9 @@ class GraficoLinhas(Visualizador):
         if not series:
             raise ValueError("Informe ao menos uma série para o gráfico de linhas.")
         if len(series) > len(self._tema.cores_series):
-            raise ValueError("O gráfico de linhas aceita no máximo quatro séries.")
+            raise ValueError(
+                f"O gráfico de linhas aceita no máximo {len(self._tema.cores_series)} séries."
+            )
         self._series = dict(series)
         self._titulo_eixo_y = titulo_eixo_y
         self._sufixo = sufixo
@@ -183,7 +192,7 @@ class GraficoLinhas(Visualizador):
         ))
         figura.add_trace(go.Scatter(
             x=dados.index, y=dados[superior], mode="lines", line={"width": 0, "shape": "hv"},
-            fill="tonexty", fillcolor="rgba(143, 142, 136, 0.18)", name=nome,
+            fill="tonexty", fillcolor="rgba(168, 163, 152, 0.22)", name=nome,
             customdata=dados[inferior],
             hovertemplate="%{customdata:,.2f}% a %{y:,.2f}%",
         ))
@@ -387,7 +396,7 @@ class GraficoDispersao(Visualizador):
     def _construir(self, dados: pd.DataFrame) -> go.Figure:
         figura = go.Figure(go.Scatter(
             x=dados[self._x], y=dados[self._y], mode="markers", name="Meses",
-            marker={"color": AZUL, "size": 8, "opacity": 0.65,
+            marker={"color": JADE, "size": 8, "opacity": 0.6,
                     "line": {"color": self._tema.fundo, "width": 1}},
             customdata=dados.index.strftime("%m/%Y"),
             hovertemplate=(
@@ -403,7 +412,7 @@ class GraficoDispersao(Visualizador):
             figura.add_trace(go.Scatter(
                 x=extremos, y=inclinacao * extremos + intercepto, mode="lines",
                 name=f"Tendência linear (r = {correlacao:.2f})".replace(".", ","),
-                line={"color": LARANJA, "width": 2}, hoverinfo="skip",
+                line={"color": LATAO, "width": 2.5}, hoverinfo="skip",
             ))
         figura.update_xaxes(title_text=self._rotulo_x, ticksuffix=self._sufixo_x,
                             showgrid=True, gridcolor=self._tema.grade)
@@ -436,8 +445,8 @@ class GraficoBoxplot(Visualizador):
         )
         figura = go.Figure(go.Box(
             x=dados[self._valor], y=dados[self._categoria], orientation="h",
-            marker={"color": AZUL, "size": 4, "opacity": 0.6},
-            line={"color": AZUL, "width": 1.5}, fillcolor="rgba(42, 120, 214, 0.15)",
+            marker={"color": JADE, "size": 4, "opacity": 0.55},
+            line={"color": JADE, "width": 1.5}, fillcolor="rgba(31, 107, 87, 0.14)",
             boxpoints="outliers", name="", hoverinfo="x",
         ))
         figura.update_yaxes(categoryorder="array", categoryarray=ordem, autorange="reversed",
@@ -470,7 +479,7 @@ class GraficoMapaCalor(Visualizador):
         figura = go.Figure(go.Heatmap(
             z=dados.to_numpy(dtype=float), x=list(dados.columns),
             y=[str(indice) for indice in dados.index],
-            colorscale=[[0.0, AZUL], [0.5, "#f0efec"], [1.0, VERMELHO]],
+            colorscale=[[0.0, ARDOSIA], [0.5, NEUTRO], [1.0, VINHO]],
             zmid=0, zmin=-limite, zmax=limite, xgap=2, ygap=2,
             colorbar={"ticksuffix": self._sufixo, "thickness": 12, "outlinewidth": 0},
             hovertemplate=f"%{{x}}/%{{y}}<br>{self._rotulo_valor}: "

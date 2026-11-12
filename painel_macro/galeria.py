@@ -21,9 +21,9 @@ from painel_macro.analisador import (
 from painel_macro.config import rotulo, unidade
 from painel_macro.indicadores import formatar_mes, formatar_numero
 from painel_macro.visualizadores import (
-    AZUL,
+    ARDOSIA,
     CINZA,
-    VERMELHO,
+    VINHO,
     GraficoBarras,
     GraficoBoxplot,
     GraficoDispersao,
@@ -34,9 +34,9 @@ from painel_macro.visualizadores import (
 )
 
 CORES_SITUACAO = {
-    SITUACAO_ABAIXO: AZUL,
+    SITUACAO_ABAIXO: ARDOSIA,
     SITUACAO_DENTRO: CINZA,
-    SITUACAO_ACIMA: VERMELHO,
+    SITUACAO_ACIMA: VINHO,
 }
 
 #: Variáveis que podem ser comparadas com a inflação no gráfico de dispersão.
@@ -176,7 +176,7 @@ class GaleriaGraficos:
         """Mapa de calor: IPCA mensal por ano e mês."""
         grafico = GraficoMapaCalor(
             "Sazonalidade da inflação",
-            subtitulo="IPCA de cada mês, por ano · azul = queda de preços, vermelho = alta",
+            subtitulo="IPCA de cada mês, por ano · azul = queda de preços, vinho = alta",
             rotulo_valor="IPCA",
             tema=self._tema,
         )

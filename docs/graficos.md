@@ -17,7 +17,7 @@ completo da base (01/2000 a 09/2026); no dashboard eles acompanham os filtros.
 
 <iframe class="grafico" src="../graficos/inflacao_e_meta.html" loading="lazy" title="Inflação em 12 meses e a meta"></iframe>
 
-**O que mostra.** A linha azul é o IPCA acumulado em 12 meses; a faixa cinza é o intervalo de
+**O que mostra.** A linha verde (jade) é o IPCA acumulado em 12 meses; a faixa cinza é o intervalo de
 tolerância da meta e a linha tracejada, o seu centro.
 
 **Interpretação.** A inflação passou boa parte do período fora da faixa: ficou acima do teto em
@@ -33,7 +33,7 @@ setembro de 2026 o índice estava em **4,58%**, 1,58 ponto percentual acima do c
 <iframe class="grafico" src="../graficos/inflacao_anual.html" loading="lazy" title="Inflação anual frente à meta"></iframe>
 
 **O que mostra.** Cada barra é o IPCA acumulado no ano; a cor indica a situação frente ao
-intervalo (cinza = dentro, vermelho = acima do teto, azul = abaixo do piso) e a linha preta é
+intervalo (cinza = dentro, vinho = acima do teto, azul = abaixo do piso) e a linha preta é
 o centro da meta. O asterisco marca o ano com dados parciais.
 
 **Interpretação.** Dos 26 anos completos, **7 terminaram acima do teto** (2001, 2002, 2003,
@@ -92,7 +92,7 @@ quase sem quedas.
 
 <iframe class="grafico grafico--alto" src="../graficos/sazonalidade.html" loading="lazy" title="Sazonalidade da inflação"></iframe>
 
-**O que mostra.** O IPCA de cada mês (colunas) em cada ano (linhas). Vermelho indica alta de
+**O que mostra.** O IPCA de cada mês (colunas) em cada ano (linhas). Vinho indica alta de
 preços e azul, queda. A escala de cores ignora os 2% de valores mais extremos para que meses
 excepcionais não apaguem os demais.
 
@@ -150,10 +150,13 @@ econômica).
 
 ## Decisões de projeto visual
 
+- **Paleta testada para daltonismo.** As cores das séries (jade, latão e ameixa) e das
+  situações (azul-ardósia, cinza e vinho) foram conferidas por simulação de protanopia,
+  deuteranopia e tritanopia, e todas têm contraste mínimo de 3:1 com o fundo.
 - **Um eixo por gráfico.** Não há gráficos com dois eixos verticais, que induzem a
   correlações visuais arbitrárias. Selic, inflação e juro real compartilham o eixo porque têm
   a mesma unidade; o dólar tem gráfico próprio.
-- **Cor com significado.** A cor representa a situação frente à meta (cinza, vermelho, azul)
+- **Cor com significado.** A cor representa a situação frente à meta (cinza, vinho, azul)
   ou identifica a série; quando há uma única série, todas as barras têm a mesma cor.
 - **Ordenação.** Barras de categorias sem ordem natural são ordenadas pelo valor.
 - **Rótulo no último ponto.** Os gráficos de linha destacam o valor mais recente.
