@@ -6,11 +6,13 @@ Uso:
 Os arquivos são gravados em ``docs/graficos/`` e incorporados às páginas do
 site (MkDocs). O script também grava ``data/processed/resumo_indicadores.md``
 com os indicadores e a análise interpretativa do período completo — os números
-citados na documentação saem desse arquivo.
+citados na documentação saem desse arquivo — e ``docs/apresentacao/dados.js``,
+com as séries usadas pelos gráficos interativos dos slides.
 """
 
 from __future__ import annotations
 
+import json
 import sys
 from pathlib import Path
 
@@ -29,6 +31,28 @@ from painel_macro.interpretacao import GeradorInterpretacao  # noqa: E402
 from painel_macro.pipeline import PipelineDados  # noqa: E402
 
 DESTINO = RAIZ_PROJETO / "docs" / "graficos"
+DADOS_APRESENTACAO = RAIZ_PROJETO / "docs" / "apresentacao" / "dados.js"
+
+
+def exportar_dados_apresentacao(analisador: AnalisadorDados) -> None:
+    """Grava as séries que os slides usam, no formato que o navegador lê direto."""
+    dados = analisador.dados.dropna(subset=["ipca_12m"])
+    serie = [
+        [f"{data:%Y-%m}", round(linha.ipca_12m, 2), round(linha.meta_inflacao, 2),
+         round(linha.piso_meta, 2), round(linha.teto_meta, 2), round(linha.selic, 2)]
+        for data, linha in dados.iterrows()
+    ]
+    ranking = analisador.inflacao_por_grupo()
+    grupos = [[linha.grupo, round(linha.acumulado, 1)] for linha in ranking.itertuples()]
+    conteudo = (
+        "// Gerado por scripts/exportar_graficos.py a partir dos dados do Banco Central.\n"
+        "// SERIE: [mês, IPCA 12 meses, centro da meta, piso, teto, Selic]\n"
+        f"window.SERIE = {json.dumps(serie, separators=(',', ':'))};\n"
+        f"window.GRUPOS = {json.dumps(grupos, ensure_ascii=False, separators=(',', ':'))};\n"
+        f"window.IPCA_GERAL = {round(analisador.acumulado('ipca'), 1)};\n"
+    )
+    DADOS_APRESENTACAO.write_text(conteudo, encoding="utf-8")
+    print(f"dados da apresentação gravados: {DADOS_APRESENTACAO.name}")
 
 
 def main() -> None:
@@ -55,6 +79,8 @@ def main() -> None:
     arquivo_resumo = DIRETORIO_DADOS_TRATADOS / "resumo_indicadores.md"
     arquivo_resumo.write_text(resumo, encoding="utf-8")
     print(f"resumo gravado: {arquivo_resumo.name}")
+
+    exportar_dados_apresentacao(analisador)
 
 
 if __name__ == "__main__":

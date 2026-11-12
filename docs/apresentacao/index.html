@@ -3,249 +3,1200 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Apresentação — Inflação, juros e câmbio no Brasil</title>
+<title>Inflação, juros e câmbio no Brasil — Projeto Final - POO</title>
+<meta name="theme-color" content="#E9E5DD">
 <style>
-  :root {
-    --fundo: #f6f5f1; --cartao: #ffffff; --texto: #1f1f1e; --suave: #5f5e5a;
-    --linha: #e4e3df; --azul: #2a78d6; --vermelho: #d03b3b; --cinza: #8f8e88;
-  }
-  * { box-sizing: border-box; }
-  html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
-  body { margin: 0; background: var(--fundo); color: var(--texto);
-         font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif; line-height: 1.45; }
-  section { min-height: 100vh; scroll-snap-align: start; display: flex; flex-direction: column;
-            justify-content: center; padding: 6vh 8vw; border-bottom: 1px solid var(--linha); }
-  h1 { font-size: clamp(2rem, 5vw, 3.6rem); margin: 0 0 .4em; line-height: 1.1; letter-spacing: -.02em; }
-  h2 { font-size: clamp(1.5rem, 3.2vw, 2.4rem); margin: 0 0 .7em; letter-spacing: -.01em; }
-  p, li { font-size: clamp(1rem, 1.7vw, 1.35rem); }
-  ul { padding-left: 1.2em; margin: 0; } li { margin: .45em 0; }
-  .rotulo { color: var(--azul); font-weight: 600; text-transform: uppercase; letter-spacing: .08em;
-            font-size: .85rem; margin-bottom: 1.2em; }
-  .suave { color: var(--suave); }
-  .grade { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; }
-  .cartao { background: var(--cartao); border: 1px solid var(--linha); border-radius: 10px; padding: 18px 20px; }
-  .cartao b { display: block; font-size: clamp(1.6rem, 3vw, 2.3rem); line-height: 1.1; margin-bottom: 6px; }
-  .cartao span { color: var(--suave); font-size: .95rem; }
-  .duas { display: grid; grid-template-columns: 1fr 1.25fr; gap: 4vw; align-items: center; }
-  iframe { width: 100%; height: 58vh; min-height: 380px; border: 1px solid var(--linha);
-           border-radius: 10px; background: #fff; }
-  code, pre { font-family: Consolas, "SFMono-Regular", Menlo, monospace; }
-  pre { background: #1f1f1e; color: #f0efec; padding: 18px 20px; border-radius: 10px; overflow-x: auto;
-        font-size: clamp(.8rem, 1.2vw, 1rem); margin: 0; }
-  code { background: #ebeae6; padding: .1em .35em; border-radius: 4px; font-size: .9em; }
-  pre code { background: none; padding: 0; }
-  table { border-collapse: collapse; width: 100%; font-size: clamp(.9rem, 1.4vw, 1.15rem); }
-  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--linha); vertical-align: top; }
-  th { color: var(--suave); font-weight: 600; }
-  .vermelho { color: var(--vermelho); } .azul { color: var(--azul); }
-  nav { position: fixed; right: 18px; bottom: 14px; color: var(--suave); font-size: .85rem;
-        background: rgba(255,255,255,.85); padding: 4px 10px; border-radius: 999px; border: 1px solid var(--linha); }
-  a { color: var(--azul); }
-  @media (max-width: 820px) { .duas { grid-template-columns: 1fr; } section { padding: 5vh 6vw; } }
-  @media print { html { scroll-snap-type: none; } section { page-break-after: always; min-height: auto; } nav { display: none; } }
+/* =========================================================
+   Paleta "Porcelana" — off-white quente, tinta grafite,
+   jade como cor principal, latão e ameixa como apoio.
+   ========================================================= */
+:root {
+  --bg: #FBFAF7;
+  --surface: #F3F1EC;
+  --ink: #16181B;
+  --muted: #5F656D;
+  --line: #E4E0D8;
+  --jade: #1F6B57;
+  --jade-soft: rgba(31, 107, 87, 0.11);
+  --latao: #B8862B;
+  --ameixa: #6B4C9A;
+  --ardosia: #2E4A7A;
+  --vinho: #9B2C3A;
+  --cinza: #A8A398;
+  --ease: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-io: cubic-bezier(0.65, 0, 0.35, 1);
+  --fs-display: clamp(2.4rem, min(6vw, 9.5vh), 5.4rem);
+  --fs-title: clamp(1.45rem, min(3.1vw, 5.2vh), 2.8rem);
+  --fs-lede: clamp(1rem, min(1.45vw, 2.4vh), 1.26rem);
+  --sp-title: clamp(14px, 3vh, 30px);
+}
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; overflow: hidden; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  color: var(--ink);
+  background: radial-gradient(1200px 700px at 50% -20%, #F6F4EF, #E6E2DA 70%);
+}
+button { font: inherit; color: inherit; }
+code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 0.88em; letter-spacing: -0.01em; }
+.num { font-variant-numeric: tabular-nums; }
+
+/* ---------- Palco e cartões ---------- */
+.dk-viewport { position: fixed; inset: 0; overflow: hidden; touch-action: pan-y; cursor: grab; outline: none; }
+body.is-dragging .dk-viewport { cursor: grabbing; }
+body.is-dragging { user-select: none; -webkit-user-select: none; }
+.dk-track { position: absolute; top: 50%; left: 50%; will-change: transform; }
+.dk-card {
+  position: absolute; top: 0; display: grid; align-content: center; justify-items: start;
+  width: var(--cw); height: var(--ch); margin-top: calc(var(--ch) / -2);
+  padding: clamp(24px, 5vh, 56px) clamp(28px, 5vw, 64px);
+  background: var(--bg); border-radius: 28px; overflow: hidden;
+  user-select: none; -webkit-user-select: none; will-change: transform, opacity;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 40px 70px -30px rgba(22, 24, 27, 0.35),
+              0 10px 24px -10px rgba(22, 24, 27, 0.14);
+}
+.s { width: 100%; max-width: 1060px; position: relative; }
+
+/* ---------- Interface fixa ---------- */
+.dk-top { position: fixed; left: 28px; right: 28px; top: 22px; z-index: 5; display: flex; justify-content: space-between;
+          align-items: center; font-size: 0.82rem; color: var(--muted); pointer-events: none; }
+.dk-top > * { pointer-events: auto; }
+.dk-hint { transition: opacity 400ms ease-out; }
+.dk-hint.is-gone { opacity: 0; }
+.dk-count { font-variant-numeric: tabular-nums; letter-spacing: 0.04em; }
+.dk-ui { position: fixed; right: 28px; bottom: 22px; display: flex; align-items: center; gap: 12px; z-index: 5; }
+.dk-dots { display: flex; gap: 7px; padding: 0 4px; }
+.dk-dot { width: 7px; height: 7px; padding: 0; border: 0; border-radius: 999px; background: rgba(22, 24, 27, 0.2); cursor: pointer;
+          transition: width 260ms var(--ease), background-color 200ms ease-out; }
+.dk-dot:hover { background: rgba(22, 24, 27, 0.4); }
+.dk-dot[aria-current="true"] { width: 24px; background: var(--jade); }
+.glass {
+  background: rgba(255, 255, 255, 0.72);
+  -webkit-backdrop-filter: blur(16px) saturate(180%); backdrop-filter: blur(16px) saturate(180%);
+  box-shadow: 0 0 0 1px rgba(22, 24, 27, 0.06), 0 6px 16px -6px rgba(22, 24, 27, 0.25);
+}
+.dk-btn { width: 40px; height: 40px; border-radius: 999px; border: 0; cursor: pointer; display: grid; place-items: center; color: var(--ink); }
+.dk-btn:active { transform: scale(0.94); transition: transform 100ms ease-out; }
+.dk-btn:focus-visible, .dk-dot:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--jade); outline-offset: 3px; }
+.dk-left { position: fixed; left: 28px; bottom: 22px; z-index: 5; display: flex; gap: 10px; }
+
+/* Ajuda (atalhos) */
+.help { position: fixed; left: 28px; bottom: 76px; z-index: 6; width: 290px; padding: 18px 20px; border-radius: 18px; font-size: 0.88rem;
+        transform-origin: bottom left; opacity: 0; transform: scale(0.96) translateY(6px); pointer-events: none;
+        transition: opacity 180ms ease-out, transform 220ms var(--ease); }
+.help.is-open { opacity: 1; transform: none; pointer-events: auto; }
+.help h3 { margin: 0 0 10px; font-size: 0.95rem; letter-spacing: -0.01em; }
+.help dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 7px 14px; }
+.help dt { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.8rem; color: var(--jade); font-weight: 600; }
+.help dd { margin: 0; color: var(--muted); }
+
+/* ---------- Tipografia ---------- */
+.eyebrow { margin: 0 0 16px; font-size: 0.76rem; font-weight: 650; letter-spacing: 0.14em; text-transform: uppercase; color: var(--jade); }
+.display { margin: 0 0 22px; font-size: var(--fs-display); line-height: 1.02; letter-spacing: -0.04em; font-weight: 700; }
+.title { margin: 0 0 var(--sp-title); font-size: var(--fs-title); line-height: 1.08; letter-spacing: -0.027em; font-weight: 680; max-width: 24ch; }
+.lede { margin: 0 0 26px; font-size: var(--fs-lede); line-height: 1.5; color: var(--muted); max-width: 46ch; }
+.byline { margin: 0; font-size: 0.95rem; font-weight: 600; letter-spacing: 0.01em; color: var(--ink); }
+.note { margin: 14px 0 0; font-size: 0.86rem; color: var(--muted); }
+
+/* Revelação escalonada dos elementos de cada cartão */
+.r { opacity: 0; transform: translateY(14px);
+     transition: opacity 520ms var(--ease), transform 680ms var(--ease);
+     transition-delay: calc(var(--i, 0) * 70ms); }
+.is-in .r { opacity: 1; transform: none; }
+
+/* ---------- 1 · Abertura ---------- */
+.hero-spark { position: absolute; right: -3%; bottom: -3%; width: 44%; height: 40%; z-index: 0; pointer-events: none; overflow: visible; }
+.hero-spark path { fill: none; stroke: var(--jade); stroke-width: 2; stroke-linejoin: round; opacity: 0.18; }
+.card-hero .s { z-index: 1; }
+
+/* ---------- 2 · Quiz ---------- */
+.quiz { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 26px; }
+.opt { cursor: pointer; border-radius: 14px; padding: 16px 26px; font-size: clamp(1.05rem, 1.6vw, 1.28rem); font-weight: 600;
+       font-variant-numeric: tabular-nums; background: #FFFFFF; border: 1px solid #DCD8D0;
+       transition: background-color 160ms ease-out, border-color 160ms ease-out, color 160ms ease-out, opacity 200ms ease-out; }
+.opt:hover:not([disabled]) { border-color: #B9B4AA; }
+.opt:active:not([disabled]) { transform: scale(0.97); transition: transform 100ms ease-out; }
+.opt[disabled] { cursor: default; }
+.opt.is-correct { background: var(--jade); border-color: var(--jade); color: #FFFFFF; }
+.opt.is-wrong { border-color: var(--vinho); color: var(--vinho); animation: shake 320ms ease-out; }
+.opt.is-dim { opacity: 0.45; }
+@keyframes shake { 0%,100% { transform: none } 20% { transform: translateX(-6px) } 40% { transform: translateX(5px) } 60% { transform: translateX(-3px) } 80% { transform: translateX(2px) } }
+.quiz-result { opacity: 0; transform: translateY(10px); transition: opacity 400ms var(--ease), transform 500ms var(--ease); }
+.quiz-result.show { opacity: 1; transform: none; }
+.bill-row { display: flex; align-items: center; gap: 24px; margin-bottom: 12px; }
+.bill { position: relative; width: min(440px, 58%); height: 52px; border-radius: 14px; overflow: hidden; background: #EEEBE5; }
+.bill-fill { position: absolute; inset: 0; transform-origin: left center; transition: transform 1700ms var(--ease-io);
+             background: linear-gradient(90deg, #1F6B57, #3E9A80); }
+.bill-value { font-size: clamp(1.7rem, 3vw, 2.5rem); font-weight: 700; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+.quiz-msg { margin: 0; font-size: 1.02rem; line-height: 1.5; color: var(--muted); max-width: 54ch; }
+
+/* ---------- 3 · Problema ---------- */
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.step { padding: 22px 22px 24px; border-radius: 18px; background: var(--surface); }
+.step b { display: block; margin-bottom: 10px; font-size: 0.8rem; letter-spacing: 0.08em; color: var(--jade); }
+.step p { margin: 0; font-size: clamp(0.98rem, min(1.3vw, 2.2vh), 1.12rem); line-height: 1.5; }
+
+/* ---------- 4 · Perguntas (cartas que viram) ---------- */
+.flips { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; perspective: 1400px; }
+.flip { position: relative; height: clamp(104px, 17vh, 150px); padding: 0; border: 0; background: none; cursor: pointer; text-align: left; }
+.flip-inner { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform 640ms var(--ease); }
+.flip[aria-pressed="true"] .flip-inner { transform: rotateY(180deg); }
+.flip:active .flip-inner { scale: 0.98; }
+.face { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 18px 20px; border-radius: 16px;
+        -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+.face-front { background: #FFFFFF; border: 1px solid var(--line); }
+.face-back { background: var(--jade); color: #FFFFFF; transform: rotateY(180deg); }
+.face small { font-size: 0.74rem; font-weight: 650; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.face-back small { color: rgba(255, 255, 255, 0.72); }
+.face span { font-size: clamp(1rem, min(1.4vw, 2.3vh), 1.2rem); font-weight: 620; line-height: 1.3; letter-spacing: -0.01em; }
+.face-back span { font-weight: 560; }
+.flip-tip { margin: 16px 0 0; font-size: 0.86rem; color: var(--muted); }
+
+/* ---------- 5 · Dados (requisição ao vivo) ---------- */
+.two { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(20px, 3vw, 40px); align-items: center; }
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.stat { padding: 18px 20px; border-radius: 16px; background: var(--surface); }
+.stat-v { display: block; font-size: clamp(1.8rem, min(3vw, 5vh), 2.7rem); font-weight: 680; letter-spacing: -0.035em; line-height: 1; font-variant-numeric: tabular-nums; }
+.stat-l { display: block; margin-top: 8px; font-size: 0.88rem; color: var(--muted); }
+.term { border-radius: 18px; background: #16181B; color: #ECE9E3; padding: 22px 24px; font: 0.86rem/1.65 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+        min-height: clamp(200px, 30vh, 260px); box-shadow: 0 24px 40px -24px rgba(22, 24, 27, 0.5); }
+.term-bar { display: flex; gap: 7px; margin-bottom: 14px; }
+.term-bar i { width: 10px; height: 10px; border-radius: 999px; background: #3A3D42; }
+.term .cmd { color: #8FD3BF; }
+.term .key { color: #E4C88E; }
+.term .ok { color: #8FD3BF; }
+.term .dim { color: #8A8F96; }
+.caret { display: inline-block; width: 8px; height: 1.05em; vertical-align: -0.15em; background: #8FD3BF; animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ---------- 6 · Arquitetura ---------- */
+.pipe { display: flex; align-items: stretch; gap: 0; margin-bottom: 22px; }
+.node { flex: 1 1 0; min-width: 0; padding: 14px 12px; border-radius: 14px; border: 1px solid var(--line); background: #FFFFFF; cursor: pointer;
+        text-align: left; transition: background-color 180ms ease-out, border-color 180ms ease-out, color 180ms ease-out, box-shadow 220ms var(--ease); }
+.node small { display: block; font-size: 0.7rem; font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.node b { display: block; font: 600 clamp(0.74rem, 1vw, 0.86rem)/1.3 ui-monospace, "SF Mono", Menlo, Consolas, monospace; overflow-wrap: anywhere; }
+.node:hover { border-color: #C9C4BA; }
+.node[aria-pressed="true"] { background: var(--jade); border-color: var(--jade); color: #FFFFFF; box-shadow: 0 14px 26px -16px rgba(31, 107, 87, 0.7); }
+.node[aria-pressed="true"] small { color: rgba(255, 255, 255, 0.75); }
+.wire { position: relative; flex: 0 0 clamp(14px, 2.2vw, 30px); align-self: center; height: 2px; background: var(--line); overflow: hidden; }
+.wire i { position: absolute; inset: 0; background: var(--jade); transform: scaleX(0); transform-origin: left; transition: transform 380ms var(--ease); }
+.is-in .wire i { transform: scaleX(1); transition-delay: calc(400ms + var(--w) * 160ms); }
+.detail { border-radius: 18px; padding: 20px 24px; background: var(--surface); min-height: 112px; }
+.detail h3 { margin: 0 0 8px; font-size: clamp(1.05rem, 1.5vw, 1.25rem); letter-spacing: -0.015em; }
+.detail p { margin: 0; color: var(--muted); line-height: 1.5; max-width: 70ch; }
+
+/* ---------- 7 · Polimorfismo ---------- */
+.poo { display: grid; grid-template-columns: 1.05fr 1fr; gap: 28px; align-items: stretch; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; align-content: flex-start; }
+.chip { cursor: pointer; border-radius: 999px; padding: 9px 14px; font: 500 0.84rem/1 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+        background: #FFFFFF; border: 1px solid #DCD8D0; color: var(--muted);
+        transition: background-color 160ms ease-out, color 160ms ease-out, border-color 160ms ease-out; }
+.chip:hover { color: var(--ink); }
+.chip:active { transform: scale(0.97); }
+.chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+.console { border-radius: 18px; padding: 26px; display: flex; flex-direction: column; gap: 20px; min-height: 220px; background: #16181B; color: #ECE9E3; }
+.call { font: 500 0.95rem/1.5 ui-monospace, "SF Mono", Menlo, Consolas, monospace; color: #8FD3BF; }
+.out { display: flex; flex-direction: column; gap: 6px; }
+.out-label { font-size: 0.92rem; opacity: 0.7; }
+.out-value { font-size: clamp(2rem, 3.4vw, 3rem); font-weight: 700; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; color: #FBFAF7; }
+.out-rule { font: 0.85rem/1.4 ui-monospace, "SF Mono", Menlo, Consolas, monospace; opacity: 0.6; }
+
+/* ---------- 8 · SOLID ---------- */
+.seg { position: relative; display: inline-flex; gap: 4px; padding: 5px; border-radius: 999px; background: var(--surface); margin-bottom: 22px; }
+.seg-pill { position: absolute; top: 5px; left: 0; height: calc(100% - 10px); border-radius: 999px; background: var(--ink); will-change: transform;
+            box-shadow: 0 8px 18px -10px rgba(22, 24, 27, 0.6); }
+.seg.is-ready .seg-pill { transition: transform 280ms var(--ease), width 280ms var(--ease); }
+.seg button { position: relative; width: clamp(48px, 6vw, 72px); height: clamp(48px, 6vw, 72px); border: 0; border-radius: 999px; background: none; cursor: pointer;
+              font-size: clamp(1.3rem, 2.2vw, 1.9rem); font-weight: 700; color: var(--muted); transition: color 180ms ease-out; }
+.seg button[aria-pressed="true"] { color: var(--bg); }
+.solid-panel h3 { margin: 0 0 10px; font-size: clamp(1.3rem, 2.2vw, 1.9rem); letter-spacing: -0.02em; }
+.solid-panel p { margin: 0; font-size: var(--fs-lede); line-height: 1.5; color: var(--muted); max-width: 54ch; }
+.solid-panel code { color: var(--jade); }
+
+/* ---------- 9 · Indicadores ---------- */
+.kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.kpi { display: flex; flex-direction: column; gap: 7px; padding: clamp(14px, 2.4vh, 22px) 20px; border-radius: 18px; background: var(--surface); }
+.kpi-v { font-size: clamp(1.7rem, min(2.9vw, 5vh), 2.7rem); font-weight: 680; letter-spacing: -0.035em; line-height: 1; font-variant-numeric: tabular-nums; }
+.kpi-l { font-size: 0.94rem; font-weight: 620; }
+.kpi-n { font-size: 0.82rem; color: var(--muted); line-height: 1.4; }
+.kpi-n.warn { color: var(--vinho); font-weight: 620; }
+
+/* ---------- 10 · Gráfico ---------- */
+.chart { position: relative; width: 100%; }
+.chart svg { display: block; width: 100%; height: auto; max-height: 36vh; overflow: visible; touch-action: pan-y; cursor: crosshair; }
+.chart .grid { stroke: rgba(22, 24, 27, 0.08); stroke-width: 1; }
+.chart .axis { fill: var(--muted); font-size: 13px; font-family: inherit; }
+.chart .band { fill: rgba(31, 107, 87, 0.12); opacity: 0; transition: opacity 700ms ease-out 200ms; }
+.chart .ln-meta { fill: none; stroke: rgba(22, 24, 27, 0.45); stroke-width: 1.4; stroke-dasharray: 5 6; opacity: 0; transition: opacity 600ms ease-out 300ms; }
+.chart .ln-ipca { fill: none; stroke: var(--jade); stroke-width: 2.6; stroke-linejoin: round; stroke-linecap: round; }
+.chart .end { opacity: 0; transition: opacity 400ms ease-out; }
+.chart.drawn .band, .chart.drawn .ln-meta { opacity: 1; }
+.chart.done .end { opacity: 1; }
+.chart .end-dot { fill: var(--jade); stroke: var(--bg); stroke-width: 3; }
+.chart .end-txt { fill: var(--ink); font-size: 14px; font-weight: 600; }
+.chart .hv-line { stroke: var(--ink); stroke-opacity: 0.35; stroke-width: 1; opacity: 0; }
+.chart .hv-dot { fill: var(--jade); stroke: var(--bg); stroke-width: 3; opacity: 0; }
+.chart.hover .hv-line, .chart.hover .hv-dot { opacity: 1; }
+.tip { position: absolute; z-index: 2; pointer-events: none; padding: 9px 12px; border-radius: 10px; font-size: 13px; line-height: 1.35; white-space: nowrap;
+       transform: translate(-50%, calc(-100% - 14px)); opacity: 0; transition: opacity 120ms ease-out; font-variant-numeric: tabular-nums; color: var(--ink); }
+.chart.hover .tip { opacity: 1; }
+.tip b { font-weight: 650; }
+.legend { margin: 14px 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; font-size: 0.86rem; color: var(--muted); }
+.lg { display: inline-block; vertical-align: middle; margin-right: 8px; }
+.lg-line { width: 22px; height: 3px; border-radius: 2px; background: var(--jade); }
+.lg-band { width: 18px; height: 12px; border-radius: 3px; background: rgba(31, 107, 87, 0.18); }
+.lg-dash { width: 22px; border-top: 2px dashed rgba(22, 24, 27, 0.45); }
+.lg-dot { width: 12px; height: 12px; border-radius: 4px; }
+
+/* ---------- 11 · Grupos ---------- */
+.bars { position: relative; display: grid; gap: clamp(5px, 1.1vh, 9px); }
+.bar-row { display: grid; grid-template-columns: minmax(150px, 0.42fr) 1fr; align-items: center; gap: 16px; }
+.bar-name { font-size: clamp(0.84rem, 1.1vw, 0.96rem); text-align: right; color: var(--ink); }
+.bar-track { position: relative; height: clamp(18px, 3vh, 26px); }
+.bar-fill { position: absolute; inset: 0; border-radius: 7px; transform-origin: left center; transform: scaleX(0);
+            transition: transform 1100ms var(--ease); transition-delay: calc(200ms + var(--i) * 70ms); }
+.bar-fill.hi { background: var(--jade); }
+.bar-fill.lo { background: rgba(31, 107, 87, 0.38); }
+.bar-val { position: absolute; top: 50%; transform: translate(8px, -50%); font-size: 0.84rem; font-weight: 600; color: var(--ink);
+           font-variant-numeric: tabular-nums; opacity: 0; transition: opacity 300ms ease-out; transition-delay: calc(900ms + var(--i) * 70ms); }
+.is-in .bar-val { opacity: 1; }
+.bar-ref { position: absolute; top: -8px; bottom: -8px; width: 0; border-left: 1.5px dashed var(--ink); opacity: 0; transition: opacity 400ms ease-out 1300ms; }
+.is-in .bar-ref { opacity: 0.6; }
+.bar-ref span { position: absolute; bottom: 100%; left: 6px; white-space: nowrap; font-size: 0.78rem; font-weight: 600; transform: translateY(-2px); }
+
+/* ---------- 12 · Máquina do tempo dos juros ---------- */
+.tm { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: clamp(20px, 3.5vw, 48px); align-items: center; }
+.tm-year { font-size: clamp(3.4rem, min(8vw, 13vh), 6.8rem); font-weight: 750; letter-spacing: -0.05em; line-height: 0.9; font-variant-numeric: tabular-nums; }
+.tm-month { display: block; margin-top: 10px; font-size: 0.86rem; color: var(--muted); }
+.tm-controls { display: flex; align-items: center; gap: 14px; margin-top: 22px; }
+.tm input[type="range"] { flex: 1; accent-color: var(--jade); height: 28px; cursor: pointer; }
+.play { height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--line); background: #FFFFFF; cursor: pointer; font-weight: 600;
+        display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+.play:active { transform: scale(0.97); }
+.tm-bars { display: grid; gap: clamp(12px, 2.4vh, 20px); }
+.tm-row { display: grid; grid-template-columns: 110px 1fr 82px; align-items: center; gap: 14px; }
+.tm-row span:first-child { font-size: 0.92rem; font-weight: 600; }
+.tm-track { position: relative; height: clamp(22px, 3.6vh, 30px); border-radius: 8px; background: var(--surface); overflow: hidden; }
+.tm-fill { position: absolute; top: 0; bottom: 0; left: 0; width: 100%; transform-origin: left center; transform: scaleX(0); border-radius: 8px; will-change: transform; }
+.tm-zero { position: absolute; top: 0; bottom: 0; width: 1.5px; background: rgba(22, 24, 27, 0.5); }
+.tm-val { font-size: 1.02rem; font-weight: 680; text-align: right; font-variant-numeric: tabular-nums; }
+.tm-msg { margin: 18px 0 0; min-height: 3em; font-size: 0.98rem; line-height: 1.5; color: var(--muted); }
+.tm-msg b { color: var(--ink); }
+
+/* ---------- 13 · Dashboard ---------- */
+.comp { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.comp li { display: flex; align-items: center; gap: 12px; font-size: clamp(0.95rem, 1.3vw, 1.08rem); }
+.comp li i { flex: none; width: 24px; height: 24px; border-radius: 999px; background: var(--jade-soft); display: grid; place-items: center; }
+.comp li i svg { width: 13px; height: 13px; stroke: var(--jade); stroke-width: 2.4; fill: none; stroke-linecap: round; stroke-linejoin: round;
+                 stroke-dasharray: 20; stroke-dashoffset: 20; transition: stroke-dashoffset 420ms var(--ease); transition-delay: calc(300ms + var(--i) * 110ms); }
+.is-in .comp li i svg { stroke-dashoffset: 0; }
+.shot { position: relative; margin: 0; padding: 0; border: 0; background: none; cursor: zoom-in; border-radius: 14px; overflow: hidden;
+        box-shadow: 0 0 0 1px rgba(22, 24, 27, 0.08), 0 24px 40px -22px rgba(22, 24, 27, 0.45); }
+.shot img { display: block; width: 100%; max-height: 42vh; object-fit: cover; object-position: top left; }
+.shot:active { transform: scale(0.99); }
+.zoom-backdrop { position: fixed; inset: 0; z-index: 20; background: rgba(22, 24, 27, 0.55); opacity: 0;
+                 -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); cursor: zoom-out; }
+.zoom-img { position: fixed; z-index: 21; border-radius: 14px; cursor: zoom-out; transform-origin: top left; will-change: transform;
+            box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.6); }
+
+/* ---------- 14 · Testes ---------- */
+.ring-wrap { display: flex; align-items: center; gap: clamp(20px, 3vw, 40px); }
+.ring { width: clamp(150px, 26vh, 220px); height: auto; flex: none; }
+.ring circle { fill: none; stroke-width: 12; }
+.ring .bg { stroke: var(--surface); }
+.ring .fg { stroke: var(--jade); stroke-linecap: round; transform: rotate(-90deg); transform-origin: 50% 50%;
+            stroke-dasharray: 289.03; stroke-dashoffset: 289.03; transition: stroke-dashoffset 1500ms var(--ease-io) 300ms; }
+.ring text { font: 700 26px/1 -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", system-ui, sans-serif; fill: var(--ink); letter-spacing: -0.03em; }
+.ring .sub { font-size: 9px; font-weight: 600; fill: var(--muted); letter-spacing: 0.06em; }
+.checks { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.checks li { padding-left: 26px; position: relative; font-size: clamp(0.95rem, 1.3vw, 1.08rem); line-height: 1.45; }
+.checks li::before { content: ""; position: absolute; left: 0; top: 0.42em; width: 10px; height: 10px; border-radius: 3px; background: var(--jade); }
+.checks b { font-variant-numeric: tabular-nums; }
+
+/* ---------- 15 · Conclusões ---------- */
+.concl { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.concl div { padding: 20px; border-radius: 18px; background: var(--surface); }
+.concl b { display: block; margin-bottom: 8px; font-size: clamp(1.3rem, min(2.2vw, 3.8vh), 1.9rem); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; color: var(--jade); }
+.concl span { font-size: 0.92rem; line-height: 1.45; }
+.limits { margin: 20px 0 0; font-size: 0.88rem; line-height: 1.55; color: var(--muted); max-width: 90ch; }
+
+/* ---------- 16 · Encerramento ---------- */
+.links { display: flex; flex-wrap: wrap; gap: 10px; }
+.link { display: inline-flex; align-items: center; gap: 8px; padding: 11px 18px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.95rem;
+        color: var(--ink); background: #FFFFFF; border: 1px solid var(--line); transition: border-color 160ms ease-out; }
+.link:hover { border-color: #B9B4AA; }
+.link.primary { background: var(--jade); border-color: var(--jade); color: #FFFFFF; }
+.confetti { position: fixed; inset: 0; z-index: 30; pointer-events: none; }
+
+/* ---------- Responsivo ---------- */
+@media (max-width: 900px) {
+  .kpis, .concl { grid-template-columns: repeat(2, 1fr); }
+  .flips, .steps { grid-template-columns: repeat(2, 1fr); }
+  .poo, .two, .tm { grid-template-columns: 1fr; }
+  .pipe { flex-wrap: wrap; gap: 8px; } .wire { display: none; }
+  .dk-hint { display: none; }
+}
+
+/* ---------- Movimento e transparência reduzidos ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .r { transform: none !important; transition: opacity 200ms ease-out !important; transition-delay: 0ms !important; }
+  .bill-fill, .bar-fill, .ring .fg, .wire i, .comp li i svg { transition-duration: 1ms !important; transition-delay: 0ms !important; }
+  .flip-inner { transition: none; }
+  .flip[aria-pressed="true"] .face-front { opacity: 0; }
+  .flip[aria-pressed="true"] .flip-inner { transform: none; }
+  .flip[aria-pressed="true"] .face-back { transform: none; }
+  .face-back { transform: none; opacity: 0; transition: opacity 200ms ease-out; }
+  .flip[aria-pressed="true"] .face-back { opacity: 1; }
+  .opt.is-wrong { animation: none; }
+  .caret { animation: none; }
+  .quiz-result { transform: none; transition: opacity 200ms ease-out; }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .glass, .tip { background: #FFFFFF; -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
 </style>
 </head>
 <body>
 
-<section>
-  <div class="rotulo">Programação Orientada a Objetos · Projeto final</div>
-  <h1>Inflação, juros e câmbio no Brasil</h1>
-  <p class="suave">Sistema de análise de dados e dashboard interativo com dados abertos do Banco Central do Brasil</p>
-  <p>Augusto Lamounier · Ciência de Dados e Inteligência Artificial</p>
-  <p class="suave">Use ↓ / ↑ ou a barra de espaço para navegar.</p>
-</section>
+<div class="dk-top">
+  <span class="dk-hint">Arraste os cartões · ← → para navegar · <kbd>?</kbd> atalhos</span>
+  <span class="dk-count num" aria-live="polite"></span>
+</div>
 
-<section>
-  <div class="rotulo">1 · Tema e problema</div>
-  <h2>A inflação brasileira está sob controle?</h2>
-  <ul>
-    <li>Desde 1999 o Brasil tem uma <b>meta de inflação</b>, com intervalo de tolerância.</li>
-    <li>O Banco Central usa a <b>taxa Selic</b> para manter o IPCA dentro desse intervalo.</li>
-    <li>Inflação, juros e câmbio entram em decisões reais: reajustar contratos, tomar crédito, investir.</li>
-    <li><b>Problema:</b> a meta tem sido cumprida? O que escapou, como os juros reagiram e quanto isso custou em poder de compra?</li>
-  </ul>
-</section>
+<main class="dk-viewport" tabindex="-1" aria-roledescription="apresentação">
+  <div class="dk-track">
 
-<section>
-  <div class="rotulo">1 · Perguntas da análise</div>
-  <h2>Seis perguntas</h2>
-  <table>
-    <tr><td>1</td><td>A inflação tem ficado dentro da meta?</td></tr>
-    <tr><td>2</td><td>Quais grupos de consumo mais encareceram?</td></tr>
-    <tr><td>3</td><td>Como a Selic reagiu à inflação? O juro real foi positivo?</td></tr>
-    <tr><td>4</td><td>A alta do dólar anda junto com a inflação?</td></tr>
-    <tr><td>5</td><td>Quanto poder de compra o real perdeu desde 2000?</td></tr>
-    <tr><td>6</td><td>Existe padrão sazonal na inflação?</td></tr>
-  </table>
-</section>
+    <!-- 1 · Abertura -->
+    <section class="dk-card card-hero" aria-label="Abertura" data-enter="hero">
+      <svg class="hero-spark" viewBox="0 0 600 260" preserveAspectRatio="none" aria-hidden="true"><path></path></svg>
+      <div class="s">
+        <p class="eyebrow r">Dados abertos do Banco Central do Brasil</p>
+        <h1 class="display r">Inflação, juros<br>e câmbio no Brasil</h1>
+        <p class="lede r">Um sistema em Python que lê os dados do Banco Central, analisa com Pandas e responde: a inflação está sob controle?</p>
+        <p class="byline r">Projeto Final - POO</p>
+      </div>
+    </section>
 
-<section>
-  <div class="rotulo">2 · Dados</div>
-  <h2>Fonte: API pública do Banco Central (SGS)</h2>
-  <div class="grade">
-    <div class="cartao"><b>16</b><span>séries temporais</span></div>
-    <div class="cartao"><b>4.662</b><span>registros brutos</span></div>
-    <div class="cartao"><b>323</b><span>meses na base (01/2000 a 11/2026)</span></div>
-    <div class="cartao"><b>0</b><span>duplicidades e valores inválidos</span></div>
+    <!-- 2 · Quiz -->
+    <section class="dk-card" aria-label="Quiz" data-init="quiz">
+      <div class="s">
+        <p class="eyebrow r">Antes de começar</p>
+        <h2 class="title r">Você guardou R$ 100 em janeiro de 2000. Quanto eles compram hoje?</h2>
+        <div class="quiz r" role="group" aria-label="Alternativas">
+          <button class="opt" data-ok="0">R$ 72,10</button>
+          <button class="opt" data-ok="0">R$ 45,30</button>
+          <button class="opt" data-ok="1">R$ 20,64</button>
+        </div>
+        <div class="quiz-result" hidden>
+          <div class="bill-row"><div class="bill"><span class="bill-fill"></span></div><span class="bill-value">R$ <span class="q-count">100,00</span></span></div>
+          <p class="quiz-msg" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 · Problema -->
+    <section class="dk-card" aria-label="O problema">
+      <div class="s">
+        <p class="eyebrow r">O problema</p>
+        <h2 class="title r">A inflação brasileira está sob controle?</h2>
+        <div class="steps">
+          <div class="step r"><b>01 · A REGRA</b><p>Desde 1999, o Conselho Monetário Nacional fixa uma meta para o IPCA, com um intervalo de tolerância.</p></div>
+          <div class="step r"><b>02 · A FERRAMENTA</b><p>O Banco Central sobe ou desce a taxa Selic para manter a inflação dentro desse intervalo.</p></div>
+          <div class="step r"><b>03 · A INVESTIGAÇÃO</b><p>O projeto verifica, com dados, como esse sistema se comportou de 2000 a 2026.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 · Perguntas -->
+    <section class="dk-card" aria-label="Perguntas" data-init="flips">
+      <div class="s">
+        <p class="eyebrow r">Seis perguntas</p>
+        <h2 class="title r">Toque em cada pergunta para ver a resposta</h2>
+        <div class="flips">
+          <button class="flip r" aria-pressed="false"><span class="flip-inner"><span class="face face-front"><small>Meta</small><span>A inflação fica dentro da meta?</span></span><span class="face face-back"><small>Resposta</small><span>Em 56% dos meses. Acima do teto em 38%.</span></span></span></button>
+          <button class="flip r" aria-pressed="false"><span class="flip-inner"><span class="face face-front"><small>Consumo</small><span>Qual grupo mais encareceu?</span></span><span class="face face-back"><small>Resposta</small><span>Alimentação e bebidas: +539,8% desde 2000.</span></span></span></button>
+          <button class="flip r" aria-pressed="false"><span class="flip-inner"><span class="face face-front"><small>Juros</small><span>O juro real foi positivo?</span></span><span class="face face-back"><small>Resposta</small><span>Em 299 de 321 meses. Média de 5,81% ao ano.</span></span></span></button>
+          <button class="flip r" aria-pressed="false"><span class="flip-inner"><span class="face face-front"><small>Câmbio</small><span>O dólar anda junto com a inflação?</span></span><span class="face face-back"><small>Resposta</small><span>Pouco: a correlação é de apenas 0,21.</span></span></span></button>
+          <button class="flip r" aria-pressed="false"><span class="flip-inner"><span class="face face-front"><small>Bolso</small><span>Quanto poder de compra se perdeu?</span></span><span class="face face-back"><small>Resposta</small><span>Cerca de 79%: R$ 100 viraram R$ 20,64.</span></span></span></button>
+          <button class="flip r" aria-pressed="false"><span class="flip-inner"><span class="face face-front"><small>Calendário</small><span>Existe padrão sazonal?</span></span><span class="face face-back"><small>Resposta</small><span>Sim: dezembro é o mês mais caro; agosto, o mais barato.</span></span></span></button>
+        </div>
+        <p class="flip-tip r"><span class="flip-count num">0</span> de 6 respostas reveladas</p>
+      </div>
+    </section>
+
+    <!-- 5 · Dados -->
+    <section class="dk-card" aria-label="Os dados" data-enter="terminal">
+      <div class="s">
+        <p class="eyebrow r">Os dados</p>
+        <h2 class="title r">Direto da API pública do Banco Central</h2>
+        <div class="two">
+          <div class="stats r">
+            <div class="stat"><span class="stat-v"><span data-to="16" data-dec="0">0</span></span><span class="stat-l">séries temporais</span></div>
+            <div class="stat"><span class="stat-v"><span data-to="4662" data-dec="0">0</span></span><span class="stat-l">registros brutos</span></div>
+            <div class="stat"><span class="stat-v"><span data-to="323" data-dec="0">0</span></span><span class="stat-l">meses na base tratada</span></div>
+            <div class="stat"><span class="stat-v"><span data-to="0" data-dec="0">0</span></span><span class="stat-l">duplicidades e valores inválidos</span></div>
+          </div>
+          <div class="term r" aria-label="Exemplo de consulta à API do Banco Central">
+            <div class="term-bar"><i></i><i></i><i></i></div>
+            <div class="term-out"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 · Arquitetura -->
+    <section class="dk-card" aria-label="Arquitetura" data-init="arch">
+      <div class="s">
+        <p class="eyebrow r">Arquitetura orientada a objetos</p>
+        <h2 class="title r">Cada classe, uma responsabilidade</h2>
+        <div class="pipe r" role="group" aria-label="Fluxo dos dados entre as classes">
+          <button class="node" aria-pressed="true"><small>Origem</small><b>FonteDados</b></button><span class="wire" style="--w:0"><i></i></span>
+          <button class="node" aria-pressed="false"><small>Limpeza</small><b>TratadorDados</b></button><span class="wire" style="--w:1"><i></i></span>
+          <button class="node" aria-pressed="false"><small>Análise</small><b>AnalisadorDados</b></button><span class="wire" style="--w:2"><i></i></span>
+          <button class="node" aria-pressed="false"><small>Cálculo e desenho</small><b>Indicador · Visualizador</b></button><span class="wire" style="--w:3"><i></i></span>
+          <button class="node" aria-pressed="false"><small>Tela</small><b>Dashboard</b></button>
+        </div>
+        <div class="detail r" aria-live="polite"><h3></h3><p></p></div>
+      </div>
+    </section>
+
+    <!-- 7 · Polimorfismo -->
+    <section class="dk-card" aria-label="Polimorfismo" data-init="poo">
+      <div class="s">
+        <p class="eyebrow r">Polimorfismo na prática</p>
+        <h2 class="title r">Uma chamada. Sete comportamentos.</h2>
+        <div class="poo r">
+          <div class="chips" role="group" aria-label="Subclasses de Indicador"></div>
+          <div class="console"><code class="call">for indicador in painel:<br>&nbsp;&nbsp;&nbsp;&nbsp;indicador.calcular(analisador)</code>
+            <div class="out"><span class="out-label"></span><span class="out-value"></span><span class="out-rule"></span></div></div>
+        </div>
+        <p class="note r">Toque em uma subclasse: o painel chama o mesmo método e cada objeto responde do seu jeito.</p>
+      </div>
+    </section>
+
+    <!-- 8 · SOLID -->
+    <section class="dk-card" aria-label="Princípios SOLID" data-init="solid">
+      <div class="s">
+        <p class="eyebrow r">Princípios SOLID</p>
+        <h2 class="title r">Cinco letras, aplicadas no código</h2>
+        <div class="seg r" role="group" aria-label="Princípios">
+          <span class="seg-pill" aria-hidden="true"></span>
+          <button aria-pressed="true">S</button><button aria-pressed="false">O</button><button aria-pressed="false">L</button><button aria-pressed="false">I</button><button aria-pressed="false">D</button>
+        </div>
+        <div class="solid-panel r" aria-live="polite"><h3></h3><p></p></div>
+      </div>
+    </section>
+
+    <!-- 9 · Indicadores -->
+    <section class="dk-card" aria-label="Indicadores">
+      <div class="s">
+        <p class="eyebrow r">Indicadores · janeiro de 2000 a setembro de 2026</p>
+        <h2 class="title r">O que os números dizem</h2>
+        <div class="kpis">
+          <div class="kpi r"><span class="kpi-v"><span data-to="4.58" data-dec="2">0,00</span>%</span><span class="kpi-l">IPCA em 12 meses</span><span class="kpi-n warn">acima do teto de 4,50%</span></div>
+          <div class="kpi r"><span class="kpi-v"><span data-to="13.65" data-dec="2">0,00</span>%</span><span class="kpi-l">Taxa Selic</span><span class="kpi-n">juros básicos, ao ano</span></div>
+          <div class="kpi r"><span class="kpi-v"><span data-to="8.80" data-dec="2">0,00</span>%</span><span class="kpi-l">Juro real</span><span class="kpi-n">Selic descontada a inflação</span></div>
+          <div class="kpi r"><span class="kpi-v"><span data-to="384.5" data-dec="1">0,0</span>%</span><span class="kpi-l">Inflação acumulada</span><span class="kpi-n">6,08% ao ano, em média</span></div>
+          <div class="kpi r"><span class="kpi-v">R$ <span data-to="20.64" data-dec="2" data-from="100">100,00</span></span><span class="kpi-l">Poder de compra</span><span class="kpi-n">de R$ 100 guardados em 2000</span></div>
+          <div class="kpi r"><span class="kpi-v"><span data-to="38.3" data-dec="1">0,0</span>%</span><span class="kpi-l">Meses acima do teto</span><span class="kpi-n">123 de 321 meses</span></div>
+          <div class="kpi r"><span class="kpi-v">+<span data-to="184.4" data-dec="1">0,0</span>%</span><span class="kpi-l">Dólar no período</span><span class="kpi-n">de R$ 1,80 para R$ 5,13</span></div>
+          <div class="kpi r"><span class="kpi-v"><span data-to="539.8" data-dec="1">0,0</span>%</span><span class="kpi-l">Grupo que mais subiu</span><span class="kpi-n">Alimentação e bebidas</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10 · Gráfico -->
+    <section class="dk-card" aria-label="Inflação e meta" data-init="chart">
+      <div class="s">
+        <p class="eyebrow r">Inflação em 12 meses × meta</p>
+        <h2 class="title r">Quando escapa, é quase sempre para cima</h2>
+        <div class="chart r"></div>
+        <p class="legend r"><span><i class="lg lg-line"></i>IPCA em 12 meses</span><span><i class="lg lg-band"></i>Intervalo da meta</span><span><i class="lg lg-dash"></i>Centro da meta</span><span>Passe o cursor sobre o gráfico</span></p>
+      </div>
+    </section>
+
+    <!-- 11 · Grupos -->
+    <section class="dk-card" aria-label="Grupos de consumo" data-init="grupos">
+      <div class="s">
+        <p class="eyebrow r">Inflação acumulada por grupo · 2000 a 2026</p>
+        <h2 class="title r">Alimentação subiu 3,5 vezes mais que Comunicação</h2>
+        <div class="bars r"></div>
+        <p class="legend r"><span><i class="lg lg-dot" style="background: var(--jade)"></i>Acima do IPCA geral</span><span><i class="lg lg-dot" style="background: rgba(31, 107, 87, 0.38)"></i>Abaixo do IPCA geral</span></p>
+      </div>
+    </section>
+
+    <!-- 12 · Máquina do tempo -->
+    <section class="dk-card" aria-label="Máquina do tempo dos juros" data-init="juros">
+      <div class="s">
+        <p class="eyebrow r">Máquina do tempo dos juros</p>
+        <h2 class="title r">Arraste o ano e veja quanto o juro rendeu acima da inflação</h2>
+        <div class="tm r">
+          <div>
+            <div class="tm-year num">2026</div>
+            <span class="tm-month">dados de setembro</span>
+            <div class="tm-controls">
+              <input type="range" min="2000" max="2026" step="1" value="2026" aria-label="Ano">
+              <button class="play" aria-label="Reproduzir de 2000 a 2026"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1.2v9.6L10.4 6z" fill="currentColor"/></svg><span>Reproduzir</span></button>
+            </div>
+          </div>
+          <div class="tm-bars">
+            <div class="tm-row"><span>Selic</span><div class="tm-track"><i class="tm-fill" style="background: var(--jade)"></i><i class="tm-zero"></i></div><span class="tm-val num">0,0%</span></div>
+            <div class="tm-row"><span>IPCA 12m</span><div class="tm-track"><i class="tm-fill" style="background: var(--latao)"></i><i class="tm-zero"></i></div><span class="tm-val num">0,0%</span></div>
+            <div class="tm-row"><span>Juro real</span><div class="tm-track"><i class="tm-fill" style="background: var(--ameixa)"></i><i class="tm-zero"></i></div><span class="tm-val num">0,0%</span></div>
+          </div>
+        </div>
+        <p class="tm-msg r" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <!-- 13 · Dashboard -->
+    <section class="dk-card" aria-label="Dashboard" data-init="dash">
+      <div class="s">
+        <p class="eyebrow r">O dashboard</p>
+        <h2 class="title r">Tudo responde aos filtros</h2>
+        <div class="two">
+          <ul class="comp r">
+            <li style="--i:0"><i><svg viewBox="0 0 14 14"><path d="M2.5 7.5 5.5 10.5 11.5 3.5"/></svg></i>Cabeçalho com fonte e data da atualização</li>
+            <li style="--i:1"><i><svg viewBox="0 0 14 14"><path d="M2.5 7.5 5.5 10.5 11.5 3.5"/></svg></i>Dez indicadores recalculados a cada filtro</li>
+            <li style="--i:2"><i><svg viewBox="0 0 14 14"><path d="M2.5 7.5 5.5 10.5 11.5 3.5"/></svg></i>Filtros de período, grupos e variável</li>
+            <li style="--i:3"><i><svg viewBox="0 0 14 14"><path d="M2.5 7.5 5.5 10.5 11.5 3.5"/></svg></i>Nove gráficos interativos em três abas</li>
+            <li style="--i:4"><i><svg viewBox="0 0 14 14"><path d="M2.5 7.5 5.5 10.5 11.5 3.5"/></svg></i>Tabela com ordenação e download em CSV</li>
+            <li style="--i:5"><i><svg viewBox="0 0 14 14"><path d="M2.5 7.5 5.5 10.5 11.5 3.5"/></svg></i>Análise interpretativa que muda com os dados</li>
+          </ul>
+          <button class="shot r" aria-label="Ampliar a tela do dashboard"><img src="../img/dashboard.png" alt="Tela do dashboard com indicadores e gráficos"></button>
+        </div>
+        <p class="note r">Ao vivo: <code>streamlit run app.py</code></p>
+      </div>
+    </section>
+
+    <!-- 14 · Testes -->
+    <section class="dk-card" aria-label="Testes" data-enter="ring">
+      <div class="s">
+        <p class="eyebrow r">Integração e testes</p>
+        <h2 class="title r">Testado de ponta a ponta</h2>
+        <div class="ring-wrap r">
+          <svg class="ring" viewBox="0 0 110 110" role="img" aria-label="95% de cobertura de código">
+            <circle class="bg" cx="55" cy="55" r="46"/><circle class="fg" cx="55" cy="55" r="46"/>
+            <text x="55" y="58" text-anchor="middle"><tspan class="ring-num">0</tspan>%</text>
+            <text class="sub" x="55" y="74" text-anchor="middle">COBERTURA</text>
+          </svg>
+          <ul class="checks">
+            <li><b><span data-to="77" data-dec="0">0</span> testes automatizados</b>, unitários e de integração</li>
+            <li>Sem internet: um <b>cliente HTTP falso</b> substitui a API, graças à injeção de dependência</li>
+            <li>O dashboard inteiro roda nos testes, com os <b>filtros simulados</b></li>
+            <li>Dados conferidos: o IPCA em 12 meses publicado bate com o recalculado</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 15 · Conclusões -->
+    <section class="dk-card" aria-label="Conclusões">
+      <div class="s">
+        <p class="eyebrow r">Conclusões</p>
+        <h2 class="title r">O que os dados mostram</h2>
+        <div class="concl">
+          <div class="r"><b>56%</b><span>dos meses dentro da meta, mas com pouca folga e desvios quase sempre para cima.</span></div>
+          <div class="r"><b>3,5×</b><span>foi quanto Alimentação subiu a mais que Comunicação: a inflação é desigual.</span></div>
+          <div class="r"><b>5,81%</b><span>ao ano é o juro real médio do período, um dos fatores que encarecem o crédito.</span></div>
+          <div class="r"><b>R$ 20,64</b><span>é o que valem hoje R$ 100 de 2000: dinheiro parado perde valor rápido.</span></div>
+        </div>
+        <p class="limits r"><b>Limitações:</b> análise descritiva (associação não é causalidade) · juro real calculado com a inflação passada · grupos do IPCA sem os pesos do índice · séries revisadas e com inícios diferentes.</p>
+      </div>
+    </section>
+
+    <!-- 16 · Encerramento -->
+    <section class="dk-card" aria-label="Encerramento" data-enter="fim">
+      <div class="s">
+        <p class="eyebrow r">Obrigado</p>
+        <h2 class="display r">Perguntas?</h2>
+        <p class="lede r">Código, testes e documentação completos no GitHub. Dashboard ao vivo com <code>streamlit run app.py</code>.</p>
+        <div class="links r">
+          <a class="link primary" href="../">Documentação</a>
+          <a class="link" href="https://github.com/augustolamounier/painel-macroeconomico-bcb">Repositório</a>
+        </div>
+      </div>
+    </section>
+
   </div>
-  <p style="margin-top:1.4em">IPCA e seus nove grupos, Selic, dólar, desocupação, IBC-Br e meta de inflação.
-     Sem cadastro nem chave: <code>api.bcb.gov.br/dados/serie/bcdata.sgs.{código}/dados</code></p>
-  <p class="suave">Cuidado principal: valores ausentes estruturais (séries que começam depois de 2000 e meses ainda não divulgados) — mantidos como ausentes, nunca inventados.</p>
-</section>
+</main>
 
-<section>
-  <div class="rotulo">3 · Arquitetura orientada a objetos</div>
-  <h2>Cada classe, uma responsabilidade</h2>
-  <table>
-    <tr><th>Classe</th><th>Responsabilidade</th></tr>
-    <tr><td><code>FonteDados</code> <span class="suave">(abstrata)</span></td><td>Origem dos dados: API, CSV ou API com cópia local</td></tr>
-    <tr><td><code>TratadorDados</code></td><td>Tipos, duplicidades, datas futuras, ausentes</td></tr>
-    <tr><td><code>AnalisadorDados</code></td><td>Filtros, agrupamentos, ordenação, estatísticas</td></tr>
-    <tr><td><code>Indicador</code> <span class="suave">(abstrata)</span></td><td>Sete subclasses, dez indicadores</td></tr>
-    <tr><td><code>Visualizador</code> <span class="suave">(abstrata)</span></td><td>Seis tipos de gráfico Plotly</td></tr>
-    <tr><td><code>Dashboard</code></td><td>Organiza a página Streamlit</td></tr>
-  </table>
-  <p class="suave" style="margin-top:1em">Fluxo: Fonte → Tratador → Analisador → Indicadores e Gráficos → Dashboard</p>
-</section>
+<div class="dk-left">
+  <button class="dk-btn glass" data-help aria-label="Atalhos do teclado" aria-expanded="false"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><text x="8" y="12" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor" font-family="-apple-system, system-ui, sans-serif">?</text></svg></button>
+  <button class="dk-btn glass" data-full aria-label="Tela cheia (F)"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M1.5 5V1.5H5M9 1.5h3.5V5M12.5 9v3.5H9M5 12.5H1.5V9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+</div>
+<div class="help glass" role="dialog" aria-label="Atalhos do teclado">
+  <h3>Atalhos</h3>
+  <dl>
+    <dt>← → ↑ ↓</dt><dd>cartão anterior ou próximo</dd>
+    <dt>Espaço</dt><dd>próximo cartão</dd>
+    <dt>Home End</dt><dd>primeiro ou último cartão</dd>
+    <dt>F</dt><dd>tela cheia</dd>
+    <dt>Arrastar</dt><dd>jogue o cartão para o lado</dd>
+  </dl>
+</div>
 
-<section>
-  <div class="rotulo">3 · Herança e polimorfismo</div>
-  <h2>O painel não sabe como cada indicador é calculado</h2>
-  <div class="duas">
-    <ul>
-      <li><b>Herança:</b> 3 hierarquias com classe base abstrata.</li>
-      <li><b>Polimorfismo:</b> a mesma chamada, <code>calcular()</code>, executa regras diferentes.</li>
-      <li><b>Encapsulamento:</b> atributos <code>_privados</code> e <code>@property</code>; <code>dados</code> devolve uma cópia.</li>
-      <li><b>Aberto/fechado:</b> indicador novo = classe nova, sem mexer nas existentes.</li>
-    </ul>
-<pre><code>class Indicador(ABC):
-    @abstractmethod
-    def calcular(self, analisador): ...
+<div class="dk-ui">
+  <button class="dk-btn glass" data-go="-1" aria-label="Cartão anterior"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M9 2 4 7l5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <div class="dk-dots" role="group" aria-label="Cartões"></div>
+  <button class="dk-btn glass" data-go="1" aria-label="Próximo cartão"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="m5 2 5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+</div>
 
-class IndicadorPoderDeCompra(Indicador):
-    def calcular(self, analisador):
-        acumulado = analisador.acumulado("ipca")
-        return self._resultado(100 / (1 + acumulado / 100))
-
-class PainelIndicadores:
-    def calcular_todos(self, analisador):
-        return [i.calcular(analisador)
-                for i in self._indicadores]</code></pre>
-  </div>
-</section>
-
-<section>
-  <div class="rotulo">3 · Princípios SOLID</div>
-  <h2>SOLID aplicado</h2>
-  <table>
-    <tr><td><b>S</b></td><td>O analisador não conhece Plotly nem Streamlit; os gráficos não fazem cálculo.</td></tr>
-    <tr><td><b>O</b></td><td>Novas fontes, indicadores e gráficos entram como subclasses.</td></tr>
-    <tr><td><b>L</b></td><td>Qualquer <code>FonteDados</code> serve ao pipeline — inclusive a fonte falsa dos testes.</td></tr>
-    <tr><td><b>I</b></td><td><code>ClienteHTTP</code> tem um único método: <code>obter_json</code>.</td></tr>
-    <tr><td><b>D</b></td><td>Dependências entram pelo construtor; as classes concretas são escolhidas só no <code>app.py</code>.</td></tr>
-  </table>
-</section>
-
-<section>
-  <div class="rotulo">4 · Indicadores (01/2000 a 09/2026)</div>
-  <h2>O que os números dizem</h2>
-  <div class="grade">
-    <div class="cartao"><b class="vermelho">4,58%</b><span>IPCA em 12 meses — acima do teto (4,50%)</span></div>
-    <div class="cartao"><b>13,65%</b><span>Taxa Selic ao ano</span></div>
-    <div class="cartao"><b>8,80%</b><span>Juro real ex-post</span></div>
-    <div class="cartao"><b>384,5%</b><span>Inflação acumulada desde 2000</span></div>
-    <div class="cartao"><b>R$ 20,64</b><span>Valem hoje R$ 100 de janeiro de 2000</span></div>
-    <div class="cartao"><b>38,3%</b><span>Dos meses acima do teto da meta</span></div>
-    <div class="cartao"><b>+184,4%</b><span>Dólar: de R$ 1,80 para R$ 5,13</span></div>
-    <div class="cartao"><b>539,8%</b><span>Alimentação e bebidas, o grupo que mais subiu</span></div>
-  </div>
-</section>
-
-<section>
-  <div class="rotulo">5 · Gráfico de linhas</div>
-  <h2>A inflação escapa quase sempre para cima</h2>
-  <iframe src="../graficos/inflacao_e_meta.html" title="Inflação em 12 meses e a meta" loading="lazy"></iframe>
-  <p class="suave">Acima do teto em 123 de 321 meses; abaixo do piso em 17. Três episódios: 2002–03, 2015–16 e 2021–22.</p>
-</section>
-
-<section>
-  <div class="rotulo">5 · Gráfico de barras</div>
-  <h2>Alimentação subiu 3,5 vezes mais que Comunicação</h2>
-  <iframe src="../graficos/inflacao_por_grupo.html" title="Inflação por grupo" loading="lazy"></iframe>
-  <p class="suave">Cinco grupos ficaram acima do IPCA geral (384,5%).</p>
-</section>
-
-<section>
-  <div class="rotulo">5 · Gráfico de linhas</div>
-  <h2>A Selic reage com atraso; o juro real é alto</h2>
-  <iframe src="../graficos/juros_e_inflacao.html" title="Juros e inflação" loading="lazy"></iframe>
-  <p class="suave">Juro real médio de 5,81% ao ano; negativo em apenas 22 meses, em 2020–2021.</p>
-</section>
-
-<section>
-  <div class="rotulo">6 · Dashboard</div>
-  <h2>Tudo responde aos filtros</h2>
-  <div class="duas">
-    <ul>
-      <li><b>Cabeçalho</b> com fonte e data da atualização</li>
-      <li><b>10 KPIs</b> recalculados a cada filtro</li>
-      <li><b>Filtros:</b> período, grupos do IPCA, variável da dispersão</li>
-      <li><b>9 gráficos</b> em três abas</li>
-      <li><b>Tabela</b> com ordenação e download em CSV</li>
-      <li><b>Análise interpretativa</b> gerada a partir dos números do período</li>
-    </ul>
-    <img src="../img/dashboard.png" alt="Tela do dashboard" style="width:100%;border:1px solid var(--linha);border-radius:10px">
-  </div>
-  <p class="suave">Demonstração ao vivo: <code>streamlit run app.py</code></p>
-</section>
-
-<section>
-  <div class="rotulo">7 · Testes</div>
-  <h2>77 testes, 95% de cobertura</h2>
-  <ul>
-    <li><b>Unitários:</b> cada classe com dados sintéticos de resultado conhecido.</li>
-    <li><b>Sem internet:</b> um cliente HTTP falso substitui a API (inversão de dependência).</li>
-    <li><b>Integração:</b> o <code>AppTest</code> executa o dashboard inteiro e mexe nos filtros.</li>
-    <li><b>Dados conferidos:</b> o IPCA em 12 meses publicado bate com o recalculado (diferença máxima de 0,009 p.p.).</li>
-    <li>Os testes encontraram um erro real de tipo de dado durante a integração.</li>
-  </ul>
-</section>
-
-<section>
-  <div class="rotulo">8 · Conclusões</div>
-  <h2>Conclusões e limitações</h2>
-  <div class="duas">
-    <ul>
-      <li>A meta é cumprida na maioria dos meses, mas com folga pequena.</li>
-      <li>A inflação é muito desigual entre os itens de consumo.</li>
-      <li>O juro real brasileiro é alto: 5,81% ao ano em média.</li>
-      <li>R$ 100 de 2000 valem R$ 20,64 hoje.</li>
-    </ul>
-    <ul class="suave">
-      <li>Análise descritiva: associação não é causalidade.</li>
-      <li>Juro real <i>ex-post</i>, não o esperado.</li>
-      <li>Grupos sem os pesos do IPCA.</li>
-      <li>Séries revisadas e com início em datas diferentes.</li>
-    </ul>
-  </div>
-  <p style="margin-top:1.4em"><a href="../">Documentação completa</a> ·
-     <a href="https://github.com/augustolamounier/painel-macroeconomico-bcb">Repositório no GitHub</a></p>
-</section>
-
-<nav id="contador"></nav>
+<script src="dados.js"></script>
 <script>
-  const slides = [...document.querySelectorAll('section')];
-  const contador = document.getElementById('contador');
-  const atual = () => slides.reduce((melhor, s, i) =>
-    Math.abs(s.getBoundingClientRect().top) < Math.abs(slides[melhor].getBoundingClientRect().top) ? i : melhor, 0);
-  const ir = i => slides[Math.max(0, Math.min(slides.length - 1, i))].scrollIntoView();
-  const atualizar = () => { contador.textContent = (atual() + 1) + ' / ' + slides.length; };
-  document.addEventListener('keydown', e => {
-    if (['ArrowDown', 'ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); ir(atual() + 1); }
-    if (['ArrowUp', 'ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); ir(atual() - 1); }
+"use strict";
+const SERIE = window.SERIE || [];
+const GRUPOS = window.GRUPOS || [];
+const IPCA_GERAL = window.IPCA_GERAL || 0;
+const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const PALETA = ["#1F6B57", "#B8862B", "#6B4C9A", "#9B2C3A", "#2E4A7A"];
+
+/* ================= Utilitários ================= */
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+const fmt = (n, d = 2) => n.toLocaleString("pt-BR", { minimumFractionDigits: d, maximumFractionDigits: d });
+const rubberband = (over, dim, c = 0.55) => (over * dim * c) / (dim + c * Math.abs(over));
+const project = (v, d = 0.995) => ((v / 1000) * d) / (1 - d);   // projeção de impulso (Apple)
+
+/* Mola com os parâmetros que a Apple usa: amortecimento e resposta. */
+class Spring {
+  constructor(value = 0, { damping = 1, response = 0.4 } = {}) {
+    this.value = value; this.target = value; this.velocity = 0; this.configure(damping, response);
+  }
+  configure(damping, response) {
+    this.k = (2 * Math.PI / response) ** 2;
+    this.c = (4 * Math.PI * damping) / response;
+  }
+  to(target, { velocity, damping, response } = {}) {
+    if (damping !== undefined) this.configure(damping, response ?? 0.4);
+    this.target = target;
+    if (velocity !== undefined) this.velocity = velocity;
+    if (REDUCED) { this.value = target; this.velocity = 0; }
+  }
+  hold(value) { this.value = value; this.target = value; this.velocity = 0; }
+  get settled() { return Math.abs(this.value - this.target) < 1e-3 && Math.abs(this.velocity) < 1e-3; }
+  step(dt) {
+    const n = Math.max(1, Math.ceil(dt * 240)), h = dt / n;
+    for (let i = 0; i < n; i++) {
+      const force = -this.k * (this.value - this.target) - this.c * this.velocity;
+      this.velocity += force * h; this.value += this.velocity * h;
+    }
+  }
+}
+const tickers = new Set();
+(function loop() {
+  let last = performance.now();
+  const tick = (now) => { const dt = Math.min(0.05, (now - last) / 1000); last = now; tickers.forEach((fn) => fn(dt)); requestAnimationFrame(tick); };
+  requestAnimationFrame(tick);
+})();
+
+function countTo(el, from, to, dec, ms = 1100) {
+  if (REDUCED) { el.textContent = fmt(to, dec); return; }
+  const t0 = performance.now();
+  const tick = (now) => {
+    const p = Math.min(1, (now - t0) / ms), e = 1 - Math.pow(1 - p, 3);
+    el.textContent = fmt(from + (to - from) * e, dec);
+    if (p < 1) requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+}
+
+/* Confete discreto, nas cores da paleta, só em momentos de conquista. */
+function confetti(originX = innerWidth / 2, originY = innerHeight * 0.45) {
+  if (REDUCED) return;
+  const cv = document.createElement("canvas"); cv.className = "confetti";
+  const dpr = Math.min(2, devicePixelRatio || 1);
+  cv.width = innerWidth * dpr; cv.height = innerHeight * dpr; document.body.appendChild(cv);
+  const ctx = cv.getContext("2d"); ctx.scale(dpr, dpr);
+  const parts = Array.from({ length: 110 }, () => {
+    const a = -Math.PI / 2 + (Math.random() - 0.5) * 2.1, sp = 380 + Math.random() * 520;
+    return { x: originX, y: originY, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, r: Math.random() * Math.PI, vr: (Math.random() - 0.5) * 14,
+             w: 6 + Math.random() * 6, h: 3 + Math.random() * 4, c: PALETA[(Math.random() * PALETA.length) | 0] };
   });
-  document.addEventListener('scroll', atualizar, { passive: true });
-  atualizar();
+  let t = 0;
+  const fn = (dt) => {
+    t += dt; ctx.clearRect(0, 0, innerWidth, innerHeight);
+    for (const p of parts) {
+      p.vy += 1100 * dt; p.vx *= 0.985; p.x += p.vx * dt; p.y += p.vy * dt; p.r += p.vr * dt;
+      ctx.save(); ctx.globalAlpha = Math.max(0, 1 - Math.max(0, t - 0.9) / 0.6);
+      ctx.translate(p.x, p.y); ctx.rotate(p.r); ctx.fillStyle = p.c; ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h); ctx.restore();
+    }
+    if (t > 1.5) { tickers.delete(fn); cv.remove(); }
+  };
+  tickers.add(fn);
+}
+
+/* ================= Conteúdo de cada cartão ================= */
+const init = {};
+const enter = {};
+
+enter.hero = (sec) => {
+  const path = sec.querySelector(".hero-spark path");
+  const n = SERIE.length; if (!n) return;
+  const d = SERIE.map((r, i) => `${i ? "L" : "M"}${(i / (n - 1) * 600).toFixed(1)},${(250 - (r[1] / 18) * 240).toFixed(1)}`).join("");
+  path.setAttribute("d", d);
+  if (REDUCED) return;
+  const L = path.getTotalLength();
+  path.style.strokeDasharray = L; path.style.strokeDashoffset = L;
+  path.getBoundingClientRect();
+  path.style.transition = "stroke-dashoffset 2600ms cubic-bezier(0.65, 0, 0.35, 1) 400ms";
+  path.style.strokeDashoffset = "0";
+};
+
+init.quiz = (sec) => {
+  const quiz = sec.querySelector(".quiz"), result = sec.querySelector(".quiz-result");
+  quiz.addEventListener("click", (e) => {
+    const opt = e.target.closest(".opt");
+    if (!opt || opt.disabled) return;
+    const ok = opt.dataset.ok === "1";
+    quiz.querySelectorAll(".opt").forEach((b) => {
+      b.disabled = true;
+      if (b.dataset.ok === "1") b.classList.add("is-correct");
+      else if (b !== opt) b.classList.add("is-dim");
+    });
+    if (!ok) opt.classList.add("is-wrong");
+    result.hidden = false;
+    result.querySelector(".quiz-msg").textContent = ok
+      ? "Na mosca! Os preços subiram 384,5% desde 2000: o real perdeu cerca de 79% do poder de compra."
+      : "Menos ainda: só R$ 20,64. Os preços subiram 384,5% desde 2000.";
+    if (ok) { const b = opt.getBoundingClientRect(); confetti(b.left + b.width / 2, b.top); }
+    requestAnimationFrame(() => {
+      result.classList.add("show");
+      setTimeout(() => {
+        result.querySelector(".bill-fill").style.transform = "scaleX(0.2064)";
+        countTo(result.querySelector(".q-count"), 100, 20.64, 2, 1700);
+      }, 180);
+    });
+  });
+};
+
+init.flips = (sec) => {
+  const count = sec.querySelector(".flip-count"), seen = new Set();
+  sec.querySelectorAll(".flip").forEach((b, i) => b.addEventListener("click", () => {
+    const on = b.getAttribute("aria-pressed") !== "true";
+    b.setAttribute("aria-pressed", String(on));
+    if (on) seen.add(i);
+    count.textContent = seen.size;
+    if (on && seen.size === 6) { const r = sec.getBoundingClientRect(); confetti(r.left + r.width / 2, r.top + r.height * 0.4); }
+  }));
+};
+
+enter.terminal = (sec) => {
+  const out = sec.querySelector(".term-out");
+  const lines = [
+    ["cmd", "$ curl api.bcb.gov.br/dados/serie/bcdata.sgs.433/dados"],
+    ["dim", "  ?formato=json&dataInicial=01/07/2026"],
+    ["ok", "HTTP 200 · application/json"],
+    ["", '[{"<k>data</k>": "01/07/2026", "<k>valor</k>": "0.07"},'],
+    ["", ' {"<k>data</k>": "01/08/2026", "<k>valor</k>": "-0.32"},'],
+    ["", ' {"<k>data</k>": "01/09/2026", "<k>valor</k>": "0.82"}]'],
+    ["dim", "# IPCA mensal (série 433), pronto para o Pandas"],
+  ];
+  const html = (cls, txt) => `<div${cls ? ` class="${cls}"` : ""}>${txt.replace(/<k>(.*?)<\/k>/g, '<span class="key">$1</span>')}</div>`;
+  if (REDUCED) { out.innerHTML = lines.map(([c, t]) => html(c, t)).join(""); return; }
+  let li = 0, ci = 0;
+  const plain = lines.map(([, t]) => t.replace(/<\/?k>/g, ""));
+  const type = () => {
+    if (li >= lines.length) { out.innerHTML = lines.map(([c, t]) => html(c, t)).join("") + '<span class="caret"></span>'; return; }
+    const done = lines.slice(0, li).map(([c, t]) => html(c, t)).join("");
+    const cur = plain[li].slice(0, ci).replace(/&/g, "&amp;").replace(/</g, "&lt;");
+    out.innerHTML = done + `<div class="${lines[li][0]}">${cur}<span class="caret"></span></div>`;
+    const speed = li === 0 ? 2 : 4;
+    ci += speed;
+    if (ci > plain[li].length) { li++; ci = 0; setTimeout(type, li === 3 ? 380 : 90); }
+    else setTimeout(type, 16);
+  };
+  setTimeout(type, 500);
+};
+
+const ARQ = [
+  ["FonteDados — de onde vêm os dados", "Classe abstrata com três subclasses: a API do Banco Central, os arquivos CSV locais e a API com cópia local de reserva (padrão Decorator). O resto do sistema só conhece a abstração."],
+  ["TratadorDados — dados confiáveis", "Converte texto em números e datas, remove duplicidades e datas futuras, monta a base mensal e só interpola lacunas curtas no meio das séries. Tudo o que corrige vai para um relatório de qualidade."],
+  ["AnalisadorDados — as perguntas", "Encapsula a base mensal e oferece filtros, agrupamentos, ordenações e estatísticas descritivas. Devolve sempre uma cópia: ninguém altera os dados por fora."],
+  ["Indicador e Visualizador — números e gráficos", "Duas hierarquias abstratas: sete tipos de indicador e seis tipos de gráfico Plotly. Cada subclasse implementa só o seu cálculo ou o seu desenho."],
+  ["Dashboard — a tela", "Organiza cabeçalho, filtros, indicadores, gráficos, tabela e análise interpretativa no Streamlit. Não calcula nada: coordena os objetos que recebe."],
+];
+init.arch = (sec) => {
+  const nodes = [...sec.querySelectorAll(".node")], h = sec.querySelector(".detail h3"), p = sec.querySelector(".detail p");
+  const show = (i) => {
+    nodes.forEach((n, j) => n.setAttribute("aria-pressed", String(i === j)));
+    h.textContent = ARQ[i][0]; p.textContent = ARQ[i][1];
+  };
+  nodes.forEach((n, i) => n.addEventListener("click", () => show(i)));
+  show(0);
+};
+
+const POO = [
+  ["IndicadorUltimoValor", "IPCA em 12 meses", "4,58%", "último valor disponível da série"],
+  ["IndicadorDesvioMeta", "Desvio da meta", "+1,58 p.p.", "IPCA 12m − centro da meta"],
+  ["IndicadorInflacaoAcumulada", "Inflação no período", "384,46%", "Π(1 + ipca/100) − 1"],
+  ["IndicadorPoderDeCompra", "Poder de compra de R$ 100", "R$ 20,64", "100 ÷ (1 + inflação acumulada)"],
+  ["IndicadorMesesAcimaDoTeto", "Meses acima do teto", "38,3%", "meses com IPCA 12m > teto ÷ total"],
+  ["IndicadorVariacaoNoPeriodo", "Dólar no período", "+184,38%", "valor final ÷ valor inicial − 1"],
+  ["IndicadorGrupoMaiorInflacao", "Grupo que mais subiu", "539,76%", "Alimentação e bebidas"],
+];
+function swapContent(box, fill) {
+  box.getAnimations().forEach((a) => a.cancel());
+  if (REDUCED) { fill(); return; }
+  box.animate([{ opacity: 1, transform: "none" }, { opacity: 0, transform: "translateY(-6px)" }], { duration: 110, easing: "ease-out" })
+    .finished.then(() => {
+      fill();
+      box.animate([{ opacity: 0, transform: "translateY(8px)" }, { opacity: 1, transform: "none" }], { duration: 260, easing: "cubic-bezier(0.23, 1, 0.32, 1)" });
+    }).catch(() => {});
+}
+init.poo = (sec) => {
+  const chips = sec.querySelector(".chips"), out = sec.querySelector(".out");
+  chips.innerHTML = POO.map((p, i) => `<button class="chip" data-i="${i}" aria-pressed="${i === 2}">${p[0]}</button>`).join("");
+  const fill = (p) => () => {
+    out.querySelector(".out-label").textContent = p[1];
+    out.querySelector(".out-value").textContent = p[2];
+    out.querySelector(".out-rule").textContent = p[3];
+  };
+  fill(POO[2])();
+  chips.addEventListener("click", (e) => {
+    const chip = e.target.closest(".chip");
+    if (!chip || chip.getAttribute("aria-pressed") === "true") return;
+    chips.querySelectorAll(".chip").forEach((c) => c.setAttribute("aria-pressed", String(c === chip)));
+    swapContent(out, fill(POO[+chip.dataset.i]));
+  });
+};
+
+const SOLID = [
+  ["Responsabilidade única", "Cada classe tem um só motivo para mudar. O <code>AnalisadorDados</code> não conhece Plotly nem Streamlit, e os gráficos não fazem cálculo: recebem tabelas prontas."],
+  ["Aberto/fechado", "O sistema cresce acrescentando classes. Um indicador novo é uma subclasse de <code>Indicador</code>, adicionada ao painel sem alterar nenhuma linha existente."],
+  ["Substituição de Liskov", "Qualquer <code>FonteDados</code> serve ao pipeline: a API, os arquivos CSV ou a fonte falsa usada nos testes. Todas devolvem o mesmo formato e o mesmo tipo de erro."],
+  ["Segregação de interfaces", "As interfaces são mínimas. <code>ClienteHTTP</code> tem um único método, <code>obter_json</code>: é tudo de que a fonte da API precisa."],
+  ["Inversão de dependência", "As dependências entram pelo construtor. As classes concretas são escolhidas em um único lugar, o <code>app.py</code>; nos testes, um cliente falso substitui a rede."],
+];
+init.solid = (sec) => {
+  const seg = sec.querySelector(".seg"), pill = seg.querySelector(".seg-pill"), btns = [...seg.querySelectorAll("button")];
+  const panel = sec.querySelector(".solid-panel");
+  let cur = 0;
+  const place = () => { const b = btns[cur]; pill.style.width = b.offsetWidth + "px"; pill.style.transform = `translateX(${b.offsetLeft}px)`; };
+  const fill = (i) => () => { panel.querySelector("h3").textContent = `${"SOLID"[i]} — ${SOLID[i][0]}`; panel.querySelector("p").innerHTML = SOLID[i][1]; };
+  fill(0)();
+  btns.forEach((b, i) => b.addEventListener("click", () => {
+    if (i === cur) return;
+    cur = i; btns.forEach((x, j) => x.setAttribute("aria-pressed", String(i === j)));
+    place(); swapContent(panel, fill(i));
+  }));
+  requestAnimationFrame(() => { place(); requestAnimationFrame(() => seg.classList.add("is-ready")); });
+  addEventListener("resize", place);
+};
+
+/* Gráfico da inflação: desenha-se ao entrar e mostra o valor sob o cursor. */
+const CH = { W: 1000, H: 400, pl: 44, pr: 70, pt: 12, pb: 34, top: 18 };
+const cx = (i) => CH.pl + (i * (CH.W - CH.pl - CH.pr)) / (SERIE.length - 1);
+const cy = (v) => CH.pt + (1 - v / CH.top) * (CH.H - CH.pt - CH.pb);
+init.chart = (sec) => {
+  const box = sec.querySelector(".chart"), n = SERIE.length;
+  if (!n) return;
+  const pts = (col) => SERIE.map((r, i) => `${cx(i).toFixed(1)},${cy(r[col]).toFixed(1)}`);
+  let grid = "";
+  for (const v of [0, 5, 10, 15]) grid += `<line class="grid" x1="${CH.pl}" x2="${CH.W - CH.pr}" y1="${cy(v)}" y2="${cy(v)}"/><text class="axis" x="${CH.pl - 10}" y="${cy(v) + 4}" text-anchor="end">${v}%</text>`;
+  for (let a = 2000; a <= 2025; a += 5) { const i = SERIE.findIndex((r) => r[0] === `${a}-01`); if (i >= 0) grid += `<text class="axis" x="${cx(i)}" y="${CH.H - 8}" text-anchor="middle">${a}</text>`; }
+  const last = SERIE[n - 1];
+  box.innerHTML = `<svg viewBox="0 0 ${CH.W} ${CH.H}" role="img" aria-label="IPCA acumulado em 12 meses e o intervalo da meta, de 2000 a 2026">
+    ${grid}<polygon class="band" points="${[...pts(4), ...pts(3).reverse()].join(" ")}"/>
+    <path class="ln-meta" d="M${pts(2).join("L")}"/><path class="ln-ipca" d="M${pts(1).join("L")}"/>
+    <g class="end"><circle class="end-dot" cx="${cx(n - 1)}" cy="${cy(last[1])}" r="6"/><text class="end-txt" x="${cx(n - 1) + 12}" y="${cy(last[1]) + 5}">${fmt(last[1])}%</text></g>
+    <line class="hv-line" y1="${CH.pt}" y2="${CH.H - CH.pb}"/><circle class="hv-dot" r="6"/></svg><div class="tip glass"></div>`;
+  const svg = box.querySelector("svg"), path = box.querySelector(".ln-ipca"), tip = box.querySelector(".tip");
+  const hvLine = box.querySelector(".hv-line"), hvDot = box.querySelector(".hv-dot");
+  if (!REDUCED) { const L = path.getTotalLength(); path.style.strokeDasharray = L; path.style.strokeDashoffset = L; }
+  const show = (e) => {
+    const ctm = svg.getScreenCTM(); if (!ctm) return;
+    const p = new DOMPoint(e.clientX, e.clientY).matrixTransform(ctm.inverse());
+    const i = clamp(Math.round(((p.x - CH.pl) / (CH.W - CH.pl - CH.pr)) * (n - 1)), 0, n - 1);
+    const r = SERIE[i], px = cx(i), py = cy(r[1]);
+    hvLine.setAttribute("x1", px); hvLine.setAttribute("x2", px); hvDot.setAttribute("cx", px); hvDot.setAttribute("cy", py);
+    const [ano, mes] = r[0].split("-");
+    const sit = r[1] > r[4] ? "acima do teto" : r[1] < r[3] ? "abaixo do piso" : "dentro do intervalo";
+    tip.innerHTML = `<b>${mes}/${ano} · ${fmt(r[1])}%</b><br>meta ${fmt(r[2])}% · ${sit}`;
+    const scr = new DOMPoint(px, py).matrixTransform(ctm), bb = box.getBoundingClientRect();
+    tip.style.left = clamp(scr.x - bb.left, 90, bb.width - 90) + "px"; tip.style.top = (scr.y - bb.top) + "px";
+    box.classList.add("hover");
+  };
+  svg.addEventListener("pointermove", show);
+  svg.addEventListener("pointerdown", show);
+  svg.addEventListener("pointerleave", () => box.classList.remove("hover"));
+  sec.dataset.enter = "chart";
+};
+enter.chart = (sec) => {
+  const box = sec.querySelector(".chart"), path = box.querySelector(".ln-ipca");
+  if (!path) return;
+  box.classList.add("drawn");
+  if (REDUCED) { box.classList.add("done"); return; }
+  path.getBoundingClientRect();
+  path.style.transition = "stroke-dashoffset 1900ms cubic-bezier(0.65, 0, 0.35, 1) 250ms";
+  path.style.strokeDashoffset = "0";
+  setTimeout(() => box.classList.add("done"), 2050);
+};
+
+/* Grupos: barras crescem em sequência; a linha tracejada é o IPCA geral. */
+init.grupos = (sec) => {
+  const bars = sec.querySelector(".bars"), max = Math.max(...GRUPOS.map((g) => g[1]), 1) * 1.12;
+  bars.innerHTML = GRUPOS.map(([nome, v], i) => `<div class="bar-row"><span class="bar-name">${nome}</span>
+      <div class="bar-track"><i class="bar-fill ${v > IPCA_GERAL ? "hi" : "lo"}" style="--i:${i}" data-s="${(v / max).toFixed(4)}"></i>
+      <span class="bar-val" style="--i:${i}; left:${(v / max * 100).toFixed(2)}%">${fmt(v, 1)}%</span></div></div>`).join("")
+    + `<div class="bar-ref"><span>IPCA geral: ${fmt(IPCA_GERAL, 1)}%</span></div>`;
+  const placeRef = () => {
+    const tr = bars.querySelector(".bar-track"); if (!tr) return;
+    // offsetLeft/offsetWidth ignoram a escala do cartão, então a posição fica exata.
+    bars.querySelector(".bar-ref").style.left = (tr.offsetLeft + (tr.offsetWidth * IPCA_GERAL) / max) + "px";
+  };
+  requestAnimationFrame(placeRef); addEventListener("resize", placeRef);
+  sec.dataset.enter = "grupos";
+};
+enter.grupos = (sec) => sec.querySelectorAll(".bar-fill").forEach((f) => { f.style.transform = `scaleX(${f.dataset.s})`; });
+
+/* Máquina do tempo: cada barra é uma mola, então o controle deslizante pode ser arrastado à vontade. */
+init.juros = (sec) => {
+  const range = sec.querySelector("input"), yearEl = sec.querySelector(".tm-year"), monthEl = sec.querySelector(".tm-month");
+  const msg = sec.querySelector(".tm-msg"), play = sec.querySelector(".play");
+  const fills = [...sec.querySelectorAll(".tm-fill")], zeros = [...sec.querySelectorAll(".tm-zero")], vals = [...sec.querySelectorAll(".tm-val")];
+  const springs = [0, 1, 2].map(() => new Spring(0, { damping: 1, response: 0.38 }));
+  const MIN = -6, MAX = 28, frac = (v) => (v - MIN) / (MAX - MIN);
+  const MESES = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
+  const rowFor = (y) => { let r = null; for (const x of SERIE) if (x[0].startsWith(String(y))) r = x; return r; };
+  const setYear = (y) => {
+    const r = rowFor(y); if (!r) return;
+    const selic = r[5], ipca = r[1], real = ((1 + selic / 100) / (1 + ipca / 100) - 1) * 100;
+    yearEl.textContent = y; monthEl.textContent = `dados de ${MESES[+r[0].slice(5) - 1]}`;
+    [selic, ipca, real].forEach((v, i) => springs[i].to(v));
+    msg.innerHTML = real < 0
+      ? `Em ${y}, o juro real foi <b>negativo (${fmt(real, 2)}%)</b>: a Selic rendeu menos do que a inflação.`
+      : real > 8 ? `Em ${y}, a Selic rendeu <b>${fmt(real, 2)}% acima da inflação</b>: juro real muito alto, crédito caro.`
+      : `Em ${y}, a Selic rendeu <b>${fmt(real, 2)}% acima da inflação</b>.`;
+  };
+  zeros.forEach((z) => { z.style.left = (frac(0) * 100) + "%"; });
+  tickers.add((dt) => {
+    if (!sec.classList.contains("is-in")) return;
+    springs.forEach((s, i) => {
+      s.step(dt);
+      const v = s.value, a = frac(Math.min(0, v)), b = frac(Math.max(0, v)), w = fills[i].parentElement.offsetWidth;
+      fills[i].style.transform = `translateX(${(a * w).toFixed(2)}px) scaleX(${Math.max(0, b - a).toFixed(4)})`;
+      vals[i].textContent = fmt(v, 2) + "%";
+      if (i === 2) fills[i].style.background = v < 0 ? "var(--vinho)" : "var(--ameixa)";
+    });
+  });
+  range.addEventListener("input", () => { stopPlay(); setYear(+range.value); });
+  let timer = 0;
+  const ICONE = { play: "M2 1.2v9.6L10.4 6z", pausa: "M2.2 1.5h2.6v9H2.2zM7.2 1.5h2.6v9H7.2z" };
+  const estado = (tocando) => {
+    play.querySelector("span").textContent = tocando ? "Pausar" : "Reproduzir";
+    play.querySelector("path").setAttribute("d", tocando ? ICONE.pausa : ICONE.play);
+    play.setAttribute("aria-label", tocando ? "Pausar" : "Reproduzir de 2000 a 2026");
+  };
+  const stopPlay = () => { clearInterval(timer); timer = 0; estado(false); };
+  play.addEventListener("click", () => {
+    if (timer) { stopPlay(); return; }
+    let y = +range.value >= 2026 ? 2000 : +range.value;
+    estado(true);
+    range.value = y; setYear(y);
+    timer = setInterval(() => {
+      y++; if (y > 2026) { stopPlay(); return; }
+      range.value = y; setYear(y);
+    }, 420);
+  });
+  sec._setYear = setYear;
+  sec.dataset.enter = "juros";
+};
+enter.juros = (sec) => sec._setYear(2026);
+
+/* Dashboard: a imagem amplia a partir de onde está e volta pelo mesmo caminho. */
+let zoomOpen = false;
+init.dash = (sec) => {
+  const shot = sec.querySelector(".shot"), img = shot.querySelector("img");
+  shot.addEventListener("click", () => {
+    if (zoomOpen) return;
+    zoomOpen = true;
+    const from = img.getBoundingClientRect();
+    const ratio = img.naturalWidth / img.naturalHeight || 1.6;
+    const maxW = innerWidth * 0.92, maxH = innerHeight * 0.9;
+    const w = Math.min(maxW, maxH * ratio), h = w / ratio;
+    const to = { left: (innerWidth - w) / 2, top: (innerHeight - h) / 2, width: w, height: h };
+    const back = document.createElement("div"); back.className = "zoom-backdrop";
+    const big = new Image(); big.src = img.src; big.alt = img.alt; big.className = "zoom-img";
+    Object.assign(big.style, { left: to.left + "px", top: to.top + "px", width: to.width + "px", height: to.height + "px" });
+    document.body.append(back, big);
+    const fromT = `translate(${from.left - to.left}px, ${from.top - to.top}px) scale(${from.width / to.width}, ${from.height / to.height})`;
+    const opts = { duration: REDUCED ? 1 : 420, easing: "cubic-bezier(0.23, 1, 0.32, 1)", fill: "both" };
+    big.animate([{ transform: fromT }, { transform: "none" }], opts);
+    back.animate([{ opacity: 0 }, { opacity: 1 }], { duration: REDUCED ? 1 : 260, fill: "both" });
+    const close = () => {
+      removeEventListener("keydown", onKey, true);
+      const now = img.getBoundingClientRect();
+      const t = `translate(${now.left - to.left}px, ${now.top - to.top}px) scale(${now.width / to.width}, ${now.height / to.height})`;
+      back.animate([{ opacity: 1 }, { opacity: 0 }], { duration: REDUCED ? 1 : 240, fill: "both" });
+      big.animate([{ transform: "none" }, { transform: t }], { ...opts, duration: REDUCED ? 1 : 360 })
+        .finished.then(() => { big.remove(); back.remove(); zoomOpen = false; });
+    };
+    const onKey = (e) => { if (e.key === "Escape" || e.key === " " || e.key === "Enter") { e.preventDefault(); e.stopPropagation(); close(); } };
+    back.addEventListener("click", close); big.addEventListener("click", close);
+    addEventListener("keydown", onKey, true);
+  });
+};
+
+enter.ring = (sec) => {
+  const fg = sec.querySelector(".ring .fg"), num = sec.querySelector(".ring-num");
+  fg.style.strokeDashoffset = String(289.03 * (1 - 0.95));
+  setTimeout(() => countTo(num, 0, 95, 0, 1500), 300);
+};
+let celebrated = false;
+enter.fim = () => { if (!celebrated) { celebrated = true; setTimeout(() => confetti(innerWidth / 2, innerHeight * 0.38), 450); } };
+
+/* ================= O baralho ================= */
+const vp = document.querySelector(".dk-viewport"), track = document.querySelector(".dk-track");
+const cards = [...document.querySelectorAll(".dk-card")], n = cards.length;
+const dotsBox = document.querySelector(".dk-dots"), countEl = document.querySelector(".dk-count"), hint = document.querySelector(".dk-hint");
+dotsBox.innerHTML = cards.map((c, i) => `<button class="dk-dot" data-to-card="${i}" aria-label="${c.getAttribute("aria-label")}"></button>`).join("");
+const dots = [...dotsBox.children];
+
+cards.forEach((c) => {
+  c.querySelectorAll(".r").forEach((el, i) => el.style.setProperty("--i", i));
+  if (c.dataset.init) c.dataset.init.split(" ").forEach((k) => init[k]?.(c));
+});
+
+const spring = new Spring(0, { damping: 1, response: 0.45 });
+const start = clamp((parseInt(location.hash.slice(1), 10) || 1) - 1, 0, n - 1);
+spring.hold(start);
+let target = start, cw = 0, step = 0;
+
+function layout() {
+  cw = Math.min(1180, innerWidth * 0.88);
+  const ch = Math.max(360, Math.min(720, innerHeight - 150));
+  step = cw + 32;
+  document.documentElement.style.setProperty("--cw", cw + "px");
+  document.documentElement.style.setProperty("--ch", ch + "px");
+  cards.forEach((c, i) => { c.style.left = (i * step - cw / 2) + "px"; });
+}
+layout();
+addEventListener("resize", layout);
+
+function activate(card) {
+  if (card.classList.contains("is-in")) return;
+  card.classList.add("is-in");
+  card.querySelectorAll("[data-to]").forEach((el, i) =>
+    setTimeout(() => countTo(el, +(el.dataset.from || 0), +el.dataset.to, +el.dataset.dec), 250 + i * 90));
+  if (card.dataset.enter) card.dataset.enter.split(" ").forEach((k) => enter[k]?.(card));
+}
+
+function go(i, opts = { damping: 1, response: 0.45 }) {
+  const t = clamp(i, 0, n - 1);
+  if (t !== target) hint.classList.add("is-gone");
+  target = t;
+  spring.to(target, opts);
+  cards.forEach((c, j) => { c.inert = j !== target; c.setAttribute("aria-hidden", String(j !== target)); });
+  dots.forEach((d, j) => (j === target ? d.setAttribute("aria-current", "true") : d.removeAttribute("aria-current")));
+  countEl.textContent = `${String(target + 1).padStart(2, "0")} / ${n}`;
+  history.replaceState(null, "", "#" + (target + 1));
+}
+go(start);
+
+tickers.add((dt) => {
+  if (!drag.active) spring.step(dt);
+  const v = spring.value;
+  track.style.transform = `translate3d(${(-v * step).toFixed(2)}px, 0, 0)`;
+  cards.forEach((c, i) => {
+    const d = Math.abs(i - v), a = Math.min(1, d);
+    c.style.transform = `scale(${(1 - 0.07 * a).toFixed(4)})`;
+    c.style.opacity = String(1 - 0.5 * a);
+    c.style.visibility = d > 2.2 ? "hidden" : "visible";
+  });
+  if (Math.abs(v - target) < 0.35) activate(cards[target]);
+});
+
+/* Arraste 1:1 com histerese, borda elástica e impulso projetado. */
+const drag = { active: false, tracking: false, x0: 0, y0: 0, v0: 0, hist: [], moved: false };
+const NO_DRAG = "button, a, input, .chart, code, .tm-track";
+vp.addEventListener("pointerdown", (e) => {
+  if (e.button !== 0 || zoomOpen || e.target.closest(NO_DRAG)) return;
+  drag.tracking = true; drag.active = false; drag.moved = false; drag.x0 = e.clientX; drag.y0 = e.clientY;
+  drag.pointer = e.pointerId; drag.hist = [{ x: e.clientX, t: e.timeStamp }];
+});
+vp.addEventListener("pointermove", (e) => {
+  if (!drag.tracking || e.pointerId !== drag.pointer) return;
+  const dx = e.clientX - drag.x0, dy = e.clientY - drag.y0;
+  if (!drag.active) {
+    if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)) {
+      drag.active = true; drag.moved = true; vp.setPointerCapture(e.pointerId); document.body.classList.add("is-dragging");
+      drag.x0 = e.clientX; drag.v0 = spring.value; spring.hold(spring.value);   // agarra no valor visível
+    } else if (Math.abs(dy) > 10) { drag.tracking = false; }
+    return;
+  }
+  let raw = drag.v0 - (e.clientX - drag.x0) / step;
+  if (raw < 0) raw = -rubberband(-raw * step, cw) / step;
+  if (raw > n - 1) raw = n - 1 + rubberband((raw - n + 1) * step, cw) / step;
+  spring.hold(raw);
+  drag.hist.push({ x: e.clientX, t: e.timeStamp });
+  while (drag.hist.length > 2 && e.timeStamp - drag.hist[0].t > 100) drag.hist.shift();
+});
+function release(e) {
+  if (!drag.tracking || e.pointerId !== drag.pointer) return;
+  drag.tracking = false;
+  if (!drag.active) return;
+  drag.active = false; document.body.classList.remove("is-dragging");
+  const h = drag.hist, a = h[0], b = h[h.length - 1];
+  const vpx = b.t > a.t ? ((b.x - a.x) / (b.t - a.t)) * 1000 : 0;
+  let t = Math.round(spring.value - project(vpx) / step);
+  if (vpx < -350 && t <= Math.floor(spring.value)) t = Math.floor(spring.value) + 1;
+  if (vpx > 350 && t >= Math.ceil(spring.value)) t = Math.ceil(spring.value) - 1;
+  go(t, { velocity: -vpx / step, damping: 0.82, response: 0.42 });   // um peteleco ganha um leve quique
+}
+vp.addEventListener("pointerup", release);
+vp.addEventListener("pointercancel", release);
+
+/* Clique nos cartões vizinhos: vai até eles. */
+vp.addEventListener("click", (e) => {
+  if (drag.moved) { drag.moved = false; return; }
+  const cur = cards[target].getBoundingClientRect();
+  if (e.clientX > cur.right) go(target + 1);
+  else if (e.clientX < cur.left) go(target - 1);
+});
+
+document.addEventListener("click", (e) => {
+  const b = e.target.closest("[data-go]"); if (b) go(target + +b.dataset.go);
+  const d = e.target.closest("[data-to-card]"); if (d) go(+d.dataset.toCard);
+});
+
+const help = document.querySelector(".help"), helpBtn = document.querySelector("[data-help]");
+const toggleHelp = (open = !help.classList.contains("is-open")) => { help.classList.toggle("is-open", open); helpBtn.setAttribute("aria-expanded", String(open)); };
+helpBtn.addEventListener("click", () => toggleHelp());
+const toggleFull = () => (document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.())?.catch?.(() => {});
+document.querySelector("[data-full]").addEventListener("click", toggleFull);
+
+document.addEventListener("keydown", (e) => {
+  if (e.metaKey || e.ctrlKey || e.altKey || zoomOpen) return;
+  const tag = e.target.tagName;
+  if (tag === "INPUT" && /^Arrow|Home|End|PageUp|PageDown/.test(e.key)) return;   // o controle deslizante usa as setas
+  if ((e.key === " " || e.key === "Enter") && e.target.closest?.("button, a")) return;
+  if (["ArrowRight", "ArrowDown", "PageDown", " "].includes(e.key)) { e.preventDefault(); go(target + 1); }
+  else if (["ArrowLeft", "ArrowUp", "PageUp"].includes(e.key)) { e.preventDefault(); go(target - 1); }
+  else if (e.key === "Home") { e.preventDefault(); go(0); }
+  else if (e.key === "End") { e.preventDefault(); go(n - 1); }
+  else if (e.key === "f" || e.key === "F") toggleFull();
+  else if (e.key === "?") toggleHelp();
+  else if (e.key === "Escape") toggleHelp(false);
+});
+
+let acc = 0, lockUntil = 0;
+vp.addEventListener("wheel", (e) => {
+  const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+  e.preventDefault();
+  if (performance.now() < lockUntil) return;
+  acc += delta;
+  if (Math.abs(acc) > 60) { go(target + Math.sign(acc)); acc = 0; lockUntil = performance.now() + 600; }
+}, { passive: false });
+
+/* Links para um cartão específico (#5) funcionam também com a página já aberta. */
+addEventListener("hashchange", () => {
+  const i = (parseInt(location.hash.slice(1), 10) || 1) - 1;
+  if (i !== target) go(i);
+});
+
+vp.focus({ preventScroll: true });
 </script>
 </body>
 </html>
