@@ -52,7 +52,7 @@ divulgado na data da coleta, 10/11/2026):
 | [7. Testes](testes.md) | Integração e testes do sistema |
 | [8. Conclusões e limitações](conclusoes.md) | Respostas às perguntas e limites da análise |
 | [Referências](referencias.md) | Fontes de dados, documentação e bibliografia |
-| [Apresentação](apresentacao/index.html) | Slides para a apresentação do projeto |
+| [Apresentação](apresentacao/index.html) | Slides interativos: arraste os cartões ou use as setas do teclado |
 
 ## Execução rápida
 

@@ -9,16 +9,17 @@ use_directory_urls: true
 theme:
   name: material
   language: pt-BR
+  font: false
   palette:
     - scheme: default
-      primary: indigo
-      accent: indigo
+      primary: custom
+      accent: custom
       toggle:
         icon: material/weather-night
         name: Usar tema escuro
     - scheme: slate
-      primary: indigo
-      accent: indigo
+      primary: custom
+      accent: custom
       toggle:
         icon: material/weather-sunny
         name: Usar tema claro

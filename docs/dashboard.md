@@ -19,6 +19,24 @@ seis componentes exigidos no enunciado.
 | **Tabela de dados** | Aba própria, com escolha de colunas, ordenação e download em CSV | `_aba_tabela` |
 | **Análise interpretativa** | Frase de "Leitura" abaixo de cada gráfico e aba com a análise completa | `_leitura`, `_aba_interpretacao` |
 
+## Identidade visual
+
+O dashboard, os gráficos, esta documentação e a apresentação usam a mesma paleta,
+definida em `.streamlit/config.toml` (tema do Streamlit) e em `TemaGrafico` (gráficos Plotly):
+
+| Papel | Cor | Uso |
+|---|---|---|
+| Fundo | `#FBFAF7` | off-white quente, mais confortável que o branco puro |
+| Texto | `#16181B` | grafite, contraste alto sem o preto absoluto |
+| Principal | `#1F6B57` (jade) | IPCA, destaques e controles |
+| Séries de apoio | `#B8862B` (latão) e `#6B4C9A` (ameixa) | segunda e terceira séries dos gráficos de linhas |
+| Situação frente à meta | `#2E4A7A`, `#A8A398` e `#9B2C3A` | abaixo do piso, dentro do intervalo e acima do teto |
+
+As cores das séries foram conferidas por simulação de daltonismo (protanopia,
+deuteranopia e tritanopia) e têm contraste mínimo de 3:1 com o fundo. Títulos usam
+espaçamento entre letras levemente negativo e os números usam algarismos de largura
+fixa, para que os valores não "pulem" quando mudam com os filtros.
+
 ## Filtros
 
 | Filtro | Tipo | Efeito |
