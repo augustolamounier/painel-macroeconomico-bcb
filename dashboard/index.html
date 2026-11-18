@@ -541,6 +541,34 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Como executar">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problemas-comuns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problemas comuns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#outros-comandos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Outros comandos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -760,6 +788,34 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Como executar">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problemas-comuns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problemas comuns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#outros-comandos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Outros comandos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -965,17 +1021,73 @@ ordenação e o sentido (crescente ou decrescente).</p>
   dos números do recorte. Ao mudar o período, o texto muda junto.</li>
 </ul>
 <h2 id="como-executar">Como executar<a class="headerlink" href="#como-executar" title="Permanent link">&para;</a></h2>
-<p>Requer Python 3.11 ou mais recente.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/augustolamounier/painel-macroeconomico-bcb.git
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">cd</span><span class="w"> </span>painel-macroeconomico-bcb
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nb">source</span><span class="w"> </span>.venv/bin/activate<span class="w">          </span><span class="c1"># no Windows: .venv\Scripts\activate</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>streamlit<span class="w"> </span>run<span class="w"> </span>app.py
+<div class="admonition warning">
+<p class="admonition-title">O endereço <code>localhost</code> só funciona no seu computador</p>
+<p><code>http://localhost:8501</code> aponta para a sua própria máquina. Ele só abre <strong>depois</strong> que o
+painel é iniciado com os comandos abaixo, e só enquanto o terminal continuar aberto.
+Clicar no endereço sem ter rodado os comandos mostra "não é possível acessar esse site".</p>
+</div>
+<p>Requer <strong>Python 3.11 ou mais recente</strong> (<code>python --version</code>). Os comandos não exigem ativar o
+ambiente virtual, o que evita o bloqueio de scripts do PowerShell.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Windows</label><label for="__tabbed_1_2">macOS e Linux</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git clone https://github.com/augustolamounier/painel-macroeconomico-bcb.git
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">cd</span> painel-macroeconomico-bcb
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>python -m venv .venv
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>.\.venv\Scripts\python -m pip install -r requirements.txt
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>.\.venv\Scripts\python -m streamlit run app.py
 </code></pre></div>
-<p>O painel abre em <code>http://localhost:8501</code>.</p>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/augustolamounier/painel-macroeconomico-bcb.git
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">cd</span><span class="w"> </span>painel-macroeconomico-bcb
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>.venv/bin/python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>.venv/bin/python<span class="w"> </span>-m<span class="w"> </span>streamlit<span class="w"> </span>run<span class="w"> </span>app.py
+</code></pre></div>
+</div>
+</div>
+</div>
+<p>Quando o terminal mostrar <code>Local URL: http://localhost:8501</code>, o navegador abre sozinho (se não
+abrir, copie o endereço). Para encerrar, aperte <code>Ctrl + C</code> no terminal.</p>
+<p>O arquivo <code>.streamlit/config.toml</code> desliga o pedido de e-mail que o Streamlit faz na primeira
+execução. Sem isso, o terminal parava em <code>Email:</code> e o painel só abria depois de alguém apertar
+Enter — o que parecia um travamento.</p>
+<h3 id="problemas-comuns">Problemas comuns<a class="headerlink" href="#problemas-comuns" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Sintoma</th>
+<th>Solução</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Não é possível acessar esse site"</td>
+<td>O painel não está rodando: execute os comandos e deixe o terminal aberto</td>
+</tr>
+<tr>
+<td><code>No matching distribution found for pandas</code></td>
+<td>Python anterior ao 3.11: instale o 3.12 ou mais recente</td>
+</tr>
+<tr>
+<td><code>'python' não é reconhecido</code> (Windows)</td>
+<td>Use <code>py</code> no lugar de <code>python</code> no comando que cria o <code>.venv</code></td>
+</tr>
+<tr>
+<td><code>'streamlit' não é reconhecido</code></td>
+<td>Use <code>python -m streamlit</code>, como nos comandos acima</td>
+</tr>
+<tr>
+<td><code>Port 8501 is already in use</code></td>
+<td>Acrescente <code>--server.port 8502</code> e abra <code>http://localhost:8502</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="outros-comandos">Outros comandos<a class="headerlink" href="#outros-comandos" title="Permanent link">&para;</a></h3>
+<p>Execute-os com o Python do ambiente do projeto (<code>.\.venv\Scripts\python</code> no Windows,
+<code>.venv/bin/python</code> no macOS e Linux).</p>
 <table>
 <thead>
 <tr>
@@ -985,12 +1097,8 @@ ordenação e o sentido (crescente ou decrescente).</p>
 </thead>
 <tbody>
 <tr>
-<td><code>streamlit run app.py</code></td>
+<td><code>python -m streamlit run app.py</code></td>
 <td>Abre o dashboard consultando a API (com a cópia local como reserva)</td>
-</tr>
-<tr>
-<td><code>PAINEL_FONTE=csv streamlit run app.py</code></td>
-<td>Abre o dashboard usando apenas a cópia local (sem internet)</td>
 </tr>
 <tr>
 <td><code>python scripts/atualizar_dados.py</code></td>
@@ -1005,13 +1113,13 @@ ordenação e o sentido (crescente ou decrescente).</p>
 <td>Regera e executa o notebook de exploração</td>
 </tr>
 <tr>
-<td><code>pytest</code></td>
+<td><code>python -m pytest</code></td>
 <td>Executa os testes</td>
 </tr>
 </tbody>
 </table>
-<p>No Windows (PowerShell), a variável de ambiente é definida com
-<code>$env:PAINEL_FONTE="csv"; streamlit run app.py</code>.</p>
+<p>Para usar apenas a cópia local (sem internet), defina <code>PAINEL_FONTE=csv</code> antes de rodar:
+<code>$env:PAINEL_FONTE="csv"</code> no PowerShell ou <code>export PAINEL_FONTE=csv</code> no macOS e Linux.</p>
 <h2 id="publicacao-na-internet">Publicação na internet<a class="headerlink" href="#publicacao-na-internet" title="Permanent link">&para;</a></h2>
 <p>O dashboard pode ser publicado gratuitamente no <strong>Streamlit Community Cloud</strong>: basta entrar em
 <a href="https://share.streamlit.io/">share.streamlit.io</a> com a conta do GitHub, escolher este
