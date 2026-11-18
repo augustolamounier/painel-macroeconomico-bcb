@@ -25,3 +25,8 @@ secondaryBackgroundColor = "#FBFAF7"
 
 [browser]
 gatherUsageStats = false
+
+[server]
+# Sem isso, na primeira execução o Streamlit para no terminal pedindo um e-mail
+# e o painel só abre depois que alguém aperta Enter.
+showEmailPrompt = false
