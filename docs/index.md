@@ -56,12 +56,16 @@ divulgado na data da coleta, 10/11/2026):
 
 ## Execução rápida
 
+O painel roda no seu computador: depois dos comandos abaixo, ele abre em
+`http://localhost:8501` (endereço que só funciona enquanto o terminal estiver aberto). Passo a
+passo para Windows e solução de problemas em [Dashboard](dashboard.md#como-executar).
+
 ```bash
 git clone https://github.com/augustolamounier/painel-macroeconomico-bcb.git
 cd painel-macroeconomico-bcb
-python -m venv .venv && source .venv/bin/activate   # no Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-streamlit run app.py
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python -m streamlit run app.py
 ```
 
 ## Autoria

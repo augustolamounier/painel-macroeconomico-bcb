@@ -104,32 +104,66 @@ Pontos importantes:
 
 ## Como executar
 
-Requer Python 3.11 ou mais recente.
+!!! warning "O endereço `localhost` só funciona no seu computador"
+    `http://localhost:8501` aponta para a sua própria máquina. Ele só abre **depois** que o
+    painel é iniciado com os comandos abaixo, e só enquanto o terminal continuar aberto.
+    Clicar no endereço sem ter rodado os comandos mostra "não é possível acessar esse site".
 
-```bash
-git clone https://github.com/augustolamounier/painel-macroeconomico-bcb.git
-cd painel-macroeconomico-bcb
+Requer **Python 3.11 ou mais recente** (`python --version`). Os comandos não exigem ativar o
+ambiente virtual, o que evita o bloqueio de scripts do PowerShell.
 
-python -m venv .venv
-source .venv/bin/activate          # no Windows: .venv\Scripts\activate
-pip install -r requirements.txt
+=== "Windows"
 
-streamlit run app.py
-```
+    ```bat
+    git clone https://github.com/augustolamounier/painel-macroeconomico-bcb.git
+    cd painel-macroeconomico-bcb
+    python -m venv .venv
+    .\.venv\Scripts\python -m pip install -r requirements.txt
+    .\.venv\Scripts\python -m streamlit run app.py
+    ```
 
-O painel abre em `http://localhost:8501`.
+=== "macOS e Linux"
+
+    ```bash
+    git clone https://github.com/augustolamounier/painel-macroeconomico-bcb.git
+    cd painel-macroeconomico-bcb
+    python3 -m venv .venv
+    .venv/bin/python -m pip install -r requirements.txt
+    .venv/bin/python -m streamlit run app.py
+    ```
+
+Quando o terminal mostrar `Local URL: http://localhost:8501`, o navegador abre sozinho (se não
+abrir, copie o endereço). Para encerrar, aperte `Ctrl + C` no terminal.
+
+O arquivo `.streamlit/config.toml` desliga o pedido de e-mail que o Streamlit faz na primeira
+execução. Sem isso, o terminal parava em `Email:` e o painel só abria depois de alguém apertar
+Enter — o que parecia um travamento.
+
+### Problemas comuns
+
+| Sintoma | Solução |
+|---|---|
+| "Não é possível acessar esse site" | O painel não está rodando: execute os comandos e deixe o terminal aberto |
+| `No matching distribution found for pandas` | Python anterior ao 3.11: instale o 3.12 ou mais recente |
+| `'python' não é reconhecido` (Windows) | Use `py` no lugar de `python` no comando que cria o `.venv` |
+| `'streamlit' não é reconhecido` | Use `python -m streamlit`, como nos comandos acima |
+| `Port 8501 is already in use` | Acrescente `--server.port 8502` e abra `http://localhost:8502` |
+
+### Outros comandos
+
+Execute-os com o Python do ambiente do projeto (`.\.venv\Scripts\python` no Windows,
+`.venv/bin/python` no macOS e Linux).
 
 | Comando | O que faz |
 |---|---|
-| `streamlit run app.py` | Abre o dashboard consultando a API (com a cópia local como reserva) |
-| `PAINEL_FONTE=csv streamlit run app.py` | Abre o dashboard usando apenas a cópia local (sem internet) |
+| `python -m streamlit run app.py` | Abre o dashboard consultando a API (com a cópia local como reserva) |
 | `python scripts/atualizar_dados.py` | Baixa as séries e atualiza `data/raw/` e `data/processed/` |
 | `python scripts/exportar_graficos.py` | Regera os gráficos desta documentação |
 | `python scripts/gerar_notebook.py` | Regera e executa o notebook de exploração |
-| `pytest` | Executa os testes |
+| `python -m pytest` | Executa os testes |
 
-No Windows (PowerShell), a variável de ambiente é definida com
-`$env:PAINEL_FONTE="csv"; streamlit run app.py`.
+Para usar apenas a cópia local (sem internet), defina `PAINEL_FONTE=csv` antes de rodar:
+`$env:PAINEL_FONTE="csv"` no PowerShell ou `export PAINEL_FONTE=csv` no macOS e Linux.
 
 ## Publicação na internet
 
