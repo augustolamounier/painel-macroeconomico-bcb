@@ -31,7 +31,8 @@ CONFIG_PLOTLY = {"displaylogo": False, "modeBarButtonsToRemove": ["lasso2d", "se
 COLUNAS_TABELA_PADRAO = ["ipca", "ipca_12m", "meta_inflacao", "selic", "juro_real", "dolar"]
 
 #: Refinamentos visuais que o tema do Streamlit não cobre: tipografia dos títulos,
-#: profundidade dos cartões de indicadores e uma entrada suave do conteúdo.
+#: profundidade dos cartões de indicadores, cartões que se adaptam à largura da tela
+#: (sem cortar números nem títulos) e uma entrada suave do conteúdo.
 ESTILO = """
 <style>
 h1 { letter-spacing: -0.035em; line-height: 1.05; }
