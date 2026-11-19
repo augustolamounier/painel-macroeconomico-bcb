@@ -8,6 +8,8 @@ Inteligência Artificial.
 
 ![Tela do dashboard](docs/img/dashboard.png)
 
+**Painel online (abre direto no navegador, sem instalar nada):** <https://painel-macroeconomico-bcb-xbdm48s6ujnhv8qfbywky2.streamlit.app/>
+
 **Documentação completa:** <https://augustolamounier.github.io/painel-macroeconomico-bcb/>
 
 ## O problema
@@ -26,6 +28,8 @@ responde a seis perguntas:
 6. Existe padrão sazonal na inflação?
 
 ## Como abrir o painel
+
+O jeito mais simples é usar o [painel online](https://painel-macroeconomico-bcb-xbdm48s6ujnhv8qfbywky2.streamlit.app/). Os passos abaixo servem para rodá-lo no seu próprio computador.
 
 > **Importante:** `localhost` significa "este computador". O endereço
 > `http://localhost:8501` só funciona **depois** que você roda o painel na sua máquina com os

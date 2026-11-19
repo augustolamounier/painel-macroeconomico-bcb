@@ -5,6 +5,9 @@
 Projeto final da disciplina de Programação Orientada a Objetos — curso de Ciência de Dados e
 Inteligência Artificial.
 
+[Abrir o painel online](https://painel-macroeconomico-bcb-xbdm48s6ujnhv8qfbywky2.streamlit.app/){ .md-button .md-button--primary }
+[Ver o código no GitHub](https://github.com/augustolamounier/painel-macroeconomico-bcb){ .md-button }
+
 <figure markdown>
   ![Tela do dashboard](img/dashboard.png)
   <figcaption>Tela inicial do dashboard, com filtros, indicadores e gráficos interativos.</figcaption>

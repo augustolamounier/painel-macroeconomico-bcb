@@ -167,7 +167,15 @@ Para usar apenas a cópia local (sem internet), defina `PAINEL_FONTE=csv` antes 
 
 ## Publicação na internet
 
-O dashboard pode ser publicado gratuitamente no **Streamlit Community Cloud**: basta entrar em
-[share.streamlit.io](https://share.streamlit.io/) com a conta do GitHub, escolher este
-repositório, o branch `main` e o arquivo `app.py`. As dependências são lidas de
-`requirements.txt`.
+O dashboard está publicado no **Streamlit Community Cloud**, gratuito, e pode ser aberto por
+qualquer pessoa, sem instalar nada:
+
+<https://painel-macroeconomico-bcb-xbdm48s6ujnhv8qfbywky2.streamlit.app/>
+
+A versão online lê o código do branch `main` deste repositório e se atualiza sozinha a cada
+novo envio ao GitHub. As dependências são lidas de `requirements.txt`.
+
+!!! note "Primeiro acesso depois de alguns dias"
+    O Streamlit Community Cloud coloca para dormir os apps que ficam um tempo sem acessos.
+    Nesse caso, a página mostra um botão para reativar o painel, que volta em cerca de um
+    minuto. Vale abrir o link antes de uma apresentação.
