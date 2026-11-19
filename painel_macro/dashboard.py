@@ -39,6 +39,27 @@ h2, h3 { letter-spacing: -0.02em; }
 [data-testid="stMetric"] [data-testid="stMetricValue"] {
   letter-spacing: -0.03em; font-variant-numeric: tabular-nums;
 }
+/* Cartões estreitos (notebooks, projetores, tablets): o valor encolhe junto com o
+   cartão em vez de ser cortado com reticências, e o título pode ocupar duas linhas. */
+[data-testid="stHorizontalBlock"]:has([data-testid="stMetric"]) { flex-wrap: wrap; }
+[data-testid="stHorizontalBlock"]:has([data-testid="stMetric"]) > [data-testid="stColumn"] {
+  flex: 1 1 0; min-width: 8.5rem;
+}
+[data-testid="stMetric"] { container-type: inline-size; }
+[data-testid="stMetric"] [data-testid="stMetricValue"] {
+  font-size: min(2.25rem, 19cqi);
+}
+[data-testid="stMetric"] [data-testid="stMetricLabel"] [data-testid="stMarkdownContainer"],
+[data-testid="stMetric"] [data-testid="stMetricLabel"] p,
+[data-testid="stMetric"] [data-testid="stMetricDelta"] [data-testid="stMarkdownContainer"],
+[data-testid="stMetric"] [data-testid="stMetricDelta"] p {
+  white-space: normal; overflow: visible; text-overflow: clip; line-height: 1.3;
+}
+/* Quando o cartão é estreito, todos os títulos reservam duas linhas, para que os
+   números fiquem alinhados na mesma altura em toda a fileira. */
+@container (max-width: 12rem) {
+  [data-testid="stMetricLabel"] { min-height: 2.6em; align-items: flex-start; }
+}
 [data-testid="stVerticalBlockBorderWrapper"]:has([data-testid="stMetric"]) {
   background: #FFFFFF;
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 12px 28px -18px rgba(22, 24, 27, 0.28);
