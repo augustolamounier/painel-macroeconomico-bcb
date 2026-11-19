@@ -1121,10 +1121,17 @@ Enter — o que parecia um travamento.</p>
 <p>Para usar apenas a cópia local (sem internet), defina <code>PAINEL_FONTE=csv</code> antes de rodar:
 <code>$env:PAINEL_FONTE="csv"</code> no PowerShell ou <code>export PAINEL_FONTE=csv</code> no macOS e Linux.</p>
 <h2 id="publicacao-na-internet">Publicação na internet<a class="headerlink" href="#publicacao-na-internet" title="Permanent link">&para;</a></h2>
-<p>O dashboard pode ser publicado gratuitamente no <strong>Streamlit Community Cloud</strong>: basta entrar em
-<a href="https://share.streamlit.io/">share.streamlit.io</a> com a conta do GitHub, escolher este
-repositório, o branch <code>main</code> e o arquivo <code>app.py</code>. As dependências são lidas de
-<code>requirements.txt</code>.</p>
+<p>O dashboard está publicado no <strong>Streamlit Community Cloud</strong>, gratuito, e pode ser aberto por
+qualquer pessoa, sem instalar nada:</p>
+<p><a href="https://painel-macroeconomico-bcb-xbdm48s6ujnhv8qfbywky2.streamlit.app/">https://painel-macroeconomico-bcb-xbdm48s6ujnhv8qfbywky2.streamlit.app/</a></p>
+<p>A versão online lê o código do branch <code>main</code> deste repositório e se atualiza sozinha a cada
+novo envio ao GitHub. As dependências são lidas de <code>requirements.txt</code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Primeiro acesso depois de alguns dias</p>
+<p>O Streamlit Community Cloud coloca para dormir os apps que ficam um tempo sem acessos.
+Nesse caso, a página mostra um botão para reativar o painel, que volta em cerca de um
+minuto. Vale abrir o link antes de uma apresentação.</p>
+</div>
 
 
 
